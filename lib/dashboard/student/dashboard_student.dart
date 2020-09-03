@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/form/outPass_form.dart';
 import 'package:hostel_app/login/loginScreen.dart';
 import 'package:hostel_app/model/studentModel.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class DashboardStudent extends StatelessWidget {
   final titles = [
@@ -21,7 +22,7 @@ class DashboardStudent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: darkerBlue, //change
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -33,10 +34,11 @@ class DashboardStudent extends StatelessWidget {
                 children: [
                   Text(
                     "Welcome " + studentObject.studentName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                    style: lightHeading,
+                    // style: TextStyle(
+                    //   fontWeight: FontWeight.bold,
+                    //   fontSize: 20,
+                    // ),
                   ),
                   FlatButton.icon(
                     onPressed: () {
@@ -44,13 +46,17 @@ class DashboardStudent extends StatelessWidget {
                           .pushReplacement(MaterialPageRoute(
                               builder: (context) => LoginPage()));
                     },
-                    icon: Icon(Icons.exit_to_app),
-                    label: Text('Logout'),
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      color: white,
+                    ),
+                    label: Text(
+                      'Logout',
+                      style: lightSmallText,
+                    ),
                     shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: Colors.black,
-                            width: 1,
-                            style: BorderStyle.solid),
+                            color: white, width: 1, style: BorderStyle.solid),
                         borderRadius: BorderRadius.circular(50)),
                   ),
                 ],
@@ -74,7 +80,7 @@ class DashboardStudent extends StatelessWidget {
                             Radius.circular(25),
                           ),
                         ),
-                        //color: Theme.of(context).primaryColor,
+                        color: white, //change
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -82,10 +88,7 @@ class DashboardStudent extends StatelessWidget {
                               titleIcon[index],
                               Text(
                                 titles[index],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
+                                style: darkHeading,
                               ),
                             ],
                           ),
@@ -108,9 +111,9 @@ class DashboardStudent extends StatelessWidget {
                   padding: const EdgeInsets.all(15),
                   child: Text(
                     'View OutPass Status',
-                    style: TextStyle(fontSize: 16),
+                    style: darkSmallTextBold,
                   ),
-                  color: Colors.white,
+                  color: peach,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),

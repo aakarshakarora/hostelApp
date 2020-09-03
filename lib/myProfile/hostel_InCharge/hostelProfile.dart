@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/model/hostelInChargeModel.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class ProfileHostel extends StatelessWidget {
   var hostelObject = HostelInChargeField.initialize();
@@ -16,13 +17,12 @@ class ProfileHostel extends StatelessWidget {
           overflow: Overflow.visible,
           children: <Widget>[
             Container(
-              color: Colors.blue[600],
+              color: darkerBlue,
               child: Padding(
                 padding: EdgeInsets.only(left: 10, right: 3, top: 50),
                 child: Column(
                   children: <Widget>[
                     //User Profile Photo and UserName
-
                     Row(
                       children: <Widget>[
                         Container(
@@ -40,10 +40,7 @@ class ProfileHostel extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               hostelObject.userNameHostel,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold),
+                              style: lightHeading
                             ),
                           ],
                         )
@@ -58,17 +55,11 @@ class ProfileHostel extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               hostelObject.designationHostel,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                              style: lightSmallText
                             ),
                             Text(
                               "Designation",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                              ),
+                              style: lightTinyText
                             ),
                           ],
                         ),
@@ -76,23 +67,19 @@ class ProfileHostel extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               hostelObject.empIdHostel,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                              style: lightSmallText
                             ),
                             Text(
                               "Employee ID",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                              ),
+                              style: lightTinyText
                             ),
                           ],
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white60),
+                            border: Border.all(
+                              color: peach,
+                            ),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Padding(
@@ -100,8 +87,9 @@ class ProfileHostel extends StatelessWidget {
                             child: Text(
                               "EDIT PROFILE",
                               style: TextStyle(
-                                color: Colors.white60,
-                                fontSize: 12,
+                                color: peach,
+                                fontSize: 13,
+                                fontFamily: 'Poppins'
                               ),
                             ),
                           ),
@@ -115,6 +103,7 @@ class ProfileHostel extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 230),
               child: Container(
+                padding: const EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -128,10 +117,7 @@ class ProfileHostel extends StatelessWidget {
                       padding: EdgeInsets.only(left: 30.0, top: 20),
                       child: Text(
                         "User Information",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                        style: darkHeading
                       ),
                     ),
                     SizedBox(height: 30),
@@ -139,50 +125,50 @@ class ProfileHostel extends StatelessWidget {
                       children: [
                         Text(
                           "Designation: ",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: darkSmallTextBold
                         ),
-                        Text(hostelObject.designationHostel),
+                        Text(hostelObject.designationHostel,
+                        style: darkSmallText,),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Employee ID: ",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: darkSmallTextBold
                         ),
-                        Text(hostelObject.empIdHostel),
+                        Text(hostelObject.empIdHostel,
+                          style: darkSmallText,),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Contact Number: ",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: darkSmallTextBold
                         ),
-                        Text(hostelObject.contactNumberHostel.toString()),
+                        Text(hostelObject.contactNumberHostel.toString(),
+                          style: darkSmallText,),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Personal Email ID: ",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: darkSmallTextBold
                         ),
-                        Text(hostelObject.personalEmailIdHostel),
+                        Text(hostelObject.personalEmailIdHostel,
+                          style: darkSmallText,),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Work Email ID: ",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: darkSmallTextBold
                         ),
-                        Text(hostelObject.collegeEmailIdHostel),
+                        Text(hostelObject.collegeEmailIdHostel,
+                          style: darkSmallText,),
                       ],
                     )
                   ],

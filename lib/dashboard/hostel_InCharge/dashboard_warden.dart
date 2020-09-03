@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/login/loginScreen.dart';
 import 'package:hostel_app/model/hostelInChargeModel.dart';
 import 'package:hostel_app/outPassRequest/outpass_approval.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class DashboardHostelInCharge extends StatelessWidget {
-  final titles = ['OutPass Requests', 'Service Requests'];
+  final titles = ['Outpass Requests', 'Service Requests'];
   final titleIcon = [
     Icon(Icons.assignment),
     Icon(Icons.settings),
@@ -14,7 +15,7 @@ class DashboardHostelInCharge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: darkerBlue,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -26,10 +27,7 @@ class DashboardHostelInCharge extends StatelessWidget {
                 children: [
                   Text(
                     'Welcome ' + hostelObject.userNameHostel,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                    style: lightHeading,
                   ),
                   FlatButton.icon(
                     onPressed: () {
@@ -37,20 +35,24 @@ class DashboardHostelInCharge extends StatelessWidget {
                           .pushReplacement(MaterialPageRoute(
                               builder: (context) => LoginPage()));
                     },
-                    icon: Icon(Icons.exit_to_app),
-                    label: Text('Logout'),
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      color: white,
+                    ),
+                    label: Text(
+                      'Logout',
+                      style: lightSmallText,
+                    ),
                     shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: Colors.black,
-                            width: 1,
-                            style: BorderStyle.solid),
+                            color: white, width: 1, style: BorderStyle.solid),
                         borderRadius: BorderRadius.circular(50)),
                   ),
                 ],
               ),
               Divider(
                 thickness: 0.7,
-                color: Colors.black,
+                color: white,
               ),
               SizedBox(
                 height: 10,
@@ -68,7 +70,7 @@ class DashboardHostelInCharge extends StatelessWidget {
                             Radius.circular(25),
                           ),
                         ),
-                        //color: Theme.of(context).primaryColor,
+                        color: white,
                         child: Container(
                           height: 100,
                           child: Center(
@@ -78,10 +80,7 @@ class DashboardHostelInCharge extends StatelessWidget {
                                 titleIcon[index],
                                 Text(
                                   titles[index],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                                  style: darkHeading,
                                 ),
                               ],
                             ),

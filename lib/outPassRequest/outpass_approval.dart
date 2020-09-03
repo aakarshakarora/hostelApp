@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/dashboard/hostel_InCharge/dashboard_warden.dart';
-import 'package:hostel_app/outPassRequest/Constants.dart';
+import 'package:hostel_app/theme/theme.dart';
 import 'notificationmodel.dart';
 
 class Approvals extends StatefulWidget {
@@ -17,7 +17,9 @@ class _ApprovalsState extends State<Approvals> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("OutPass Request"),
+          backgroundColor: darkerBlue,
+          title: Text("Outpass Request",
+          style: lightHeading,),
           centerTitle: true,
           leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -102,10 +104,7 @@ class _StudentTileState extends State<StudentTile> {
                     Center(
                       child: Text(
                         studentName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.red),
+                        style: requestCardHeading
                       ),
                     ),
                     Column(
@@ -208,18 +207,14 @@ class _StudentTileState extends State<StudentTile> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(widget._model.studentName),
+          Text(widget._model.studentName,style: darkSmallTextBold,),
           Text(
             widget._model.startDate,
-            style: TextStyle(fontSize: 12.0),
+            style: darkTinyText
           ),
         ],
       ),
-      subtitle: Text(" Request ID: ${widget._model.requestID}"),
-//                  trailing: Icon(
-//                    Icons.arrow_forward_ios,
-//                    size: 14.0,
-//                  ),
+      subtitle: Text(" Request ID: ${widget._model.requestID}",style: greySmallText,),
       trailing: CircleAvatar(
           radius: 5.0,
           backgroundColor: read == false ? Colors.red : Colors.white),
@@ -280,7 +275,7 @@ class CardInput extends StatelessWidget {
                     textColor: Colors.white,
                     child: Text(
                       'Reject',
-                      style: TextStyle(fontSize: 20),
+                      style: kbuttonTextStyle
                     ),
                     onPressed: rejectedButtonState),
               ),
@@ -293,7 +288,7 @@ class CardInput extends StatelessWidget {
                     textColor: Colors.white,
                     child: Text(
                       'Approve',
-                      style: TextStyle(fontSize: 20),
+                      style: kbuttonTextStyle
                     ),
                     onPressed: approvedButtonState),
               )

@@ -2,7 +2,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'Constants.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class OutpassForm extends StatefulWidget {
   @override
@@ -103,11 +103,11 @@ class _OutpassFormState extends State<OutpassForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Outpass Form',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        backgroundColor: darkerBlue,
+        centerTitle: true,
+        title: Text(
+          'Outpass Form',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -200,7 +200,7 @@ class _OutpassFormState extends State<OutpassForm> {
                   //color: colour,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.blue[600],
+                    color: peach,
                   ),
                   //borderRadius: BorderRadius.circular(30.0),
                   child: MaterialButton(

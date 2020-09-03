@@ -4,6 +4,7 @@ import 'package:hostel_app/dashboard/student/dashboard_student.dart';
 
 import 'package:hostel_app/myProfile/student/studentProfile.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class StudentBar extends StatefulWidget {
   StudentBar({Key key}) : super(key: key);
@@ -30,20 +31,20 @@ class _StudentBarState extends State<StudentBar> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Home"),
-        activeColor: Colors.blueAccent,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
         //isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.notifications),
         title: ("Notifications  "),
-        activeColor: Colors.deepPurple,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_circle),
         title: ("Profile"),
-        activeColor: Colors.deepPurpleAccent,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
       ),
     ];

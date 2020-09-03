@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/model/notificationModel.dart';
-
+import 'package:hostel_app/theme/theme.dart';
 class Notifications extends StatefulWidget {
   Notifications({Key key, this.title}) : super(key: key);
 
@@ -26,22 +26,24 @@ class _NotificationsState extends State<Notifications> {
                 ),
                 ListTile(
                   leading: CircleAvatar(
-                    radius: 24.0,
+                    radius: 21.0,
                     backgroundImage: AssetImage("assets/food.png"),
                   ),
                   title: Row(
                     children: <Widget>[
-                      Text(_model.title),
+                      Text(_model.title,
+                      style: darkSmallTextBold,),
                       SizedBox(
-                        width: 16.0,
+                        width: 10.0,
                       ),
                       Text(
                         _model.dateString,
-                        style: TextStyle(fontSize: 12.0),
+                        style: darkTinyText,
                       ),
                     ],
                   ),
-                  subtitle: Text(_model.subheading),
+                  subtitle: Text(_model.subheading,
+                  style: greySmallText,),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     size: 14.0,

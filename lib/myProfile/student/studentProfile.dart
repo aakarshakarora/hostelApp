@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/model/studentModel.dart';
 import 'profileTab.dart';
+import 'package:hostel_app/theme/theme.dart';
 
 class ProfileStudent extends StatelessWidget {
   var studentObject = StudentField.inintalize();
@@ -12,12 +13,12 @@ class ProfileStudent extends StatelessWidget {
       length: 3, // Added
       initialIndex: 0, //Added
       child: Scaffold(
-        backgroundColor: Color(0xffF8F8FA),
+        backgroundColor: white,
         body: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
             Container(
-              color: Colors.blue[600],
+              color: darkerBlue,
               child: Padding(
                 padding: EdgeInsets.only(left: 10, right: 3, top: 50),
                 child: Column(
@@ -39,10 +40,7 @@ class ProfileStudent extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               studentObject.studentName,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold),
+                              style: lightHeading
                             ),
                             SizedBox(height: 15),
                             Row(
@@ -58,8 +56,7 @@ class ProfileStudent extends StatelessWidget {
                                     Text(
                                       studentObject.block +
                                           studentObject.roomNumber.toString(),
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
+                                      style: lightTinyText
                                     ),
                                   ],
                                 ),
@@ -74,10 +71,7 @@ class ProfileStudent extends StatelessWidget {
                                     SizedBox(width: 12),
                                     Text(
                                       studentObject.occupancyType,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
+                                      style: lightTinyText
                                     ),
                                   ],
                                 )
@@ -95,17 +89,11 @@ class ProfileStudent extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               studentObject.courseName,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                              style: lightSmallText
                             ),
                             Text(
                               "Program",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                              ),
+                              style: lightTinyText
                             ),
                           ],
                         ),
@@ -113,23 +101,17 @@ class ProfileStudent extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               studentObject.registrationNumber.toString(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                              style: lightSmallText
                             ),
                             Text(
                               "Registration Number",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                              ),
+                              style: lightTinyText
                             ),
                           ],
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white60),
+                            border: Border.all(color: peach),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Padding(
@@ -137,8 +119,9 @@ class ProfileStudent extends StatelessWidget {
                             child: Text(
                               "EDIT PROFILE",
                               style: TextStyle(
-                                color: Colors.white60,
+                                color: peach,
                                 fontSize: 12,
+                                fontFamily: 'Poppins'
                               ),
                             ),
                           ),
@@ -165,23 +148,21 @@ class ProfileStudent extends StatelessWidget {
                       padding: EdgeInsets.only(left: 30.0, top: 20),
                       child: Text(
                         "User Information",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                        style: darkHeading
                       ),
                     ),
                     SizedBox(height: 10),
                     Container(
                       height: 40,
                       child: TabBar(
+                        indicatorColor: peach,
                         tabs: [
                           Tab(
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
                                 "User Details",
-                                style: TextStyle(color: Colors.black),
+                                style: darkSmallTextBold,
                               ),
                             ),
                           ),
@@ -190,7 +171,7 @@ class ProfileStudent extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(
                                 "Parent Details",
-                                style: TextStyle(color: Colors.black),
+                                style: darkSmallTextBold,
                               ),
                             ),
                           ),
@@ -199,7 +180,7 @@ class ProfileStudent extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(
                                 "Mentor Details",
-                                style: TextStyle(color: Colors.black),
+                                style: darkSmallTextBold,
                               ),
                             ),
                           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/Notification/notification.dart';
 import 'package:hostel_app/dashboard/hostel_InCharge/dashboard_warden.dart';
 import 'package:hostel_app/myProfile/hostel_InCharge/hostelProfile.dart';
+import 'package:hostel_app/theme/theme.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HostelBar extends StatefulWidget {
@@ -29,20 +30,20 @@ class _HostelBarState extends State<HostelBar> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Home"),
-        activeColor: Colors.blueAccent,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
         //isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.notifications),
         title: ("Notifications "),
-        activeColor: Colors.deepPurple,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_circle),
         title: ("Profile"),
-        activeColor: Colors.deepPurpleAccent,
+        activeColor: darkBlue,
         inactiveColor: Colors.grey,
       ),
     ];
