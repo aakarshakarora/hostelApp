@@ -20,18 +20,18 @@ const TextStyle kbuttonTextStyle = TextStyle(
 );
 
 const TextStyle lightHeading =
-    TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: white,fontFamily: 'PoppinsBold');
+    TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: white,fontFamily: 'PoppinsBold');
 
-const TextStyle lightSmallText = TextStyle(fontSize: 20, color: white,fontFamily: 'Poppins');
+const TextStyle lightSmallText = TextStyle(fontSize: 18.5, color: white,fontFamily: 'Poppins');
 
 const TextStyle lightTinyText = TextStyle(fontSize: 15, color: Colors.white70,fontFamily: 'Poppins');
 
 const TextStyle darkHeading =
-    TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black,fontFamily: 'Poppins');
+    TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.black,fontFamily: 'Poppins');
 
-const TextStyle darkSmallTextBold = TextStyle(fontSize: 14, color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'Poppins');
+const TextStyle darkSmallTextBold = TextStyle(fontSize: 13.5, color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'Poppins');
 
-const TextStyle darkSmallText = TextStyle(fontSize: 14, color: Colors.black,fontFamily: 'Poppins');
+const TextStyle darkSmallText = TextStyle(fontSize: 13.5, color: Colors.black,fontFamily: 'Poppins');
 
 const TextStyle greySmallText = TextStyle(fontSize: 14, color: Colors.black38 ,fontFamily: 'Poppins');
 

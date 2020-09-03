@@ -1,70 +1,88 @@
+import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/Notification/notification.dart';
 import 'package:hostel_app/dashboard/student/dashboard_student.dart';
-
 import 'package:hostel_app/myProfile/student/studentProfile.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:hostel_app/theme/theme.dart';
+
 
 class StudentBar extends StatefulWidget {
-  StudentBar({Key key}) : super(key: key);
+  StudentBar({Key key, this.title}) : super(key: key);
+  final String title;
 
   @override
   _StudentBarState createState() => _StudentBarState();
 }
 
-class _StudentBarState extends State<StudentBar> {
-  PersistentTabController _controller;
+class _StudentBarState extends State<StudentBar>
+    with SingleTickerProviderStateMixin {
+  int currentPage;
+  Color currentColor = Colors.deepPurple;
+  Color inactiveColor = Colors.black;
+  PageController tabBarController;
+  List<Tabs> tabs = new List();
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
-  }
-
-  List<Widget> _buildScreens() {
-    return [DashboardStudent(), Notifications(), ProfileStudent()];
-  }
-
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ("Home"),
-        activeColor: darkBlue,
-        inactiveColor: Colors.grey,
-        //isTranslucent: false,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.notifications),
-        title: ("Notifications  "),
-        activeColor: darkBlue,
-        inactiveColor: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.account_circle),
-        title: ("Profile"),
-        activeColor: darkBlue,
-        inactiveColor: Colors.grey,
-      ),
-    ];
+    currentPage = 0;
+    tabs.add(Tabs(Icons.home, "Home", Colors.deepPurple, getGradient(Colors.deepPurple)));
+    tabs.add(Tabs(Icons.notifications, "Notifications", Colors.deepPurple, getGradient(Colors.deepPurple)));
+    tabs.add(Tabs(Icons.account_circle, "Profile", Colors.deepPurple, getGradient(Colors.deepPurple)));
+    tabBarController = new PageController(initialPage: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
-      controller: _controller,
-      items: _navBarsItems(),
-      screens: _buildScreens(),
-      //showElevation: false,
-      //navBarCurve: NavBarCurve.none,
-      backgroundColor: const Color(0xFFEBEEF1),
-      iconSize: 26.0,
-      navBarStyle: NavBarStyle.style8,
-      // Choose the nav bar style with this property
-      onItemSelected: (index) {
-        print(index);
-      },
+    return Scaffold(
+      body: PageView(
+          controller: tabBarController,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            DashboardStudent(),
+            Notifications(),
+            ProfileStudent(),
+          ]),
+      bottomNavigationBar: CubertoBottomBar(
+        key: Key("BottomBar"),
+        inactiveIconColor: inactiveColor,
+        tabStyle: CubertoTabStyle.STYLE_FADED_BACKGROUND,
+        selectedTab: currentPage,
+        tabs: tabs
+            .map((value) => TabData(
+            key: Key(value.title),
+            iconData: value.icon,
+            title: value.title,
+            tabColor: value.color,
+            tabGradient: value.gradient))
+            .toList(),
+        onTabChangedListener: (position, title, color) {
+          setState(() {
+            currentPage = position;
+            tabBarController.jumpToPage(position);
+          });
+        },
+      ),
     );
   }
+
+  @override
+  void dispose() {
+    tabBarController.dispose();
+    super.dispose();
+  }
+}
+
+class Tabs {
+  final IconData icon;
+  final String title;
+  final Color color;
+  final Gradient gradient;
+
+  Tabs(this.icon, this.title, this.color, this.gradient);
+}
+
+getGradient(Color color) {
+  return LinearGradient(
+      colors: [color.withOpacity(0.5), color.withOpacity(0.1)],
+      stops: [0.0, 0.7]);
 }
