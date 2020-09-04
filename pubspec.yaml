@@ -21,6 +21,9 @@ dependencies:
   #badges: ^1.1.1
   bottom_navigation_badge: ^1.0.3
   cuberto_bottom_bar: ^1.1.2+3
+  firebase_auth: ^0.18.0+1
+  firebase_core: any
+  firebase_database: ^4.0.0
 
 dev_dependencies:
   flutter_test:
