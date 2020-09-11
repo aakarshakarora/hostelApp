@@ -13,13 +13,4 @@ class HostelInChargeField {
       this.personalEmailIdHostel,
       this.collegeEmailIdHostel,
       this.contactNumberHostel);
-
-  HostelInChargeField.initialize() {
-    userNameHostel = "Phineas";
-    empIdHostel = "236023";
-    designationHostel = "Warden";
-    personalEmailIdHostel = "rst@def.com";
-    collegeEmailIdHostel = "lmn@abc.edu";
-    contactNumberHostel = 88888888888;
-  }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/bottomBar/navigationBarHostel.dart';
-import 'package:hostel_app/bottomBar/navigationBarStudent.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:hostel_app/login/auth/emailHostel.dart';
+import 'package:hostel_app/login/auth/emailStudent.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StudentBar()),
+                    MaterialPageRoute(builder: (context) => StudentEmail()),
                   );
                 },
                 child: Text(
@@ -44,7 +44,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HostelBar()),
+                    MaterialPageRoute(builder: (context) => HostelEmail()),
                   );
                 },
                 child: Text(
