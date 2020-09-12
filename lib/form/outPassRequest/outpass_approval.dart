@@ -1,5 +1,3 @@
-//import 'dart:collection';
-//import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:hostel_app/common/bottomBar/navigationBarHostel.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/view/dashboard/hostel_InCharge/dashboard_warden.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Approvals extends StatefulWidget {
   Approvals({Key key, this.title}) : super(key: key);
@@ -54,26 +53,32 @@ class _ApprovalsState extends State<Approvals> {
               })),
       body: Column(
         children: [
-          DropdownButton(
-            hint: Text('Pending'),
-            items: _approvalStatus.map((String value){
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    )),
-              );
-            }).toList(),
-            onChanged: (String value){
-              setState(() {
-                approvalStatus = value;
-              });
-            },
-            value: approvalStatus,
+          Row(mainAxisAlignment: MainAxisAlignment.center  ,
+            children: [
+              Icon(
+                Icons.sort,
+                color: darkBlue,
+                size: 25,
+              ),
+              Text("Sort By: ",style:TextStyle(fontSize: 15, color: Colors.black, fontFamily: 'Poppins') ,),
+              SizedBox(width: 5,),
+              DropdownButton(
+                hint: Text('Pending'),
+                items: _approvalStatus.map((String value){
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value,
+                        style:TextStyle(fontSize: 14, color: Colors.black, fontFamily: 'Poppins',fontWeight: FontWeight.bold),),
+                  );
+                }).toList(),
+                onChanged: (String value){
+                  setState(() {
+                    approvalStatus = value;
+                  });
+                },
+                value: approvalStatus,
+              ),
+            ],
           ),
           Expanded(
             child: Container(
@@ -125,6 +130,16 @@ class StudentTile extends StatefulWidget {
 }
 
 class _StudentTileState extends State<StudentTile> {
+  Future<void> _launched;
+  String _phone = '9999999999';
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   TextEditingController customController = TextEditingController();
   bool talkedToParent = false;
   String remarks;
@@ -315,9 +330,15 @@ class _StudentTileState extends State<StudentTile> {
                                   text: 'Parent Contact No. : ',
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: parentContactNumber)
+                              TextSpan(text: parentContactNumber),
                             ],
                           ),
+                        ),
+                        RaisedButton(
+                          onPressed: () => setState(() {
+                            _launched = _makePhoneCall('tel:$_phone');
+                          }),
+                          child: const Text('Make phone call'),
                         ),
                         StatefulBuilder(
                           builder:
