@@ -49,7 +49,7 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge> {
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
             Map<String, dynamic> data = snapshot.data.data();
             return Container(

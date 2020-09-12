@@ -44,7 +44,7 @@ class _UserDetailState extends State<UserDetail> {
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
                 Map<String, dynamic> data = snapshot.data.data();
                 return Container(
@@ -150,7 +150,7 @@ class _ParentDetailState extends State<ParentDetail> {
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
                 Map<String, dynamic> data = snapshot.data.data();
 
@@ -244,7 +244,7 @@ class _MentorDetailState extends State<MentorDetail> {
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
                 Map<String, dynamic> data = snapshot.data.data();
 

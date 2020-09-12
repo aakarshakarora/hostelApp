@@ -32,10 +32,10 @@ class _OutPassFormState extends State<OutPassForm> {
     // TODO: implement initState
     super.initState();
     studentID = getCurrentUser();
-    print(docRef.toString());
+
   }
 
-  DocumentReference docRef = FirebaseFirestore.instance.collection('student').doc(studentID);
+
   String destination;
   final destinationController = TextEditingController();
   String reason;
@@ -148,6 +148,11 @@ class _OutPassFormState extends State<OutPassForm> {
 
   @override
   Widget build(BuildContext context) {
+    DocumentReference docRef = FirebaseFirestore.instance.collection('student').doc(studentID);
+    setState(() {
+      print(docRef.toString());
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: darkerBlue,
