@@ -131,7 +131,7 @@ class StudentTile extends StatefulWidget {
 
 class _StudentTileState extends State<StudentTile> {
   Future<void> _launched;
-  String _phone = '9999999999';
+  String _phone = '+919977777678';
   Future<void> _makePhoneCall(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -336,7 +336,7 @@ class _StudentTileState extends State<StudentTile> {
                         ),
                         RaisedButton(
                           onPressed: () => setState(() {
-                            _launched = _makePhoneCall('tel:$_phone');
+                            _launched = _makePhoneCall('tel:$parentContactNumber');
                           }),
                           child: const Text('Make phone call'),
                         ),
