@@ -13,10 +13,20 @@ class OutpassStatus extends StatefulWidget {
 
 class _OutpassStatusState extends State<OutpassStatus> {
   final userId = FirebaseAuth.instance.currentUser.uid;
-  final firestoreDB =
-      FirebaseFirestore.instance.collection('outPass Form').snapshots();
+  static String approvalStatus = 'Pending';
+
+  final List<String> _approvalStatus = [
+    'Pending',
+    'Approved',
+    'Rejected',
+  ];
+
   @override
   Widget build(BuildContext context) {
+    var firestoreDB = FirebaseFirestore.instance
+        .collection('outPass Form')
+        .where("approvalStatus", isEqualTo: approvalStatus)
+        .snapshots();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -26,26 +36,77 @@ class _OutpassStatusState extends State<OutpassStatus> {
         centerTitle: true,
         backgroundColor: darkerBlue,
       ),
-      body: StreamBuilder(
-        stream: firestoreDB,
-        builder: (ctx, opSnapshot) {
-          if (opSnapshot.connectionState == ConnectionState.waiting)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          final reqDocs = opSnapshot.data.documents;
-          print('length ${reqDocs.length}');
-          return ListView.builder(
-            itemCount: reqDocs.length,
-            itemBuilder: (ctx, index) {
-              if (reqDocs[index].get('studentID').toString().contains(userId))
-                return StatusCard(reqDoc: reqDocs[index]);
-              return Container(
-                height: 0,
-              );
-            },
-          );
-        },
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.sort,
+                color: darkBlue,
+                size: 25,
+              ),
+              Text(
+                "Sort By: ",
+                style: TextStyle(
+                    fontSize: 15, color: Colors.black, fontFamily: 'Poppins'),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              DropdownButton(
+                hint: Text('Pending'),
+                items: _approvalStatus.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String value) {
+                  setState(() {
+                    approvalStatus = value;
+                  });
+                },
+                value: approvalStatus,
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              child: StreamBuilder(
+                stream: firestoreDB,
+                builder: (ctx, opSnapshot) {
+                  if (opSnapshot.connectionState == ConnectionState.waiting)
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  final reqDocs = opSnapshot.data.documents;
+                  print('length ${reqDocs.length}');
+                  return ListView.builder(
+                    itemCount: reqDocs.length,
+                    itemBuilder: (ctx, index) {
+                      if (reqDocs[index]
+                          .get('studentID')
+                          .toString()
+                          .contains(userId))
+                        return StatusCard(reqDoc: reqDocs[index]);
+                      return Container(
+                        height: 0,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -63,6 +124,7 @@ class StatusCard extends StatefulWidget {
 class _StatusCardState extends State<StatusCard> {
   String requestDate =
       DateFormat.yMMMMEEEEd().format(new DateTime.now()).toString();
+
   @override
   Widget build(BuildContext context) {
     final requestId = widget.reqDoc.id;
