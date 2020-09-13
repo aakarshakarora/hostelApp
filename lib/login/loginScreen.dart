@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hostel_app/login/auth/emailMess.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/login/auth/emailHostel.dart';
 import 'package:hostel_app/login/auth/emailStudent.dart';
@@ -33,7 +34,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 2,
+              height: 2,
             ),
             Container(
               decoration: kloginScreenButtonStyle,
@@ -49,6 +50,27 @@ class LoginPage extends StatelessWidget {
                 },
                 child: Text(
                   "Hostel In Charge",
+                  style: lightHeading,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              decoration: kloginScreenButtonStyle,
+              child: FlatButton(
+                textColor: Colors.white,
+                padding: EdgeInsets.all(8.0),
+                splashColor: Colors.blueAccent,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MessEmail()),
+                  );
+                },
+                child: Text(
+                  "Mess In Charge",
                   style: lightHeading,
                 ),
               ),

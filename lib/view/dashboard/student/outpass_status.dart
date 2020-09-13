@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostel_app/qrScan/genQR.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -128,6 +129,12 @@ class _StatusCardState extends State<StatusCard> {
   @override
   Widget build(BuildContext context) {
     final requestId = widget.reqDoc.id;
+    final sDate=(widget.reqDoc.get("startDate")as Timestamp).toDate().toString();
+    final eDate=(widget.reqDoc.get("endDate")as Timestamp).toDate().toString();
+    final dest = widget.reqDoc.get("destination");
+    final reason = widget.reqDoc.get("reason");
+
+
     String approvalStatus = widget.reqDoc.get('approvalStatus');
     bool _approved = false;
     if (approvalStatus == 'Approved') _approved = true;
@@ -280,10 +287,14 @@ class _StatusCardState extends State<StatusCard> {
                     ),
                     color: peach,
                     child: Text(
-                      'View PDF',
+                      'Show QR Code',
                       style: darkSmallTextBold,
                     ),
-                    onPressed: () {},
+                    onPressed: () {   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GeneratePage(requestId,sDate,eDate,dest,reason)),
+                    );},
                   ),
               ],
             ),

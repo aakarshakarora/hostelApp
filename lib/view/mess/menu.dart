@@ -105,7 +105,7 @@ class _BreakfastState extends State<Breakfast> {
         body: StreamBuilder(
             stream: firestoreDB,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,
@@ -165,7 +165,7 @@ class Lunch extends StatelessWidget {
         body: StreamBuilder(
             stream: firestoreDB,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,
@@ -217,7 +217,7 @@ class HiTea extends StatelessWidget {
         body: StreamBuilder(
             stream: firestoreDB,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,
@@ -278,7 +278,7 @@ class Dinner extends StatelessWidget {
         body: StreamBuilder(
             stream: firestoreDB,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,

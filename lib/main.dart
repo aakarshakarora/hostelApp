@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/login/loginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hostel_app/login/registerHostel.dart';
-import 'package:hostel_app/login/registerStudent.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
