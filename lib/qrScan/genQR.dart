@@ -133,15 +133,15 @@ class _GeneratePageState extends State<GeneratePage> {
                   SizedBox(height: 30),
                   QrImage(
 
-                    data: widget.reqId +
+                    data: "Request ID: "+widget.reqId +
                         '\n' +
-                        widget.sDate +
+                        "Start Date: "+widget.sDate +
                         '\n' +
-                        widget.eDate +
+                        "End Date: "+widget.eDate +
                         '\n' +
-                        widget.dest +
+                        "Destination: "+widget.dest +
                         '\n' +
-                        widget.reason +
+                        "Reason: "+widget.reason +
                         '\n',
                   ),
                 ],
