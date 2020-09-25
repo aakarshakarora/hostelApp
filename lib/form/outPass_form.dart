@@ -28,7 +28,6 @@ class _OutPassFormState extends State<OutPassForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     studentID = getCurrentUser();
 
