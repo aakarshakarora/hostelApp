@@ -555,9 +555,11 @@ class _StudentRegisterState extends State<StudentRegister> {
                             .createUserWithEmailAndPassword(
                                 email: studentEmailIDInputController.text,
                                 password: pwdInputController.text)
-                            .then((currentUser) => FirebaseFirestore.instance
+                            .then((currentUser) {
+                              String uid = currentUser.user.uid;
+                              FirebaseFirestore.instance
                                 .collection("student")
-                                .doc(currentUser.user.uid)
+                                .doc(uid)
                                 .set({
                                   "studentID": currentUser.user.uid,
                                   "batch": batchInputController.text,
@@ -617,7 +619,7 @@ class _StudentRegisterState extends State<StudentRegister> {
                                       studentNameInputController.clear(),
                                       parentNameInputController.clear(),
                                     })
-                                .catchError((err) => print(err)))
+                                .catchError((err) => print(err));})
                             .catchError((err) => print(err));
                       } else {
                         showDialog(

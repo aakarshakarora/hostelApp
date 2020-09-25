@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/login/loginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hostel_app/splashScreen.dart';
 
 
 void main() async {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'HomeScreen App',
-              home: LoginPage(),
+              home: SplashScreen(),
             );
           },
         );
