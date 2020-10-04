@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
               .push(MaterialPageRoute(builder: (context) => LoginPage()));
         }
         break;
-      case 'student':
+      case 'Student':
         {
           print("user is student");
           Navigator.push(
@@ -37,26 +37,33 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         }
         break;
-      case 'mess':
+      case 'Mess InCharge':
         {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MessUser()),
+          );
           print('mess');
         }
         break;
-      case 'hostel':
-        {
+      case 'Hostel InCharge':
+        {Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HostelBar()),
+        );
           print("hostel");
         }
         break;
-      default :
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => LoginPage()));
-        break;
+
     }
   }
   void _roleCheck(String userID){
+    print("inside role check");
     FirebaseFirestore.instance.collection('users').doc(userID).get().then((value) {
       if(value.exists){
+
         _switchCode=value.data()['role'];
+        print("$_switchCode");
       }else{
         print("ERROR");
       }
@@ -65,11 +72,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initState() {
+    print("inside init");
     super.initState();
     startTimer();
     var _user = FirebaseAuth.instance.currentUser;
     if ( _user!= null) {
       _userID= _user.uid;
+      print("user id : $_userID");
       _roleCheck(_userID);
     } else {
       _switchCode = 'not_logged_in';
