@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   String _switchCode;
 
   startTimer() async {
-    var _duration = Duration(seconds: 8 );
+    var _duration = Duration(seconds: 8);
     return Timer(_duration, navigationPage);
   }
 
@@ -122,8 +122,8 @@ class _SplashScreenState extends State<SplashScreen> {
       _userID = _user.uid;
       if (_user.emailVerified == true){
         print("user id : $_userID");
-        _roleCheck(_userID);
-      }else{
+      _roleCheck(_userID);
+    }else{
         _switchCode='not_verified';
         _user.sendEmailVerification();
       }
