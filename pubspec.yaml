@@ -16,8 +16,11 @@ dependencies:
   badges: ^1.1.1
   intl: ^0.16.1
   datetime_picker_formfield: ^1.0.0
+  dropdown_date_picker: ^0.0.3
+  firebase_messaging: ^7.0.2
   persistent_bottom_nav_bar: ^2.0.5
   cupertino_icons: ^0.1.3
+  flutter_email_sender: ^3.0.1
   #badges: ^1.1.1
   bottom_navigation_badge: ^1.0.3
   cuberto_bottom_bar: ^1.1.2+3
@@ -25,15 +28,19 @@ dependencies:
   firebase_core: any
   firebase_database: ^4.0.0
   cloud_firestore: ^0.14.0+2
-  pdf: ^1.5.0
-  path_provider: ^1.6.5
-  flutter_full_pdf_viewer: ^1.0.6
-  open_file: ^3.0.1
-  url_launcher: ^5.5.3
+  #open_file: ^3.0.1
+  url_launcher:
   modal_progress_hud: ^0.1.3
   qr_flutter: ^3.2.0
+  qr_code_scanner: ^0.4.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.PNG"
   flutter_test:
     sdk: flutter
 
@@ -45,10 +52,10 @@ flutter:
   uses-material-design: true
 
   fonts:
-   - family: Poppins
-     fonts:
-       - asset: fonts/Poppins-Regular.ttf
-   - family: PoppinsBold
-     fonts:
-       - asset: fonts/Poppins-Bold.ttf
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+    - family: PoppinsBold
+      fonts:
+        - asset: fonts/Poppins-Bold.ttf
 

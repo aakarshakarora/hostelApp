@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hostel_app/qrScan/genQR.dart';
+import 'package:hostel_app/function/qrScan/genQR.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../../theme/theme.dart';
+
+//Status: Working Fine
+
+/*
+OutPass Status Overview
+*/
 
 class OutpassStatus extends StatefulWidget {
   @override
@@ -20,6 +25,7 @@ class _OutpassStatusState extends State<OutpassStatus> {
     'Pending',
     'Approved',
     'Rejected',
+    'Processing'
   ];
 
   @override
@@ -113,6 +119,12 @@ class _OutpassStatusState extends State<OutpassStatus> {
   }
 }
 
+//Status: Working Fine
+
+/*
+OutPass Details in Details
+*/
+
 class StatusCard extends StatefulWidget {
   StatusCard({this.reqDoc});
 
@@ -129,11 +141,12 @@ class _StatusCardState extends State<StatusCard> {
   @override
   Widget build(BuildContext context) {
     final requestId = widget.reqDoc.id;
-    final sDate=(widget.reqDoc.get("startDate")as Timestamp).toDate().toString();
-    final eDate=(widget.reqDoc.get("endDate")as Timestamp).toDate().toString();
+    final sDate =
+        (widget.reqDoc.get("startDate") as Timestamp).toDate().toString();
+    final eDate =
+        (widget.reqDoc.get("endDate") as Timestamp).toDate().toString();
     final dest = widget.reqDoc.get("destination");
     final reason = widget.reqDoc.get("reason");
-
 
     String approvalStatus = widget.reqDoc.get('approvalStatus');
     bool _approved = false;
@@ -290,11 +303,14 @@ class _StatusCardState extends State<StatusCard> {
                       'Show QR Code',
                       style: darkSmallTextBold,
                     ),
-                    onPressed: () {   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GeneratePage(requestId,sDate,eDate,dest,reason)),
-                    );},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GeneratePage(
+                                requestId, sDate, eDate, dest, reason)),
+                      );
+                    },
                   ),
               ],
             ),

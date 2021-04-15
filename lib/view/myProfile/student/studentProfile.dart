@@ -4,34 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'profileTab.dart';
 
+//Status: Working Fine
+
+/*
+Student My Profile
+*/
+
 class ProfileStudent extends StatefulWidget {
   @override
   _ProfileStudentState createState() => _ProfileStudentState();
 }
 
-class _ProfileStudentState extends State<ProfileStudent> {
+class _ProfileStudentState extends State<ProfileStudent> with AutomaticKeepAliveClientMixin<ProfileStudent> {
+
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  String currentUser;
+
+  //Check Current User
   String getCurrentUser() {
     final User user = _auth.currentUser;
     final uid = user.uid;
-
     final uemail = user.email;
     print(uid);
     print(uemail);
     return uid.toString();
   }
 
-  String test;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    test = getCurrentUser();
+    currentUser = getCurrentUser();
   }
 
   @override
+  bool get wantKeepAlive => true;
   Widget build(BuildContext context) {
     return DefaultTabController(
       // Added
@@ -42,7 +51,7 @@ class _ProfileStudentState extends State<ProfileStudent> {
         body: FutureBuilder<DocumentSnapshot>(
             future: FirebaseFirestore.instance
                 .collection('student')
-                .doc(test)
+                .doc(currentUser)
                 .get(),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -51,6 +60,7 @@ class _ProfileStudentState extends State<ProfileStudent> {
               }
               Map<String, dynamic> data = snapshot.data.data();
               return Stack(
+                // ignore: deprecated_member_use
                 overflow: Overflow.visible,
                 children: <Widget>[
                   Container(
@@ -92,6 +102,7 @@ class _ProfileStudentState extends State<ProfileStudent> {
                                           SizedBox(width: 12),
                                           Text(
                                               data['block'] +
+                                                  "-" +
                                                   data['roomNumber'].toString(),
                                               style: lightTinyText),
                                         ],
@@ -179,29 +190,35 @@ class _ProfileStudentState extends State<ProfileStudent> {
                               indicatorColor: peach,
                               tabs: [
                                 Tab(
-                                  child: Align(
+                                  child: Container(
                                     alignment: Alignment.center,
                                     child: Text(
                                       "User Details",
-                                      style: darkSmallTextBold,
+                                      style: darkSmallTextBold.copyWith(
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Tab(
-                                  child: Align(
+                                  child: Container(
                                     alignment: Alignment.center,
                                     child: Text(
                                       "Parent Details",
-                                      style: darkSmallTextBold,
+                                      style: darkSmallTextBold.copyWith(
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Tab(
-                                  child: Align(
+                                  child: Container(
                                     alignment: Alignment.center,
                                     child: Text(
                                       "Mentor Details",
-                                      style: darkSmallTextBold,
+                                      style: darkSmallTextBold.copyWith(
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ),

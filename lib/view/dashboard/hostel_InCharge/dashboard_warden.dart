@@ -1,10 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/form/outPassRequest/outpass_approval.dart';
-import 'package:hostel_app/login/loginScreen.dart';
-import 'package:hostel_app/view/futurePage/upcoming.dart';
+import 'package:hostel_app/form/Guest%20Room/roomBookApproval.dart';
+import 'package:hostel_app/form/OutPass/outPassRequest/outpass_approval.dart';
+import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
+
+//Status: Working Fine
+
+/*
+Dashboard of Hostel In Charge
+*/
 
 class DashboardHostelInCharge extends StatefulWidget {
   @override
@@ -12,15 +18,21 @@ class DashboardHostelInCharge extends StatefulWidget {
       _DashboardHostelInChargeState();
 }
 
-class _DashboardHostelInChargeState extends State<DashboardHostelInCharge> {
-  final titles = ['Outpass Requests', 'Service Requests'];
-  final titleIcon = [
-    Icon(Icons.assignment),
-    Icon(Icons.settings),
-  ];
+class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>with AutomaticKeepAliveClientMixin {
 
+  @override
+  bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final titles = ['Outpass Requests', 'Room Book Requests'];
+  final titleIcon = [
+    Icon(Icons.assignment),
+    Icon(Icons.hotel),
+  ];
+
+  String currentUser;
+
+  //Get Current User
   String getCurrentUser() {
     final User user = _auth.currentUser;
     final uid = user.uid;
@@ -31,21 +43,30 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge> {
     return uid.toString();
   }
 
-  String test;
-
   @override
   void initState() {
     // TODO: implement initState
+
+
     super.initState();
-    test = getCurrentUser();
+    currentUser = getCurrentUser();
+
+
+
   }
 
+
+
+
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: darkerBlue,
       body: FutureBuilder<DocumentSnapshot>(
-          future:
-              FirebaseFirestore.instance.collection('hostelInCharge').doc(test).get(),
+          future: FirebaseFirestore.instance
+              .collection('hostel Employee')
+              .doc(currentUser)
+              .get(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -60,36 +81,43 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge> {
                   child: Column(
                     //mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
-                          Text(
-                            'Welcome ' + data['userNameHostel'],
-                            style: lightHeading,
-                          ),
-                          FlatButton.icon(
-                            onPressed: () {
-                              signOut();
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            icon: Icon(
-                              Icons.exit_to_app,
-                              color: white,
-                            ),
-                            label: Text(
-                              'Logout',
-                              style: lightSmallText,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: white,
-                                    width: 1,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(50)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Container()),
+                              FlatButton.icon(
+                                onPressed: () {
+                                  signOut();
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
+                                },
+                                icon: Icon(
+                                  Icons.exit_to_app,
+                                  color: white,
+                                ),
+                                label: Text(
+                                  'Logout',
+                                  style: lightSmallText,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: white,
+                                        width: 1,
+                                        style: BorderStyle.solid),
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
+                            ],
                           ),
                         ],
+                      ),
+                      Flexible(
+                        child: Text(
+                          'Welcome ${data['userNameHostel']}',
+                          style: lightHeading,
+                        ),
                       ),
                       Divider(
                         thickness: 0.7,
@@ -140,7 +168,7 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Upcoming()),
+                                        builder: (context) => RoomApproval()),
                                   );
                                 }
                               },

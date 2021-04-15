@@ -5,6 +5,13 @@ import 'package:hostel_app/common/Notification/notification.dart';
 import 'package:hostel_app/view/dashboard/student/dashboard_student.dart';
 import 'package:hostel_app/view/myProfile/student/studentProfile.dart';
 
+//Status: No changes Required
+
+/*
+Bottom Navigation Bar for Student Page
+1. Home 2. Notification 3. My Profile
+*/
+
 class StudentBar extends StatefulWidget {
   StudentBar({Key key, this.title}) : super(key: key);
   final String title;

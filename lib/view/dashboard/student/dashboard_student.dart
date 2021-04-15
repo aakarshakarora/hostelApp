@@ -1,60 +1,74 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/form/outPass_form.dart';
-import 'package:hostel_app/login/loginScreen.dart';
+import 'package:hostel_app/form/Laundry/addRequest.dart';
+import 'package:hostel_app/form/OutPass/outPass_form.dart';
+import 'package:hostel_app/function/mess/menu.dart';
+import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/view/dashboard/student/outpass_status.dart';
-import 'package:hostel_app/view/mess/menu.dart';
-import '../../mess/menu.dart';
-import 'package:hostel_app/view/futurePage/upcoming.dart';
+import 'package:hostel_app/view/dashboard/student/roomStatus.dart';
+import 'package:hostel_app/view/dashboard/student/roomTypes.dart';
+
+
+//Status: Working Fine
+
+/*
+Dashboard of Student
+*/
 
 class DashboardStudent extends StatefulWidget {
   @override
   _DashboardStudentState createState() => _DashboardStudentState();
 }
 
-class _DashboardStudentState extends State<DashboardStudent> {
+class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepAliveClientMixin {
+  int cycles;
+
+  @override
+  bool get wantKeepAlive => true;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final titles = [
     'Apply for OutPass',
     'Mess Menu',
-    'Service Request',
+    'Guest Room Book',
     'Laundry Cycles'
   ];
-
   final titleIcon = [
     Icon(Icons.assignment),
     Icon(Icons.local_dining),
-    Icon(Icons.settings),
+    Icon(Icons.hotel),
     Icon(Icons.local_laundry_service)
   ];
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String currentUser;
 
+//Get Current User
   String getCurrentUser() {
     final User user = _auth.currentUser;
     final uid = user.uid;
-
     final uemail = user.email;
     print(uid);
     print(uemail);
     return uid.toString();
   }
 
-  String test;
-
   @override
   void initState() {
     super.initState();
-    test = getCurrentUser();
+    currentUser = getCurrentUser();
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: darkerBlue,
       body: FutureBuilder<DocumentSnapshot>(
-          future:
-              FirebaseFirestore.instance.collection('student').doc(test).get(),
+          future: FirebaseFirestore.instance
+              .collection('student')
+              .doc(currentUser)
+              .get(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -70,17 +84,9 @@ class _DashboardStudentState extends State<DashboardStudent> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Welcome " + data['studentName'],
 
-                            style: lightHeading,
-                            // style: TextStyle(
-                            //   fontWeight: FontWeight.bold,
-                            //   fontSize: 20,
-                            // ),
-                          ),
+                        children: [
+                          Expanded(child: Container()),
                           FlatButton.icon(
                             onPressed: () {
                               signOut();
@@ -105,85 +111,122 @@ class _DashboardStudentState extends State<DashboardStudent> {
                           ),
                         ],
                       ),
+                      Flexible(
+                        child: Text(
+                          'Welcome ${data['studentName']}',
+                          style: lightHeading,
+                        ),
+                      ),
                       Divider(
                         thickness: 0.7,
                         color: Colors.white70,
                       ),
-                      Flexible(
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          itemCount: titles.length,
-                          itemBuilder: (ctx, index) {
-                            return InkWell(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                ),
-                                color: white, //change
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      titleIcon[index],
-                                      Text(
-                                        titles[index],
-                                        style: darkHeading,
-                                      ),
-                                    ],
-                                  ),
+                      GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: titles.length,
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
                                 ),
                               ),
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => OutPassForm()),
-                                  );
-                                } else if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MessMenu()),
-                                  );
-                                } else if (index == 2 || index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Upcoming()),
-                                  );
-                                }
-                              },
-                            );
-                          },
-                        ),
+                              color: white, //change
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    titleIcon[index],
+                                    Text(
+                                      titles[index],
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              cycles=data['Cycles'];
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OutPassForm()),
+                                );
+                              } else if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MessMenu()),
+                                );
+                              } else if (index == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RoomTypes()),
+                                );
+                              } else if (index == 3) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LaundryCycles(cycles)),
+                                );
+                              }
+
+                            },
+                          );
+                        },
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: RaisedButton(
-                          padding: const EdgeInsets.all(15),
-                          child: Text(
-                            'View OutPass Status',
-                            style: darkSmallTextBold,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: RaisedButton(
+                              padding: const EdgeInsets.all(15),
+                              child: Text(
+                                'OutPass Status',
+                                style: darkSmallTextBold.copyWith(fontSize: 12),
+                              ),
+                              color: peach,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OutpassStatus()),
+                                );
+                              },
+                            ),
                           ),
-                          color: peach,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: RaisedButton(
+                              padding: const EdgeInsets.all(15),
+                              child: Text(
+                                'Guest Room Status',
+                                style: darkSmallTextBold.copyWith(fontSize: 12),
+                              ),
+                              color: peach,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GuestRoomStatus()),
+                                );
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OutpassStatus()),
-                            );
-                          },
-                        ),
+                        ],
                       ),
                       SizedBox(
                         height: 20,

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_app/model/notificationModel.dart';
 import 'package:hostel_app/theme/theme.dart';
+
+//Status: Feature to be Implemented
+/*
+Notification Display [Dummy]
+*/
 class Notifications extends StatefulWidget {
   Notifications({Key key, this.title}) : super(key: key);
 
@@ -31,8 +36,10 @@ class _NotificationsState extends State<Notifications> {
                   ),
                   title: Row(
                     children: <Widget>[
-                      Text(_model.title,
-                      style: darkSmallTextBold,),
+                      Text(
+                        _model.title,
+                        style: darkSmallTextBold,
+                      ),
                       SizedBox(
                         width: 10.0,
                       ),
@@ -42,8 +49,10 @@ class _NotificationsState extends State<Notifications> {
                       ),
                     ],
                   ),
-                  subtitle: Text(_model.subheading,
-                  style: greySmallText,),
+                  subtitle: Text(
+                    _model.subheading,
+                    style: greySmallText,
+                  ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     size: 14.0,

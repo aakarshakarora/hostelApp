@@ -5,14 +5,12 @@ import 'package:hostel_app/common/Notification/notification.dart';
 import 'package:hostel_app/view/dashboard/hostel_InCharge/dashboard_warden.dart';
 import 'package:hostel_app/view/myProfile/hostel_InCharge/hostelProfile.dart';
 
-//  BottomNavigationBadge badger = new BottomNavigationBadge(
-//      backgroundColor: Colors.red,
-//      badgeShape: BottomNavigationBadgeShape.circle,
-//      textColor: Colors.white,
-//      position: BottomNavigationBadgePosition.topRight,
-//      textSize: 8);
+//Status: No changes Required
 
-//badges
+/*
+Bottom Navigation Bar for Hostel In Charge Page
+1. Home 2. Notification 3. My Profile
+*/
 
 class HostelBar extends StatefulWidget {
   HostelBar({Key key, this.title}) : super(key: key);
@@ -22,8 +20,11 @@ class HostelBar extends StatefulWidget {
   _HostelBarState createState() => _HostelBarState();
 }
 
-class _HostelBarState extends State<HostelBar>
-    with SingleTickerProviderStateMixin {
+class _HostelBarState extends State<HostelBar> with AutomaticKeepAliveClientMixin<HostelBar>
+{
+  @override
+  bool get wantKeepAlive => true;
+
   int currentPage;
   Color currentColor = Colors.deepPurple;
   Color inactiveColor = Colors.black;
@@ -45,7 +46,8 @@ class _HostelBarState extends State<HostelBar>
   }
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: PageView(
           controller: tabBarController,

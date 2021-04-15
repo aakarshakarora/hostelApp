@@ -1,18 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-//import 'package:hostel_app/model/hostelInChargeModel.dart';
 import 'package:hostel_app/theme/theme.dart';
+
+//Status: Working Fine
+
+/*
+Hostel In Charge My Profile
+*/
 
 class ProfileHostel extends StatefulWidget {
   @override
   _ProfileHostelState createState() => _ProfileHostelState();
 }
 
-class _ProfileHostelState extends State<ProfileHostel> {
+class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  String currentUser;
+
+ //Check Current User
   String getCurrentUser() {
     final User user = _auth.currentUser;
     final uid = user.uid;
@@ -23,27 +34,24 @@ class _ProfileHostelState extends State<ProfileHostel> {
     return uid.toString();
   }
 
-  String test;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    test = getCurrentUser();
+    currentUser = getCurrentUser();
   }
-
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
-      // Added
-      length: 3, // Added
-      initialIndex: 0, //Added
+      length: 3,
+      initialIndex: 0,
       child: Scaffold(
           backgroundColor: white,
           body: FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
-                  .collection('hostelInCharge')
-                  .doc(test)
+                  .collection('hostel Employee')
+                  .doc(currentUser)
                   .get(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -52,6 +60,7 @@ class _ProfileHostelState extends State<ProfileHostel> {
                 }
                 Map<String, dynamic> data = snapshot.data.data();
                 return Stack(
+                  // ignore: deprecated_member_use
                   overflow: Overflow.visible,
                   children: <Widget>[
                     Container(

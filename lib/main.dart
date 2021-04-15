@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hostel_app/login/loginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hostel_app/splashScreen.dart';
+import 'function/spashScreen/splash.dart';
 
 
 void main() async {
@@ -22,6 +21,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'HomeScreen App',
               home: SplashScreen(),
+              // home: NotVerified()
             );
           },
         );

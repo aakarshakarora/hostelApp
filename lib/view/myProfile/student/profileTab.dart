@@ -3,12 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
 
+//Status: Working Fine
+
+/*
+Student My Profile -> Student Details
+*/
+
 class UserDetail extends StatefulWidget {
   @override
   _UserDetailState createState() => _UserDetailState();
 }
 
-class _UserDetailState extends State<UserDetail> {
+class _UserDetailState extends State<UserDetail> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
   @override
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -32,6 +41,7 @@ class _UserDetailState extends State<UserDetail> {
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
@@ -110,12 +120,21 @@ class _UserDetailState extends State<UserDetail> {
   }
 }
 
+//Status: Working Fine
+
+/*
+Student My Profile -> Parent Details
+*/
+
 class ParentDetail extends StatefulWidget {
   @override
   _ParentDetailState createState() => _ParentDetailState();
 }
 
-class _ParentDetailState extends State<ParentDetail> {
+class _ParentDetailState extends State<ParentDetail> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String getCurrentUser() {
@@ -138,6 +157,7 @@ class _ParentDetailState extends State<ParentDetail> {
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
@@ -203,12 +223,21 @@ class _ParentDetailState extends State<ParentDetail> {
   }
 }
 
+//Status: Working Fine
+
+/*
+Student My Profile -> Mentor Details
+*/
+
 class MentorDetail extends StatefulWidget {
   @override
   _MentorDetailState createState() => _MentorDetailState();
 }
 
-class _MentorDetailState extends State<MentorDetail> {
+class _MentorDetailState extends State<MentorDetail> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
   @override
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -232,6 +261,7 @@ class _MentorDetailState extends State<MentorDetail> {
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
