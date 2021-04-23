@@ -32,13 +32,11 @@ class MessMenu extends StatelessWidget {
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => StudentBar()),
+                      MaterialPageRoute(builder: (context) => StudentBar()),
                     );
                   },
                 );
@@ -47,11 +45,11 @@ class MessMenu extends StatelessWidget {
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
-              labelStyle: lightTinyText.copyWith(
-                fontWeight: FontWeight.bold
-              ),
+              labelStyle: lightTinyText.copyWith(fontWeight: FontWeight.bold),
               tabs: [
-                Tab(text: 'Breakfast',),
+                Tab(
+                  text: 'Breakfast',
+                ),
                 Tab(
                   text: 'Lunch',
                 ),
@@ -61,8 +59,11 @@ class MessMenu extends StatelessWidget {
                 Tab(text: 'Dinner'),
               ],
             ),
-            title: Text('Mess Menu for ' + dateFormatted(),
-            style: lightSmallText.copyWith(fontWeight: FontWeight.bold, fontSize: 20),),
+            title: Text(
+              'Mess Menu for ' + dateFormatted(),
+              style: lightSmallText.copyWith(
+                  fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             centerTitle: true,
           ),
           body: TabBarView(
@@ -78,9 +79,9 @@ class MessMenu extends StatelessWidget {
     );
   }
 }
+
 //Breakfast tab
 class Breakfast extends StatelessWidget {
-
   @override
   var firestoreDB =
       FirebaseFirestore.instance.collection("messMenu").snapshots();
@@ -96,17 +97,17 @@ class Breakfast extends StatelessWidget {
               if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, int index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.documents[index]
+                                  for (var i in snapshot.data.docs[index]
                                       .get('breakfast'))
                                     Container(
                                         width:
@@ -116,9 +117,11 @@ class Breakfast extends StatelessWidget {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(12.0),
-                                              child: Text(i.toString(),style: darkHeading.copyWith(
-                                                  fontSize: 15
-                                              ),),
+                                              child: Text(
+                                                i.toString(),
+                                                style: darkHeading.copyWith(
+                                                    fontSize: 15),
+                                              ),
                                             ))),
                                 ],
                               ),
@@ -131,11 +134,11 @@ class Breakfast extends StatelessWidget {
     );
   }
 }
+
 //Lunch Tab
 class Lunch extends StatelessWidget {
   var firestoreDB =
-  FirebaseFirestore.instance.collection("messMenu").snapshots();
-
+      FirebaseFirestore.instance.collection("messMenu").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -148,29 +151,31 @@ class Lunch extends StatelessWidget {
               if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, int index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.documents[index]
-                                      .get('lunch'))
+                                  for (var i
+                                      in snapshot.data.docs[index].get('lunch'))
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width,
                                         child: Card(
                                             elevation: 3.5,
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets.all(12.0),
-                                              child: Text(i.toString(),style: darkHeading.copyWith(
-                                                fontSize: 15
-                                              ),),
+                                                  const EdgeInsets.all(12.0),
+                                              child: Text(
+                                                i.toString(),
+                                                style: darkHeading.copyWith(
+                                                    fontSize: 15),
+                                              ),
                                             ))),
                                 ],
                               ),
@@ -183,11 +188,11 @@ class Lunch extends StatelessWidget {
     );
   }
 }
+
 //Hi Tea Tab
 class HiTea extends StatelessWidget {
-
   var firestoreDB =
-  FirebaseFirestore.instance.collection("messMenu").snapshots();
+      FirebaseFirestore.instance.collection("messMenu").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -200,29 +205,31 @@ class HiTea extends StatelessWidget {
               if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, int index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.documents[index]
-                                      .get('hiTea'))
+                                  for (var i
+                                      in snapshot.data.docs[index].get('hiTea'))
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width,
                                         child: Card(
                                             elevation: 3.5,
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets.all(12.0),
-                                              child: Text(i.toString(),style: darkHeading.copyWith(
-                                                  fontSize: 15
-                                              ),),
+                                                  const EdgeInsets.all(12.0),
+                                              child: Text(
+                                                i.toString(),
+                                                style: darkHeading.copyWith(
+                                                    fontSize: 15),
+                                              ),
                                             ))),
                                 ],
                               ),
@@ -239,7 +246,7 @@ class HiTea extends StatelessWidget {
 //Dinner tab
 class Dinner extends StatelessWidget {
   var firestoreDB =
-  FirebaseFirestore.instance.collection("messMenu").snapshots();
+      FirebaseFirestore.instance.collection("messMenu").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -252,29 +259,31 @@ class Dinner extends StatelessWidget {
               if (!snapshot.hasData) return CircularProgressIndicator();
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, int index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.documents[index]
+                                  for (var i in snapshot.data.docs[index]
                                       .get('dinner'))
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width,
                                         child: Card(
                                             elevation: 3.5,
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets.all(12.0),
-                                              child: Text(i.toString(),style: darkHeading.copyWith(
-                                                  fontSize: 15
-                                              ),),
+                                                  const EdgeInsets.all(12.0),
+                                              child: Text(
+                                                i.toString(),
+                                                style: darkHeading.copyWith(
+                                                    fontSize: 15),
+                                              ),
                                             ))),
                                 ],
                               ),

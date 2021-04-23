@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarHostel.dart';
-import 'package:hostel_app/function/request/GuestRoomBook/RoombookTile.dart';
-
+import 'package:hostel_app/function/request/OutpassRequest/StudentTile.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,21 +9,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /*
 Display Dialog in which Request Detail Come
-The RoomCount functionality is not working as expected. When approve button is pressed, a white screen appears momentarily.
 */
 
-class RoomApproval extends StatefulWidget {
-  RoomApproval({Key key, this.title}) : super(key: key);
+class DayPassApprovals extends StatefulWidget {
+  DayPassApprovals({Key key, this.title}) : super(key: key);
 
   final String title;
-  static String roomStatus = 'Pending';
-  static bool read = false;
+  static String approvalStatus = 'Pending';
   @override
-  _RoomApprovalState createState() => _RoomApprovalState();
+  _DayPassApprovalsState createState() => _DayPassApprovalsState();
 }
 
-class _RoomApprovalState extends State<RoomApproval> {
-  final List<String> _roomStatus = [
+class _DayPassApprovalsState extends State<DayPassApprovals> {
+  final List<String> _approvalStatus = [
     'Pending',
     'Approved',
     'Rejected',
@@ -32,14 +29,14 @@ class _RoomApprovalState extends State<RoomApproval> {
 
   Widget build(BuildContext context) {
     var firestoreDB = FirebaseFirestore.instance
-        .collection('roomBook')
-        .where("roomStatus", isEqualTo: RoomApproval.roomStatus)
+        .collection('dayPassForm')
+        .where("approvalStatus", isEqualTo: DayPassApprovals.approvalStatus)
         .snapshots();
     return Scaffold(
       appBar: AppBar(
           backgroundColor: darkerBlue,
           title: Text(
-            "Guest Room Book Request",
+            "Day Pass Request",
             style: lightHeading,
           ),
           centerTitle: true,
@@ -71,7 +68,7 @@ class _RoomApprovalState extends State<RoomApproval> {
               ),
               DropdownButton(
                 hint: Text('Pending'),
-                items: _roomStatus.map((String value) {
+                items: _approvalStatus.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
@@ -86,10 +83,10 @@ class _RoomApprovalState extends State<RoomApproval> {
                 }).toList(),
                 onChanged: (String value) {
                   setState(() {
-                    RoomApproval.roomStatus = value;
+                    DayPassApprovals.approvalStatus = value;
                   });
                 },
-                value: RoomApproval.roomStatus,
+                value: DayPassApprovals.approvalStatus,
               ),
             ],
           ),
@@ -111,9 +108,10 @@ class _RoomApprovalState extends State<RoomApproval> {
                     itemBuilder: (ctx, index) {
                       return Column(
                         children: [
-                          RoomBookTile(
+                          StudentTile(
                             request: requestDocs[index],
                             firestoreDB: firestoreDB,
+                            passType: 'DayPass',
                           ),
                           Divider(
                             height: 12,

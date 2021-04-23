@@ -54,6 +54,12 @@ class _OutPassFormState extends State<OutPassForm> {
   String modeOfTransport = "Flight";
   String consentFrom = "Yes";
 
+  String passType = 'OutPass';
+  String _groupValue = 'OutPass';
+  String inTime = '9';
+
+  String modeOfTransportDP = 'Auto';
+
   final List<String> _consentFrom = [
     'Yes',
     'No',
@@ -65,12 +71,21 @@ class _OutPassFormState extends State<OutPassForm> {
     'Road',
   ];
 
+  final List<String> _modeOfTransportDP = [
+    'Bus',
+    'Auto',
+    'Taxi',
+    'Walking',
+    'Other',
+  ];
+
   //Enter Destination
   _buildDestinationField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: destinationController,
+        textCapitalization: TextCapitalization.sentences,
         decoration: kTextFieldDecoration.copyWith(
             labelText: 'Enter Destination Address:'),
         // ignore: missing_return
@@ -92,6 +107,7 @@ class _OutPassFormState extends State<OutPassForm> {
       padding: EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: reasonController,
+        textCapitalization: TextCapitalization.sentences,
         decoration: kTextFieldDecoration.copyWith(labelText: 'Enter a reason:'),
         // ignore: missing_return
         validator: (String value) {
@@ -131,48 +147,115 @@ class _OutPassFormState extends State<OutPassForm> {
             key: _formKey,
             child: Column(
               children: [
+                ListTile(
+                  leading: Radio(
+                    value: 'DayPass',
+                    groupValue: _groupValue,
+                    toggleable: true,
+                    activeColor: peach,
+                    onChanged: (newVal) => setState(() {
+                      _groupValue = newVal;
+                      passType = newVal;
+                    }),
+                  ),
+                  title: Text('Day Pass'),
+                  subtitle: Text('If you will be returning same day'),
+                ),
+                ListTile(
+                  leading: Radio(
+                    value: 'OutPass',
+                    groupValue: _groupValue,
+                    toggleable: true,
+                    activeColor: peach,
+                    onChanged: (newVal) => setState(() {
+                      _groupValue = newVal;
+                      passType = newVal;
+                    }),
+                  ),
+                  title: Text('Out Pass'),
+                  subtitle: Text('If you will be going for a longer period'),
+                ),
                 _buildReasonField(),
                 _buildDestinationField(),
-                Row(
-                  children: [
-                    Text("Mode of Transport:",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black)),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    DropdownButton(
-                      hint: Text(
-                        'Select',
-                        style: TextStyle(color: Colors.black),
-                      ),
-
-                      //dropdownColor: AppColor.background,
-                      items: _modeOfTransport.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
+                passType == 'OutPass'
+                    ? Row(
+                        children: [
+                          Text("Mode of Transport:",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              )),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          modeOfTransport = value;
-                        });
-                      },
-                      value: modeOfTransport,
-                    ),
-                  ],
-                ),
-                //SizedBox(width: 30),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black)),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          DropdownButton(
+                            hint: Text(
+                              'Select',
+                              style: TextStyle(color: Colors.black),
+                            ),
+
+                            //dropdownColor: AppColor.background,
+                            items: _modeOfTransport.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    )),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                modeOfTransport = value;
+                              });
+                            },
+                            value: modeOfTransport,
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Text("Mode of Transport:",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black)),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          DropdownButton(
+                            hint: Text(
+                              'Select',
+                              style: TextStyle(color: Colors.black),
+                            ),
+
+                            //dropdownColor: AppColor.background,
+                            items: _modeOfTransportDP.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    )),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                modeOfTransportDP = value;
+                              });
+                            },
+                            value: modeOfTransportDP,
+                          ),
+                        ],
+                      ),
                 Row(
                   children: [
                     Row(
@@ -462,21 +545,29 @@ class _OutPassFormState extends State<OutPassForm> {
                               endDate == null ? endDateError = true : null;
                             });
                           } else {
+                            String collectionName = passType == 'OutPass'
+                                ? 'outPass Form'
+                                : 'dayPassForm';
+                            approvalStatus = passType == 'OutPass'
+                                ? 'Processing'
+                                : 'Pending';
                             print("hello");
                             print(destination);
                             print(reason);
                             print(destinationController.toString());
                             if (_formKey.currentState.validate()) {
                               FirebaseFirestore.instance
-                                  .collection('outPass Form')
+                                  .collection(collectionName)
                                   .add({
                                 "destination": destinationController.text,
                                 "read": read,
-                                "readF":false,
-                                "remark":null,
-                                "remarkF":null,
+                                "readF": false,
+                                "remark": null,
+                                "remarkF": null,
                                 "reason": reasonController.text,
-                                "modeOfTransport": modeOfTransport,
+                                "modeOfTransport": passType == 'OutPass'
+                                    ? modeOfTransport
+                                    : modeOfTransportDP,
                                 "consentFrom": consentFrom,
                                 "startDate": startDate,
                                 "endDate": endDate,
@@ -542,9 +633,14 @@ class _OutPassFormState extends State<OutPassForm> {
   Future<DateTime> _startDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().toLocal(),
-      firstDate: DateTime.now().toLocal(),
-      lastDate: endDate ?? DateTime(2100),
+      initialDate: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+      firstDate: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+      lastDate: passType == 'OutPass'
+          ? endDate ?? DateTime(2100)
+          : DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 1),
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.dark().copyWith(
@@ -591,9 +687,18 @@ class _OutPassFormState extends State<OutPassForm> {
   Future<DateTime> _endDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: startDate ?? DateTime.now().toLocal(),
-      firstDate: startDate ?? DateTime.now().toLocal(),
-      lastDate: DateTime(2100),
+      initialDate: passType == 'OutPass'
+          ? startDate ?? DateTime.now().toLocal()
+          : DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 1),
+      firstDate: passType == 'OutPass'
+          ? startDate ?? DateTime.now().toLocal()
+          : DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 1),
+      lastDate: passType == 'OutPass'
+          ? DateTime(2100)
+          : DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 1),
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.dark().copyWith(

@@ -9,10 +9,11 @@ import 'OutpassCardUpdate.dart';
 //The out pass requests will be visible in the form of these tiles.
 
 class StudentTile extends StatefulWidget {
-  StudentTile({this.request, this.firestoreDB});
+  StudentTile({this.request, this.firestoreDB, this.passType});
 
   final dynamic request;
   final dynamic firestoreDB;
+  final String passType;
 
   @override
   _StudentTileState createState() => _StudentTileState();
@@ -78,28 +79,28 @@ class _StudentTileState extends State<StudentTile> {
 
   TextEditingController customController = TextEditingController();
   bool talkedToParent = false;
-  String remarks,remarkF="";
+  String remarks, remarkF = "";
   String approved;
   bool read = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<String> createAlertDialog(
       {BuildContext context,
-        String studentName,
-        String registrationNo,
-        String requestID,
-        String batch,
-        String course,
-        String block,
-        String roomNo,
-        String reason,
-        String destination,
-        String parentEmail,
-        String mentorEmail,
-        String parentContactNumber,
-        String startDate,
-        String endDate,
-        String transport}) {
+      String studentName,
+      String registrationNo,
+      String requestID,
+      String batch,
+      String course,
+      String block,
+      String roomNo,
+      String reason,
+      String destination,
+      String parentEmail,
+      String mentorEmail,
+      String parentContactNumber,
+      String startDate,
+      String endDate,
+      String transport}) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -128,7 +129,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Registration No. : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: registrationNo)
                             ],
                           ),
@@ -140,7 +141,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Course : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: course)
                             ],
                           ),
@@ -152,7 +153,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Batch : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: batch)
                             ],
                           ),
@@ -164,7 +165,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Block : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: block)
                             ],
                           ),
@@ -176,7 +177,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Room No. : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: roomNo)
                             ],
                           ),
@@ -186,7 +187,8 @@ class _StudentTileState extends State<StudentTile> {
                           color: darkerBlue,
                         ),
                         Center(
-                            child: Text('OUTPASS DETAILS', style: darkHeading)),
+                            child:
+                                Text('DAY PASS DETAILS', style: darkHeading)),
                         Divider(
                           thickness: 0.7,
                           color: darkerBlue,
@@ -198,7 +200,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Request Id : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: requestID)
                             ],
                           ),
@@ -210,7 +212,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Reason : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: reason)
                             ],
                           ),
@@ -222,7 +224,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Start Date : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: startDate)
                             ],
                           ),
@@ -234,7 +236,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'End Date : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: endDate)
                             ],
                           ),
@@ -246,7 +248,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Destination : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: destination)
                             ],
                           ),
@@ -258,7 +260,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Transport : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: transport)
                             ],
                           ),
@@ -270,7 +272,7 @@ class _StudentTileState extends State<StudentTile> {
                               TextSpan(
                                   text: 'Parent Contact No. : ',
                                   style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: parentContactNumber),
                             ],
                           ),
@@ -284,11 +286,11 @@ class _StudentTileState extends State<StudentTile> {
                             decoration: BoxDecoration(
                                 color: darkerBlue,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
+                                    BorderRadius.all(Radius.circular(30))),
                             child: MaterialButton(
                               textColor: Colors.white,
                               child:
-                              Text('Call Parent', style: kbuttonTextStyle),
+                                  Text('Call Parent', style: kbuttonTextStyle),
                               onPressed: () => setState(() {
                                 _launched =
                                     _makePhoneCall('tel:$parentContactNumber');
@@ -305,6 +307,7 @@ class _StudentTileState extends State<StudentTile> {
                                   talkedToParent = value;
                                 });
                               },
+                              passType: widget.passType,
                               read: read,
                               controller: customController,
                               checkBoxState: talkedToParent,
@@ -317,15 +320,17 @@ class _StudentTileState extends State<StudentTile> {
                                   remarks = customController.text;
                                   print(talkedToParent);
                                   print(remarks);
-
+                                  final collectionName =
+                                      widget.passType == 'OutPass'
+                                          ? 'outPass Form'
+                                          : 'dayPassForm';
                                   FirebaseFirestore.instance
-                                      .collection('outPass Form')
-                                      .doc(widget.request.documentID)
+                                      .collection(collectionName)
+                                      .doc(widget.request.id)
                                       .update({
                                     "approvalStatus": approved,
                                     "consentFrom": talkedToParent,
                                     "remark": remarks,
-
                                   });
 
                                   customController.text = "";
@@ -347,15 +352,17 @@ class _StudentTileState extends State<StudentTile> {
                                   remarks = customController.text;
                                   print(talkedToParent);
                                   print(remarks);
-
+                                  final collectionName =
+                                      widget.passType == 'OutPass'
+                                          ? 'outPass Form'
+                                          : 'dayPassForm';
                                   FirebaseFirestore.instance
-                                      .collection('outPass Form')
-                                      .doc(widget.request.documentID)
+                                      .collection(collectionName)
+                                      .doc(widget.request.value.id)
                                       .update({
                                     "approvalStatus": approved,
                                     "consentFrom": talkedToParent,
                                     "remark": remarks,
-
                                   }).then((value) => Navigator.pop(context));
 
                                   customController.text = "";
@@ -382,10 +389,11 @@ class _StudentTileState extends State<StudentTile> {
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final ref = widget.request.get('studentID');
+    final collectionName =
+        widget.passType == 'OutPass' ? 'outPass Form' : 'dayPassForm';
     return StreamBuilder(
         stream: ref.snapshots(),
         builder: (ctx, snapshot) {
@@ -397,8 +405,8 @@ class _StudentTileState extends State<StudentTile> {
               setState(() {
                 read = true;
                 FirebaseFirestore.instance
-                    .collection('outPass Form')
-                    .doc(widget.request.documentID)
+                    .collection(collectionName)
+                    .doc(widget.request.id)
                     .update({
                   "read": read,
                 });
@@ -406,7 +414,7 @@ class _StudentTileState extends State<StudentTile> {
                   context: context,
                   studentName: studData.get('studentName'),
                   registrationNo: studData.get('registrationNumber').toString(),
-                  requestID: widget.request.documentID,
+                  requestID: widget.request.id,
                   batch: studData.get('batch'),
                   course: studData.get('courseName'),
                   parentEmail: studData.get('parentEmailID'),
@@ -416,7 +424,7 @@ class _StudentTileState extends State<StudentTile> {
                   reason: widget.request.get('reason'),
                   destination: widget.request.get('destination'),
                   parentContactNumber:
-                  studData.get('parentContactNumber').toString(),
+                      studData.get('parentContactNumber').toString(),
                   /* talkedToParent: _model.talkedToParent,*/
                   startDate: (widget.request.get('startDate') as Timestamp)
                       .toDate()
@@ -449,13 +457,13 @@ class _StudentTileState extends State<StudentTile> {
               ],
             ),
             subtitle: Text(
-              "Request ID: ${widget.request.documentID}",
+              "Request ID: ${widget.request.id}",
               style: greySmallText,
             ),
             trailing: CircleAvatar(
                 radius: 5.0,
                 backgroundColor: widget.request.get('read') == false &&
-                    Approvals.approvalStatus == 'Pending'
+                        Approvals.approvalStatus == 'Pending'
                     ? Colors.red
                     : Colors.white),
           );

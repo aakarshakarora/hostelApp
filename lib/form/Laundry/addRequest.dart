@@ -6,9 +6,7 @@ import 'package:hostel_app/theme/theme.dart';
 
 import '../../common/bottomBar/navigationBarStudent.dart';
 
-
 class LaundryCycles extends StatefulWidget {
-
   final int cycles;
 
   LaundryCycles(this.cycles);
@@ -18,11 +16,9 @@ class LaundryCycles extends StatefulWidget {
 }
 
 class _LaundryCyclesState extends State<LaundryCycles> {
-
-int cycles;
+  int cycles;
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -30,19 +26,15 @@ int cycles;
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: darkerBlue,
-
-            actions: [
-              Text('Cycles Left: '+widget.cycles.toString())],
+            actions: [Text('Cycles Left: ' + widget.cycles.toString())],
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => StudentBar()),
+                      MaterialPageRoute(builder: (context) => StudentBar()),
                     );
                   },
                 );
@@ -51,25 +43,27 @@ int cycles;
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
-              labelStyle: lightTinyText.copyWith(
-                  fontWeight: FontWeight.bold
-              ),
+              labelStyle: lightTinyText.copyWith(fontWeight: FontWeight.bold),
               tabs: [
-                Tab(text: 'Add New Request',),
+                Tab(
+                  text: 'Add New Request',
+                ),
                 Tab(
                   text: 'Past Request',
                 ),
               ],
             ),
-            title: Text('Laundry  ' ,
-              style: lightSmallText.copyWith(fontWeight: FontWeight.bold, fontSize: 20),),
+            title: Text(
+              'Laundry  ',
+              style: lightSmallText.copyWith(
+                  fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             centerTitle: true,
           ),
           body: TabBarView(
             children: [
               AddRequest(),
               PastRequest(),
-
             ],
           ),
         ),
@@ -77,11 +71,6 @@ int cycles;
     );
   }
 }
-
-
-
-
-
 
 class AddRequest extends StatefulWidget {
   @override
@@ -148,8 +137,8 @@ class _AddRequestState extends State<AddRequest> {
       style: TextStyle(
           fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w600),
       // ignore: missing_return
-      validator: (String value){
-        if(value.isEmpty){
+      validator: (String value) {
+        if (value.isEmpty) {
           return "Cloth Count is required!";
         }
       },
@@ -199,13 +188,11 @@ class _AddRequestState extends State<AddRequest> {
 
                   _formKey.currentState.save();
 
-                  FirebaseFirestore.instance
-                      .collection('LaundryRequest')
-                      .add({
+                  FirebaseFirestore.instance.collection('LaundryRequest').add({
                     "clothCount": int.parse(customController.text),
                     "studentID": docRef,
                     "status": status,
-                    "requestDate":requestDate,
+                    "requestDate": requestDate,
                   });
 
                   Navigator.of(context).pop();
@@ -231,21 +218,19 @@ class _AddRequestState extends State<AddRequest> {
         });
   }
 
-  var firestoreDB =
-  FirebaseFirestore.instance
+  var firestoreDB = FirebaseFirestore.instance
       .collection('LaundryRequest')
-      .where('status', isEqualTo: 'Pending' )
+      .where('status', isEqualTo: 'Pending')
       .snapshots();
 
   @override
   Widget build(BuildContext context) {
     DocumentReference docRef =
-    FirebaseFirestore.instance.collection('student').doc(studentID);
+        FirebaseFirestore.instance.collection('student').doc(studentID);
     setState(() {
       print(docRef.toString());
     });
     return Scaffold(
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff03dac6),
         foregroundColor: Colors.black,
@@ -255,7 +240,6 @@ class _AddRequestState extends State<AddRequest> {
         },
         child: Icon(Icons.add),
       ),
-
       body: Container(
         child: StreamBuilder(
           stream: firestoreDB,
@@ -264,7 +248,7 @@ class _AddRequestState extends State<AddRequest> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            final reqDocs = opSnapshot.data.documents;
+            final reqDocs = opSnapshot.data.docs;
             print('length ${reqDocs.length}');
             return ListView.builder(
               itemCount: reqDocs.length,
@@ -297,9 +281,8 @@ class _RequestCardState extends State<RequestCard> {
   Widget build(BuildContext context) {
     final clothCount = widget.reqDoc.get("clothCount");
     final status = widget.reqDoc.get("status");
-    final requestDate = (widget.reqDoc.get('requestDate') as Timestamp)
-        .toDate()
-        .toString();
+    final requestDate =
+        (widget.reqDoc.get('requestDate') as Timestamp).toDate().toString();
     final requestId = widget.reqDoc.id;
     return Padding(
       padding: EdgeInsets.all(10),
@@ -320,27 +303,30 @@ class _RequestCardState extends State<RequestCard> {
                     fontFamily: 'Poppins'),
               ),
               Text("Order Date: $requestDate",
-                  style: TextStyle(fontSize: 15, fontFamily: 'Poppins')
-              ),
+                  style: TextStyle(fontSize: 15, fontFamily: 'Poppins')),
               Text(
                 "Order id: '$requestId'",
                 style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
               ),
-              SizedBox(height: 5,),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     "Total Cloth Count: $clothCount",
                     style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
                   ),
-
                   Text(
                     "Status: $status",
                     style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
                   ),
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               // Text(
               //   "Request Date: ",
               //   style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
@@ -352,13 +338,13 @@ class _RequestCardState extends State<RequestCard> {
     );
   }
 }
+
 class PastRequest extends StatefulWidget {
   @override
   _PastRequestState createState() => _PastRequestState();
 }
 
 class _PastRequestState extends State<PastRequest> {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final userId = FirebaseAuth.instance.currentUser.uid;
 
@@ -383,19 +369,17 @@ class _PastRequestState extends State<PastRequest> {
 
   var firestoreDB = FirebaseFirestore.instance
       .collection('LaundryRequest')
-      .where('status', isEqualTo:  'Ready')
+      .where('status', isEqualTo: 'Ready')
       .snapshots();
-
 
   @override
   Widget build(BuildContext context) {
     DocumentReference docRef =
-    FirebaseFirestore.instance.collection('student').doc(studentID);
+        FirebaseFirestore.instance.collection('student').doc(studentID);
     setState(() {
       print(docRef.toString());
     });
     return Scaffold(
-
       body: Container(
         child: StreamBuilder(
           stream: firestoreDB,
@@ -404,7 +388,7 @@ class _PastRequestState extends State<PastRequest> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            final reqDocs = opSnapshot.data.documents;
+            final reqDocs = opSnapshot.data.docs;
             print('length ${reqDocs.length}');
             return ListView.builder(
               itemCount: reqDocs.length,

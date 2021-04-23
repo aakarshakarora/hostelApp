@@ -5,7 +5,6 @@ import 'package:hostel_app/function/request/OutpassRequest/StudentTile.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 //Status: Working Fine
 
 /*
@@ -22,7 +21,6 @@ class Approvals extends StatefulWidget {
 }
 
 class _ApprovalsState extends State<Approvals> {
-
   final List<String> _approvalStatus = [
     'Pending',
     'Approved',
@@ -103,7 +101,7 @@ class _ApprovalsState extends State<Approvals> {
                       child: Center(child: CircularProgressIndicator()),
                     );
                   }
-                  final requestDocs = reqSnapshot.data.documents;
+                  final requestDocs = reqSnapshot.data.docs;
                   print('length ${requestDocs.length}');
                   return ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -114,6 +112,7 @@ class _ApprovalsState extends State<Approvals> {
                           StudentTile(
                             request: requestDocs[index],
                             firestoreDB: firestoreDB,
+                            passType: 'OutPass',
                           ),
                           Divider(
                             height: 12,
@@ -131,6 +130,3 @@ class _ApprovalsState extends State<Approvals> {
     );
   }
 }
-
-
-

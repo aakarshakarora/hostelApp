@@ -9,7 +9,7 @@ import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/view/dashboard/student/outpass_status.dart';
 import 'package:hostel_app/view/dashboard/student/roomStatus.dart';
 import 'package:hostel_app/view/dashboard/student/roomTypes.dart';
-
+import 'package:hostel_app/view/dashboard/student/daypass_status.dart';
 
 //Status: Working Fine
 
@@ -22,7 +22,8 @@ class DashboardStudent extends StatefulWidget {
   _DashboardStudentState createState() => _DashboardStudentState();
 }
 
-class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepAliveClientMixin {
+class _DashboardStudentState extends State<DashboardStudent>
+    with AutomaticKeepAliveClientMixin {
   int cycles;
 
   @override
@@ -84,7 +85,6 @@ class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepA
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
-
                         children: [
                           Expanded(child: Container()),
                           FlatButton.icon(
@@ -150,7 +150,7 @@ class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepA
                               ),
                             ),
                             onTap: () {
-                              cycles=data['Cycles'];
+                              cycles = data['Cycles'];
                               if (index == 0) {
                                 Navigator.push(
                                   context,
@@ -173,10 +173,10 @@ class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepA
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LaundryCycles(cycles)),
+                                      builder: (context) =>
+                                          LaundryCycles(cycles)),
                                 );
                               }
-
                             },
                           );
                         },
@@ -228,8 +228,29 @@ class _DashboardStudentState extends State<DashboardStudent> with AutomaticKeepA
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            'Day Pass Status',
+                            style: darkSmallTextBold.copyWith(fontSize: 12),
+                          ),
+                          color: peach,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DaypassStatus()),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
