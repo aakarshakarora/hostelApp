@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../theme/theme.dart';
+import 'package:rxdart/rxdart.dart';
 
 //Status: Working Fine
 
@@ -12,12 +13,12 @@ import '../../../theme/theme.dart';
 OutPass Status Overview
 */
 
-class OutpassStatus extends StatefulWidget {
+class DaypassStatus extends StatefulWidget {
   @override
-  _OutpassStatusState createState() => _OutpassStatusState();
+  _DaypassStatusState createState() => _DaypassStatusState();
 }
 
-class _OutpassStatusState extends State<OutpassStatus> {
+class _DaypassStatusState extends State<DaypassStatus> {
   final userId = FirebaseAuth.instance.currentUser.uid;
   static String approvalStatus = 'Pending';
 
@@ -31,13 +32,14 @@ class _OutpassStatusState extends State<OutpassStatus> {
   @override
   Widget build(BuildContext context) {
     var firestoreDB = FirebaseFirestore.instance
-        .collection('outPass Form')
+        .collection('dayPassForm')
         .where("approvalStatus", isEqualTo: approvalStatus)
         .snapshots();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'OutPass Status',
+          'Day Pass Status',
           style: lightHeading,
         ),
         centerTitle: true,

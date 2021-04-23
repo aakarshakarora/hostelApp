@@ -5,6 +5,7 @@ import 'package:hostel_app/form/Guest%20Room/roomBookApproval.dart';
 import 'package:hostel_app/form/OutPass/outPassRequest/outpass_approval.dart';
 import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:hostel_app/form/OutPass/outPassRequest/daypass_approval.dart';
 
 //Status: Working Fine
 
@@ -18,15 +19,20 @@ class DashboardHostelInCharge extends StatefulWidget {
       _DashboardHostelInChargeState();
 }
 
-class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>with AutomaticKeepAliveClientMixin {
-
+class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['Outpass Requests', 'Room Book Requests'];
+  final titles = [
+    'Outpass Requests',
+    'Day Pass Requests',
+    'Room Book Requests'
+  ];
   final titleIcon = [
     Icon(Icons.assignment),
+    Icon(Icons.assignment_outlined),
     Icon(Icons.hotel),
   ];
 
@@ -47,16 +53,9 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>with A
   void initState() {
     // TODO: implement initState
 
-
     super.initState();
     currentUser = getCurrentUser();
-
-
-
   }
-
-
-
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -163,6 +162,13 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>with A
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Approvals()),
+                                  );
+                                } else if (index == 1) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DayPassApprovals()),
                                   );
                                 } else {
                                   Navigator.push(
