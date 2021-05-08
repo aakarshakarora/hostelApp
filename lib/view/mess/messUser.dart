@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/login/loginScreen.dart';
+import 'package:hostel_app/login/login_SignUp%20page.dart';
+
 import 'package:hostel_app/theme/theme.dart';
 
 class MessUser extends StatelessWidget {

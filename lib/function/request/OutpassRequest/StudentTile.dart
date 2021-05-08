@@ -353,25 +353,25 @@ class _StudentTileState extends State<StudentTile> {
                                   print(talkedToParent);
                                   print(remarks);
                                   final collectionName =
-                                      widget.passType == 'OutPass'
-                                          ? 'outPass Form'
-                                          : 'dayPassForm';
+                                  widget.passType == 'OutPass'
+                                      ? 'outPass Form'
+                                      : 'dayPassForm';
                                   FirebaseFirestore.instance
                                       .collection(collectionName)
-                                      .doc(widget.request.value.id)
+                                      .doc(widget.request.id)
                                       .update({
                                     "approvalStatus": approved,
                                     "consentFrom": talkedToParent,
                                     "remark": remarks,
-                                  }).then((value) => Navigator.pop(context));
+                                  });
 
                                   customController.text = "";
 
-                                  approved == 'Approved'
-                                      ? print('Approved!')
-                                      : print('Rejected');
-                                  send(parentEmail, mentorEmail, studentName,
-                                      approved, roomNo, block);
+                                  approved == 'Rejected'
+                                      ? print('Rejected!')
+                                      : print('Approved');
+                                  // send(parentEmail, mentorEmail, studentName,
+                                  //     approved, roomNo, block);
                                   Navigator.of(context)
                                       .pop(customController.text.toString());
                                 });

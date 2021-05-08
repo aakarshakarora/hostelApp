@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'function/spashScreen/splash.dart';
+import 'package:hostel_app/function/spashScreen/roleCheck.dart';
+
 
 
 void main() async {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'HomeScreen App',
-              home: SplashScreen(),
+              home: RoleCheck(),
               // home: NotVerified()
             );
           },

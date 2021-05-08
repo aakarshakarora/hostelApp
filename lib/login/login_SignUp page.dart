@@ -29,7 +29,6 @@ class ArrowClipper extends CustomClipper<Path> {
 }
 
 class LoginPage extends StatefulWidget {
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -55,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
         fontWeight: FontWeight.bold,
       ),
     ),
-
   ];
 
   findButton() {
@@ -125,7 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   );
                                   break;
-
                               }
                             },
                             child: Container(

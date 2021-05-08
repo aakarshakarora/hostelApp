@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/function/spashScreen/splash.dart';
+import 'package:hostel_app/function/spashScreen/roleCheck.dart';
+
 import 'package:hostel_app/theme/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hostel_app/login/forgotPassword/forgot_password.dart';
@@ -359,8 +360,7 @@ class _LoginState extends State<Login> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      SplashScreen(text: 'Logging you in...')),
+                  builder: (context) => RoleCheck()),
             );
           });
           //Verified
