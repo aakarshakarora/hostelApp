@@ -17,6 +17,7 @@ class LaundryCycles extends StatefulWidget {
 
 class _LaundryCyclesState extends State<LaundryCycles> {
   int cycles;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -62,7 +63,7 @@ class _LaundryCyclesState extends State<LaundryCycles> {
           ),
           body: TabBarView(
             children: [
-              AddRequest(),
+              AddRequest(widget.cycles),
               PastRequest(),
             ],
           ),
@@ -73,6 +74,10 @@ class _LaundryCyclesState extends State<LaundryCycles> {
 }
 
 class AddRequest extends StatefulWidget {
+  final cycles;
+
+  AddRequest(this.cycles);
+
   @override
   _AddRequestState createState() => _AddRequestState();
 }
@@ -231,15 +236,38 @@ class _AddRequestState extends State<AddRequest> {
       print(docRef.toString());
     });
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff03dac6),
-        foregroundColor: Colors.black,
-        onPressed: () {
-          createAlertDialog(context, docRef);
-          // Respond to button press
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: widget.cycles == null || widget.cycles == 0
+          ? Column(mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: const Color(0xff03dac6),
+                  foregroundColor: Colors.black,
+                  onPressed: () {
+                    // Respond to button press
+                  },
+                  child: Icon(
+                    Icons.clear,
+                    color: Colors.red,
+                  ),
+                ),
+                SizedBox(height: 5,),
+                Text("No Cycles Available!!"),
+              ],
+            )
+          : Column(
+              children: [
+                FloatingActionButton(
+                  backgroundColor: const Color(0xff03dac6),
+                  foregroundColor: Colors.black,
+                  onPressed: () {
+                    createAlertDialog(context, docRef);
+                    // Respond to button press
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
       body: Container(
         child: StreamBuilder(
           stream: firestoreDB,
@@ -359,6 +387,7 @@ class _PastRequestState extends State<PastRequest> {
   }
 
   static String studentID;
+
   void initState() {
     // TODO: implement initState
     super.initState();

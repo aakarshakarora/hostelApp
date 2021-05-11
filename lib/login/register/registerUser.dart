@@ -18,34 +18,39 @@ class HostelUser extends StatefulWidget {
 }
 
 class _HostelUserState extends State<HostelUser> {
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-
   String role;
   bool showSpinner = false;
 
-  final List<String> _roleType = ['Mess InCharge', 'Hostel InCharge','Laundry InCharge'];
+  final List<String> _roleType = [
+    'Mess InCharge',
+    'Hostel InCharge',
+    'Laundry InCharge'
+  ];
 
-
-  TextEditingController collegeEmailIdHostelInputController = new TextEditingController();
+  TextEditingController collegeEmailIdHostelInputController =
+      new TextEditingController();
 
   TextEditingController pwdInputController = new TextEditingController();
 
   TextEditingController confirmPwdInputController = new TextEditingController();
 
-  TextEditingController contactNumberHostelInputController = new TextEditingController();
+  TextEditingController contactNumberHostelInputController =
+      new TextEditingController();
 
   TextEditingController empIdHostelController = new TextEditingController();
 
-  TextEditingController designationHostelInputController = new TextEditingController();
+  TextEditingController designationHostelInputController =
+      new TextEditingController();
 
-  TextEditingController userNameHostelInputController = new TextEditingController();
+  TextEditingController userNameHostelInputController =
+      new TextEditingController();
 
-  TextEditingController personalEmailIdHostelInputController = new TextEditingController();
-
+  TextEditingController personalEmailIdHostelInputController =
+      new TextEditingController();
 
   /*
   Validation Check Function
@@ -271,8 +276,8 @@ class _HostelUserState extends State<HostelUser> {
                           confirmPwdInputController.text) {
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
-                            email: collegeEmailIdHostelInputController.text,
-                            password: pwdInputController.text)
+                                email: collegeEmailIdHostelInputController.text,
+                                password: pwdInputController.text)
                             .then((currentUser) {
                           FirebaseFirestore.instance
                               .collection("users")
@@ -281,59 +286,61 @@ class _HostelUserState extends State<HostelUser> {
                             'name': userNameHostelInputController.text
                                 .toUpperCase()
                                 .toUpperCase(),
-                            'role': role
+                            'role': role,
+                            "admin": false,
                           });
 
                           return FirebaseFirestore.instance
                               .collection("hostel Employee")
                               .doc(currentUser.user.uid)
                               .set({
-                            "hostelInChargeID": currentUser.user.uid,
-                            "role": role,
-                            "collegeEmailIdHostel":
-                            collegeEmailIdHostelInputController.text,
-                            "contactNumberHostel":
-                            contactNumberHostelInputController.text,
-                            "designationHostel":
-                            designationHostelInputController.text
-                                .toUpperCase(),
-                            "userNameHostel": userNameHostelInputController
-                                .text
-                                .toUpperCase(),
-                            "personalEmailIdHostel":
-                            personalEmailIdHostelInputController.text,
-                            "empIdHostel": empIdHostelController.text,
-                          })
+                                "hostelInChargeID": currentUser.user.uid,
+                                "role": role,
+                                "collegeEmailIdHostel":
+                                    collegeEmailIdHostelInputController.text,
+                                "contactNumberHostel":
+                                    contactNumberHostelInputController.text,
+                                "designationHostel":
+                                    designationHostelInputController.text
+                                        .toUpperCase(),
+                                "userNameHostel": userNameHostelInputController
+                                    .text
+                                    .toUpperCase(),
+                                "personalEmailIdHostel":
+                                    personalEmailIdHostelInputController.text,
+                                "empIdHostel": empIdHostelController.text,
+                                "admin": false,
+                              })
                               .then((result) => {
-                            sendEmailVerification(),
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Have a snack!'),
-                              ),
-                            ),
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                                    (_) => false),
-                            collegeEmailIdHostelInputController.clear(),
-                            pwdInputController.clear(),
-                            confirmPwdInputController.clear(),
-                            contactNumberHostelInputController.clear(),
-                            designationHostelInputController.clear(),
-                            userNameHostelInputController.clear(),
-                            personalEmailIdHostelInputController
-                                .clear(),
-                            empIdHostelController.clear(),
-                          })
+                                    sendEmailVerification(),
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Have a snack!'),
+                                      ),
+                                    ),
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginPage()),
+                                        (_) => false),
+                                    collegeEmailIdHostelInputController.clear(),
+                                    pwdInputController.clear(),
+                                    confirmPwdInputController.clear(),
+                                    contactNumberHostelInputController.clear(),
+                                    designationHostelInputController.clear(),
+                                    userNameHostelInputController.clear(),
+                                    personalEmailIdHostelInputController
+                                        .clear(),
+                                    empIdHostelController.clear(),
+                                  })
                               .catchError((err) {
-                            print("Test1");
-                            print(err);
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              content: Text(err.message),
-                              duration: Duration(seconds: 3),
-                            ));
-                          });
+                                print("Test1");
+                                print(err);
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text(err.message),
+                                  duration: Duration(seconds: 3),
+                                ));
+                              });
                         }).catchError((err) {
                           print("Test2");
                           print(err);

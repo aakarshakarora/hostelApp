@@ -28,9 +28,10 @@ class _StudentRegisterState extends State<StudentRegister> {
   bool _obscureText1 = true;
   bool _obscureText2 = true;
   bool showSpinner = false;
-  String laundryStatus = 'Active';
-  int cycles = 0;
-  String fare;
+
+  // String laundryStatus = 'Active';
+  // int cycles = 0;
+  // String fare;
 
   final List<String> _occupancyType = [
     'Single',
@@ -52,35 +53,35 @@ class _StudentRegisterState extends State<StudentRegister> {
     'G4',
   ];
 
-  var _cyclePlan = ['30 Cycles', '15 Cycles'];
-
-  String getFare(String type) {
-    String fare;
-    if (type == '30 Cycles') {
-      fare = '7500';
-      return fare;
-    } else if (type == '15 Cycles') {
-      fare = '4200';
-      return fare;
-    } else
-      return null;
-  }
-
-  int getCycle(String type) {
-    if (type == '30 Cycles') {
-      return 30;
-    } else if (type == '15 Cycles') {
-      return 15;
-    } else
-      return 0;
-  }
+  // var _cyclePlan = ['30 Cycles', '15 Cycles'];
+  //
+  // String getFare(String type) {
+  //   String fare;
+  //   if (type == '30 Cycles') {
+  //     fare = '7500';
+  //     return fare;
+  //   } else if (type == '15 Cycles') {
+  //     fare = '4200';
+  //     return fare;
+  //   } else
+  //     return null;
+  // }
+  //
+  // int getCycle(String type) {
+  //   if (type == '30 Cycles') {
+  //     return 30;
+  //   } else if (type == '15 Cycles') {
+  //     return 15;
+  //   } else
+  //     return 0;
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cycles = getCycle(cyclePlan);
-    fare = getFare(cyclePlan);
+    // cycles = getCycle(cyclePlan);
+    // fare = getFare(cyclePlan);
   }
 
   TextEditingController studentEmailIDInputController =
@@ -190,49 +191,50 @@ class _StudentRegisterState extends State<StudentRegister> {
       return 'Field is Required';
     }
   }
-  Widget _buildCycleType() {
-    return Container(
-      child: Row(
-        children: [
-          Text("Select Plan Type:",
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black)),
-          SizedBox(
-            width: 30,
-          ),
-          DropdownButton<String>(
-            hint: Text(
-              'Select',
-              style: TextStyle(color: Colors.black),
-            ),
-            items: _cyclePlan.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    )),
-              );
-            }).toList(),
-            onChanged: (String value) {
-              setState(() {
-                this.cyclePlan = value;
-                cycles = getCycle(cyclePlan);
-                fare = getFare(cyclePlan);
-              });
-            },
-            value: cyclePlan,
-          ),
-        ],
-      ),
-    );
-  }
+
+  // Widget _buildCycleType() {
+  //   return Container(
+  //     child: Row(
+  //       children: [
+  //         Text("Select Plan Type:",
+  //             style: TextStyle(
+  //                 fontFamily: 'Poppins',
+  //                 fontSize: 17,
+  //                 fontWeight: FontWeight.w500,
+  //                 color: Colors.black)),
+  //         SizedBox(
+  //           width: 30,
+  //         ),
+  //         DropdownButton<String>(
+  //           hint: Text(
+  //             'Select',
+  //             style: TextStyle(color: Colors.black),
+  //           ),
+  //           items: _cyclePlan.map((String value) {
+  //             return DropdownMenuItem<String>(
+  //               value: value,
+  //               child: Text(value,
+  //                   style: TextStyle(
+  //                     fontFamily: 'Poppins',
+  //                     fontSize: 14,
+  //                     fontWeight: FontWeight.bold,
+  //                     color: Colors.black,
+  //                   )),
+  //             );
+  //           }).toList(),
+  //           onChanged: (String value) {
+  //             setState(() {
+  //               this.cyclePlan = value;
+  //               cycles = getCycle(cyclePlan);
+  //               fare = getFare(cyclePlan);
+  //             });
+  //           },
+  //           value: cyclePlan,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -576,18 +578,6 @@ class _StudentRegisterState extends State<StudentRegister> {
                 //   ),
                 // ),
 
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        "Laundry Details",
-                        style: darkHeading,
-                      ),
-                      _buildCycleType(),
-
-                    ],
-                  ),
-                ),
                 RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -612,7 +602,8 @@ class _StudentRegisterState extends State<StudentRegister> {
                               .set({
                             'name':
                                 studentNameInputController.text.toUpperCase(),
-                            'role': role
+                            'role': role,
+                            "admin": false,
                           });
 
                           return FirebaseFirestore.instance
@@ -649,10 +640,12 @@ class _StudentRegisterState extends State<StudentRegister> {
                                     studentEmailIDInputController.text,
                                 "studentName": studentNameInputController.text
                                     .toUpperCase(),
-                                "laundryStatus": laundryStatus,
-                                "Plan Type": cyclePlan,
-                                "Fare": fare,
-                                "Cycles": cycles,
+                                "admin": false,
+                                "laundryCheck": false,
+                                // "laundryStatus": laundryStatus,
+                                // "Plan Type": cyclePlan,
+                                // "Fare": fare,
+                                // "Cycles": cycles,
                               })
                               .then((result) => {
                                     sendEmailVerification(),

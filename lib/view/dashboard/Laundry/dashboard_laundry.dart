@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_app/form/Laundry/finishRequest.dart';
-import 'package:hostel_app/form/Laundry/processRequest.dart';
-import 'package:hostel_app/function/Laundry/RecievedRequest.dart';
+import 'package:hostel_app/function/Laundry/finishRequest.dart';
+import 'package:hostel_app/function/Laundry/processRequest.dart';
+import 'package:hostel_app/function/Laundry/recievedRequest.dart';
 import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
 
@@ -19,13 +19,13 @@ class DashboardLaundryInCharge extends StatefulWidget {
       _DashboardLaundryInChargeState();
 }
 
-class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with AutomaticKeepAliveClientMixin {
-
+class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['Received Request', 'On Going Requests','Finished Request'];
+  final titles = ['Received Request', 'On Going Requests', 'Finished Request'];
   final titleIcon = [
     Icon(Icons.today),
     Icon(Icons.update),
@@ -49,16 +49,9 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with
   void initState() {
     // TODO: implement initState
 
-
     super.initState();
     currentUser = getCurrentUser();
-
-
-
   }
-
-
-
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -79,7 +72,7 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with
               width: MediaQuery.of(context).size.width,
               child: SafeArea(
                 child: Padding(
-                  padding:  EdgeInsets.all(5),
+                  padding: EdgeInsets.all(5),
                   child: Column(
                     //mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -95,7 +88,7 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with
                                   signOut();
                                   Navigator.of(context, rootNavigator: true)
                                       .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
+                                          builder: (context) => LoginPage()));
                                 },
                                 icon: Icon(
                                   Icons.exit_to_app,
@@ -148,7 +141,7 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with
                                   child: Center(
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         titleIcon[index],
                                         Text(
@@ -167,21 +160,19 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>with
                                     MaterialPageRoute(
                                         builder: (context) => ManageRequest()),
                                   );
-                                } else if(index==1){
+                                } else if (index == 1) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ProcessRequest()),
                                   );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FinishRequest()),
+                                  );
                                 }
-                                else
-                                  {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => FinishRequest()),
-                                    );
-                                  }
                               },
                             );
                           },
