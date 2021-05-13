@@ -8,8 +8,9 @@ import '../../common/bottomBar/navigationBarStudent.dart';
 
 class LaundryCycles extends StatefulWidget {
   final int cycles;
+  final String name;
 
-  LaundryCycles(this.cycles);
+  LaundryCycles(this.cycles, this.name);
 
   @override
   _LaundryCyclesState createState() => _LaundryCyclesState();
@@ -63,7 +64,7 @@ class _LaundryCyclesState extends State<LaundryCycles> {
           ),
           body: TabBarView(
             children: [
-              AddRequest(widget.cycles),
+              AddRequest(widget.cycles, widget.name),
               PastRequest(),
             ],
           ),
@@ -75,8 +76,9 @@ class _LaundryCyclesState extends State<LaundryCycles> {
 
 class AddRequest extends StatefulWidget {
   final cycles;
+  final name;
 
-  AddRequest(this.cycles);
+  AddRequest(this.cycles, this.name);
 
   @override
   _AddRequestState createState() => _AddRequestState();
@@ -193,7 +195,20 @@ class _AddRequestState extends State<AddRequest> {
 
                   _formKey.currentState.save();
 
-                  FirebaseFirestore.instance.collection('LaundryRequest').add({
+                  setSearchParam(String searchString) {
+                    List<String> searchList = [];
+                    String temp = "";
+                    for (int i = 0; i < searchString.length; i++) {
+                      temp = temp + searchString[i];
+                      searchList.add(temp);
+                    }
+                    return searchList;
+                  }
+
+                  FirebaseFirestore.instance
+                      .collection('LaundryRequestPending')
+                      .add({
+                    "nameSearch": setSearchParam(widget.name),
                     "clothCount": int.parse(customController.text),
                     "studentID": docRef,
                     "status": status,
@@ -237,7 +252,8 @@ class _AddRequestState extends State<AddRequest> {
     });
     return Scaffold(
       floatingActionButton: widget.cycles == null || widget.cycles == 0
-          ? Column(mainAxisAlignment: MainAxisAlignment.end,
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 FloatingActionButton(
@@ -251,7 +267,9 @@ class _AddRequestState extends State<AddRequest> {
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Text("No Cycles Available!!"),
               ],
             )

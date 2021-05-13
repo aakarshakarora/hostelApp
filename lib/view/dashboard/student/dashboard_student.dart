@@ -25,6 +25,7 @@ class DashboardStudent extends StatefulWidget {
 class _DashboardStudentState extends State<DashboardStudent>
     with AutomaticKeepAliveClientMixin {
   int cycles;
+  String name;
 
   @override
   bool get wantKeepAlive => true;
@@ -151,6 +152,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                             ),
                             onTap: () {
                               cycles = data['Cycles'];
+                              name = data['studentName'];
                               if (index == 0) {
                                 Navigator.push(
                                   context,
@@ -174,7 +176,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          LaundryCycles(cycles)),
+                                          LaundryCycles(cycles, name)),
                                 );
                               }
                             },
