@@ -124,67 +124,65 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
                       SizedBox(
                         height: 10,
                       ),
-                      Flexible(
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: titles.length,
-                          itemBuilder: (ctx, index) {
-                            return InkWell(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: titles.length,
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
                                 ),
-                                color: white,
-                                child: Container(
-                                  height: 90,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        titleIcon[index],
-                                        Text(
-                                          titles[index],
-                                          style: darkHeading,
-                                        ),
-                                      ],
-                                    ),
+                              ),
+                              color: white,
+                              child: Container(
+                                height: 90,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      titleIcon[index],
+                                      Text(
+                                        titles[index],
+                                        style: darkHeading,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ManageRequest()),
-                                  );
-                                } else if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProcessRequest()),
-                                  );
-                                } else if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FinishRequest()),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AdminLaundry()),
-                                  );
-                                }
-                              },
-                            );
-                          },
-                        ),
+                            ),
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ManageRequest()),
+                                );
+                              } else if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProcessRequest()),
+                                );
+                              } else if (index == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FinishRequest()),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AdminLaundry()),
+                                );
+                              }
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
