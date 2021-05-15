@@ -61,11 +61,11 @@ class _ManageRequestState extends State<ManageRequest> {
                     child: TextFormField(
                       controller: _searchController,
                       cursorColor: Colors.black,
-                      onChanged: (value) {
-                        setState(() {
-                          name = _searchController.text.toUpperCase();
-                        });
-                      },
+                      // onChanged: (value) {
+                      //   setState(() {
+                      //     name = _searchController.text.toUpperCase();
+                      //   });
+                      // },
                       decoration: kTextFieldDecoration.copyWith(
                         hintText: '',
                         labelText: 'Search Here',
