@@ -134,7 +134,7 @@ class _DashboardMessOperatorState extends State<DashboardMessOperator> with Auto
                               ),
                               color: white,
                               child: Container(
-                                height: 100,
+                                height: MediaQuery.of(context).size.height*0.1,
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
