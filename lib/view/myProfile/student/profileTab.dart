@@ -65,11 +65,38 @@ class _UserDetailState extends State<UserDetail>
                       Row(
                         children: [
                           Text(
-                            "Laundry taken: ",
+                            "Contact Number: ",
                             style: darkSmallTextBold,
                           ),
                           Text(
-                            data['laundryCheck'].toString(),
+                            data['studentContactNumber'],
+                            style: darkSmallText,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Student Email Id: ",
+                            style: darkSmallTextBold,
+                          ),
+                          Text(
+                            data['studentEmailID'],
+                            style: darkSmallText,
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 0.7,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Laundry Services Taken: ",
+                            style: darkSmallTextBold,
+                          ),
+                          Text(
+                            data['laundryCheck'] == true ? 'Yes' : 'No',
                             style: darkSmallText,
                           ),
                         ],
