@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:hostel_app/form/Edit Profile/edit_profile.dart';
 
 //Status: Working Fine
 
@@ -14,8 +15,8 @@ class ProfileHostel extends StatefulWidget {
   _ProfileHostelState createState() => _ProfileHostelState();
 }
 
-class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveClientMixin {
-
+class _ProfileHostelState extends State<ProfileHostel>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -23,7 +24,7 @@ class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveCl
 
   String currentUser;
 
- //Check Current User
+  //Check Current User
   String getCurrentUser() {
     final User user = _auth.currentUser;
     final uid = user.uid;
@@ -40,6 +41,7 @@ class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveCl
     super.initState();
     currentUser = getCurrentUser();
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -112,21 +114,30 @@ class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveCl
                                     Text("Employee ID", style: lightTinyText),
                                   ],
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: peach,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
+                                InkWell(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditProfile(
+                                              accType: 'hostel Employee',
+                                            )),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "EDIT PROFILE",
-                                      style: TextStyle(
-                                          color: peach,
-                                          fontSize: 13,
-                                          fontFamily: 'Poppins'),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: peach,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "EDIT PROFILE",
+                                        style: TextStyle(
+                                            color: peach,
+                                            fontSize: 13,
+                                            fontFamily: 'Poppins'),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -155,24 +166,6 @@ class _ProfileHostelState extends State<ProfileHostel> with AutomaticKeepAliveCl
                                   Text("User Information", style: darkHeading),
                             ),
                             SizedBox(height: 30),
-                            Row(
-                              children: [
-                                Text("Designation: ", style: darkSmallTextBold),
-                                Text(
-                                  data['designationHostel'],
-                                  style: darkSmallText,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text("Employee ID: ", style: darkSmallTextBold),
-                                Text(
-                                  data['empIdHostel'],
-                                  style: darkSmallText,
-                                ),
-                              ],
-                            ),
                             Row(
                               children: [
                                 Text("Contact Number: ",
