@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarLaundry.dart';
 import 'package:hostel_app/theme/theme.dart';
 
-
 import 'package:url_launcher/url_launcher.dart';
 
 class ManageRequest extends StatefulWidget {
@@ -17,12 +16,18 @@ class ManageRequest extends StatefulWidget {
 }
 
 class _ManageRequestState extends State<ManageRequest> {
+  String name = '';
   static String currentStatus = 'Pending';
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _searchController = TextEditingController();
 
   Widget build(BuildContext context) {
+    var firestoreDBSearch = FirebaseFirestore.instance
+        .collection('LaundryRequestPending')
+        .where("nameSearch", arrayContains: name)
+        .snapshots();
     var firestoreDB = FirebaseFirestore.instance
-        .collection('LaundryRequest')
-        .where('status', isEqualTo: currentStatus)
+        .collection('LaundryRequestPending')
         .snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -45,10 +50,57 @@ class _ManageRequestState extends State<ManageRequest> {
               })),
       body: Column(
         children: [
+          Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16),
+                    child: TextFormField(
+                      controller: _searchController,
+                      cursorColor: Colors.black,
+                      // onChanged: (value) {
+                      //   setState(() {
+                      //     name = _searchController.text.toUpperCase();
+                      //   });
+                      // },
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: '',
+                        labelText: 'Search Here',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            print('Search Pressed');
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                name = _searchController.text.toUpperCase();
+                              });
+                            }
+                          },
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Cannot leave this empty!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: Container(
               child: StreamBuilder(
-                stream: firestoreDB,
+                stream: name == '' ? firestoreDB : firestoreDBSearch,
                 builder: (ctx, reqSnapshot) {
                   if (reqSnapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -65,7 +117,7 @@ class _ManageRequestState extends State<ManageRequest> {
                         children: [
                           OrderRequest(
                             request: requestDocs[index],
-                            firestoreDB: firestoreDB,
+                            // firestoreDB: firestoreDB,
                           ),
                           Divider(
                             height: 12,
@@ -85,10 +137,11 @@ class _ManageRequestState extends State<ManageRequest> {
 }
 
 class OrderRequest extends StatefulWidget {
-  OrderRequest({this.request, this.firestoreDB});
+  // OrderRequest({this.request, this.firestoreDB});
+  OrderRequest({this.request});
 
   final dynamic request;
-  final dynamic firestoreDB;
+  // final dynamic firestoreDB;
 
   @override
   _OrderRequestState createState() => _OrderRequestState();
@@ -101,25 +154,25 @@ class _OrderRequestState extends State<OrderRequest> {
 
   void updateDocument() {
     FirebaseFirestore.instance
-        .collection('LaundryRequest')
+        .collection('LaundryRequestPending')
         .doc(widget.request.documentID)
         .update({});
   }
 
   Future<String> createAlertDialog(
       {BuildContext context,
-        String userName,
-        String requestID,
-        String contactNumber,
-        String email,
-        String block,
-        String roomNo,
-        String requestDate,
-        String plan,
-        studentID,
-        clothCount,
-        int cycles,
-        approveStatus}) {
+      String userName,
+      String requestID,
+      String contactNumber,
+      String email,
+      String block,
+      String roomNo,
+      String requestDate,
+      String plan,
+      studentID,
+      clothCount,
+      int cycles,
+      approveStatus}) {
     print(userName);
     print(requestID);
     print(contactNumber);
@@ -129,7 +182,8 @@ class _OrderRequestState extends State<OrderRequest> {
     print(requestDate);
     print(studentID);
     print(clothCount);
-    print(cycles);print(approveStatus);
+    print(cycles);
+    print(approveStatus);
 
     return showDialog(
         context: context,
@@ -219,7 +273,9 @@ class _OrderRequestState extends State<OrderRequest> {
                               fontFamily: 'Poppins',
                               fontSize: 17),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           "*Click on Received if You have Received Laundry Bag",
                           style: TextStyle(
@@ -238,11 +294,12 @@ class _OrderRequestState extends State<OrderRequest> {
                                   cycles--;
 
                                   FirebaseFirestore.instance
-                                      .collection('LaundryRequest')
+                                      .collection('LaundryRequestPending')
                                       .doc(widget.request.documentID)
                                       .update({
                                     "status": approveStatus,
                                   });
+
                                   FirebaseFirestore.instance
                                       .collection('student')
                                       .doc(studentID)
@@ -367,12 +424,12 @@ class CardInput extends StatelessWidget {
 
   CardInput(
       {this.checkBoxState,
-        this.toggleCheckBoxState,
-        this.controller,
-        this.approved,
-        this.approvedButtonState,
-        this.rejectedButtonState,
-        this.remarks});
+      this.toggleCheckBoxState,
+      this.controller,
+      this.approved,
+      this.approvedButtonState,
+      this.rejectedButtonState,
+      this.remarks});
 
   @override
   Widget build(BuildContext context) {

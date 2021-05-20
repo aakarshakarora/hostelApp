@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/function/Laundry/finishRequest.dart';
 import 'package:hostel_app/function/Laundry/processRequest.dart';
 import 'package:hostel_app/function/Laundry/recievedRequest.dart';
+import 'package:hostel_app/function/adminHandle/laundryAdmin/adminLaundry.dart';
 import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
 
@@ -25,11 +26,12 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['Received Request', 'On Going Requests', 'Finished Request'];
+  final titles = ['Received Request', 'On Going Requests', 'Finished Request','Add Students'];
   final titleIcon = [
     Icon(Icons.today),
     Icon(Icons.update),
-    Icon(Icons.assignment)
+    Icon(Icons.assignment),
+    Icon(Icons.person_add_alt_1_rounded)
   ];
 
   String currentUser;
@@ -122,61 +124,65 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
                       SizedBox(
                         height: 10,
                       ),
-                      Flexible(
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: titles.length,
-                          itemBuilder: (ctx, index) {
-                            return InkWell(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: titles.length,
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
                                 ),
-                                color: white,
-                                child: Container(
-                                  height: 90,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        titleIcon[index],
-                                        Text(
-                                          titles[index],
-                                          style: darkHeading,
-                                        ),
-                                      ],
-                                    ),
+                              ),
+                              color: white,
+                              child: Container(
+                                height: 90,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      titleIcon[index],
+                                      Text(
+                                        titles[index],
+                                        style: darkHeading,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ManageRequest()),
-                                  );
-                                } else if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProcessRequest()),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FinishRequest()),
-                                  );
-                                }
-                              },
-                            );
-                          },
-                        ),
+                            ),
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ManageRequest()),
+                                );
+                              } else if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProcessRequest()),
+                                );
+                              } else if (index == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FinishRequest()),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AdminLaundry()),
+                                );
+                              }
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
