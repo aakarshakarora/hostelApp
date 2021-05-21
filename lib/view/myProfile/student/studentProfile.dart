@@ -150,7 +150,7 @@ class _ProfileStudentState extends State<ProfileStudent>
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          EditProfile(accType: 'student')),
+                                          EditProfile(role: data['role'],accType: 'student')),
                                 ),
                                 child: Container(
                                   decoration: BoxDecoration(
