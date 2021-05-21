@@ -26,12 +26,15 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['Received Request', 'On Going Requests', 'Finished Request','Add Students'];
+  final titles = [
+    'Received Request',
+    'On Going Requests',
+    'Finished Request',
+  ];
   final titleIcon = [
     Icon(Icons.today),
     Icon(Icons.update),
     Icon(Icons.assignment),
-    Icon(Icons.person_add_alt_1_rounded)
   ];
 
   String currentUser;
@@ -141,8 +144,7 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
                                 height: 90,
                                 child: Center(
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       titleIcon[index],
                                       Text(
@@ -173,17 +175,38 @@ class _DashboardLaundryInChargeState extends State<DashboardLaundryInCharge>
                                   MaterialPageRoute(
                                       builder: (context) => FinishRequest()),
                                 );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AdminLaundry()),
-                                );
                               }
                             },
                           );
                         },
                       ),
+                      SizedBox(height: 10,),
+                      data['admin'] == true
+                          ? Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: RaisedButton(
+                                padding: const EdgeInsets.all(15),
+                                child: Text(
+                                  'Add Student',
+                                  style:
+                                      darkSmallTextBold.copyWith(fontSize: 12),
+                                ),
+                                color: peach,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AdminLaundry()),
+                                  );
+                                },
+                              ),
+                            )
+                          : Container(
+                              height: 0,
+                            ),
                     ],
                   ),
                 ),
