@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:hostel_app/view/myProfile/profilesettings.dart';
 import 'profileTab.dart';
 
 //Status: Working Fine
@@ -15,9 +16,8 @@ class ProfileStudent extends StatefulWidget {
   _ProfileStudentState createState() => _ProfileStudentState();
 }
 
-class _ProfileStudentState extends State<ProfileStudent> with AutomaticKeepAliveClientMixin<ProfileStudent> {
-
-
+class _ProfileStudentState extends State<ProfileStudent>
+    with AutomaticKeepAliveClientMixin<ProfileStudent> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String currentUser;
@@ -145,19 +145,29 @@ class _ProfileStudentState extends State<ProfileStudent> with AutomaticKeepAlive
                                       style: lightTinyText),
                                 ],
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: peach),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "EDIT PROFILE",
-                                    style: TextStyle(
-                                        color: peach,
-                                        fontSize: 12,
-                                        fontFamily: 'Poppins'),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProfileSettings()),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: peach),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "EDIT PROFILE",
+                                      style: TextStyle(
+                                          color: peach,
+                                          fontSize: 12,
+                                          fontFamily: 'Poppins'),
+                                    ),
                                   ),
                                 ),
                               ),
