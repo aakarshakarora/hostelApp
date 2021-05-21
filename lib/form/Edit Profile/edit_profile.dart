@@ -5,7 +5,10 @@ import 'package:hostel_app/theme/theme.dart';
 
 class EditProfile extends StatefulWidget {
   final String accType;
-  EditProfile({this.accType});
+  final String role;
+
+  EditProfile({this.accType, this.role});
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -497,9 +500,12 @@ class _EditProfileState extends State<EditProfile> {
                                 }),
                           Expanded(child: Container()),
                           Divider(thickness: 0.7),
-                          Text(
-                              'To update Parents details, please contact the administrator.',
-                              style: darkSmallTextBold),
+                          widget.role == 'Student'
+                              ? Text(
+                                  'To update Parents details, please contact the administrator.',
+                                  style: darkSmallTextBold)
+                              : Text(
+                                  'To Update other details, contact the administrator')
                         ],
                       ),
                     ),

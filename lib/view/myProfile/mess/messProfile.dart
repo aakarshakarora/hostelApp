@@ -118,7 +118,7 @@ class _ProfileMessState extends State<ProfileMess>
                                   onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => EditProfile(
+                                        builder: (context) => EditProfile(role: data['role'],
                                             accType: 'hostel Employee')),
                                   ),
                                   child: Container(
