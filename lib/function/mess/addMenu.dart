@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';               
+import 'package:hostel_app/function/mess/addFoodItem.dart';
 import 'package:hostel_app/theme/theme.dart';
 
-//This is the bottomsheet which pops up when the Add menu button '+' is pressed.
 //Status: Working fine
 class AddMenuItem extends StatefulWidget {
 
-  String mealOfDay;
-  AddMenuItem({this.mealOfDay});
+  String mealOfDay;            
+  AddMenuItem({this.mealOfDay});         
 
   @override
   _AddMenuItemState createState() => _AddMenuItemState();
-}
+}                                                                 
 
 class _AddMenuItemState extends State<AddMenuItem> {
   final messController = TextEditingController();
-  @override
+  @override           
   Widget build(BuildContext context) {
     String newFoodTitle;
     return Container(
@@ -27,25 +27,35 @@ class _AddMenuItemState extends State<AddMenuItem> {
             color: Colors.white,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
         ),
-        child: Column(
+        child: Column(    
           children: [
             Text("Add Food Item",
               style: darkHeading,),
             SizedBox(height: 20,),
+
+            // TextFormField --------------------------
             TextFormField(
               controller: messController,
               decoration: kTextFieldDecoration.copyWith(labelText: 'Enter Food Item'),
               // ignore: missing_return
               validator: (String value) {
                 if (value.isEmpty) {
-                  return 'Field is required';
+                  return 'Field is required';       
                 }
               },
               onSaved: (String value) {
                 widget.mealOfDay = value;
               },
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 10.0,),
+            // -----------------------------------
+            
+            // ----- Something New ---------------
+            FoodItemList('Item One', 'Item Two','Item Three'),
+            SizedBox(height: 20.0,),
+            FoodItemList('Item Four', 'Item Five', 'Item Six'),
+            // -----------------------------------
+            SizedBox(height: 10,),                            
             Container(
               decoration: kloginScreenButtonStyle.copyWith(
                   color: peach
@@ -65,6 +75,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                 },
 
               ),
+
             )
           ],
         ),
@@ -72,3 +83,4 @@ class _AddMenuItemState extends State<AddMenuItem> {
     );
   }
 }
+
