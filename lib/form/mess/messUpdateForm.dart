@@ -100,10 +100,11 @@ class Breakfast extends StatelessWidget {
           onPressed: () {
             //showModalBottomSheet(context: context,
             showModalBottomSheet(
-                context: context,
+                context: context,                
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
+                          height: 410, // To increase the height of the bottom sheet    
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
@@ -136,6 +137,7 @@ class Lunch extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
+                          height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
@@ -168,6 +170,7 @@ class HiTea extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
+                          height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
@@ -200,6 +203,7 @@ class Dinner extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
+                          height: 410, 
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
