@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarLaundry.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:search_widget/search_widget.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,12 +23,9 @@ class _ManageRequestState extends State<ManageRequest> {
   TextEditingController _searchController = TextEditingController();
 
   Widget build(BuildContext context) {
-    var firestoreDBSearch = FirebaseFirestore.instance
-        .collection('LaundryRequestPending')
-        .where("nameSearch", arrayContains: name)
-        .snapshots();
     var firestoreDB = FirebaseFirestore.instance
-        .collection('LaundryRequestPending')
+        .collection('LaundryRequest')
+        .where('status', isEqualTo: currentStatus)
         .snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -61,11 +59,6 @@ class _ManageRequestState extends State<ManageRequest> {
                     child: TextFormField(
                       controller: _searchController,
                       cursorColor: Colors.black,
-                      // onChanged: (value) {
-                      //   setState(() {
-                      //     name = _searchController.text.toUpperCase();
-                      //   });
-                      // },
                       decoration: kTextFieldDecoration.copyWith(
                         hintText: '',
                         labelText: 'Search Here',
@@ -100,7 +93,7 @@ class _ManageRequestState extends State<ManageRequest> {
           Expanded(
             child: Container(
               child: StreamBuilder(
-                stream: name == '' ? firestoreDB : firestoreDBSearch,
+                stream: firestoreDB,
                 builder: (ctx, reqSnapshot) {
                   if (reqSnapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -115,6 +108,57 @@ class _ManageRequestState extends State<ManageRequest> {
                     itemBuilder: (ctx, index) {
                       return Column(
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8),
+                            child: SearchWidget<DocumentSnapshot>(
+                              dataList: requestDocs,
+                              hideSearchBoxWhenItemSelected: false,
+                              listContainerHeight:
+                                  MediaQuery.of(context).size.height / 4,
+                              queryBuilder:
+                                  (String query, List<DocumentSnapshot> list) {
+                                return list
+                                    .where((DocumentSnapshot item) => item
+                                        .data()['name']
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase()))
+                                    .toList();
+                              },
+                              popupListItemBuilder: (DocumentSnapshot item) {
+                                return OrderRequest(
+                                  request: item,
+                                );
+                              },
+                              selectedItemBuilder:
+                                  (DocumentSnapshot selectedItem,
+                                      VoidCallback deleteSelectedItem) {
+                                return OrderRequest(
+                                  request: selectedItem,
+                                );
+                              },
+                              // widget customization
+                              noItemsFoundWidget: Container(),
+                              textFieldBuilder:
+                                  (TextEditingController controller,
+                                      FocusNode focusNode) {
+                                controller.text = "Search";
+                                return TextField(
+                                  controller: controller,
+                                  focusNode: focusNode,
+                                  cursorColor: Colors.black,
+                                  decoration: kTextFieldDecoration.copyWith(
+                                    hintText: '',
+                                    labelText: 'Search Here',
+                                    suffixIcon: Icon(
+                                      Icons.search,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                           OrderRequest(
                             request: requestDocs[index],
                             // firestoreDB: firestoreDB,
@@ -154,7 +198,7 @@ class _OrderRequestState extends State<OrderRequest> {
 
   void updateDocument() {
     FirebaseFirestore.instance
-        .collection('LaundryRequestPending')
+        .collection('LaundryRequest')
         .doc(widget.request.documentID)
         .update({});
   }
