@@ -17,6 +17,7 @@ class ManageRequest extends StatefulWidget {
 }
 
 class _ManageRequestState extends State<ManageRequest> {
+  List<DocumentSnapshot> x=[];
   String name = '';
   static String currentStatus = 'Pending';
   final _formKey = GlobalKey<FormState>();
@@ -48,48 +49,48 @@ class _ManageRequestState extends State<ManageRequest> {
               })),
       body: Column(
         children: [
-          Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16),
-                    child: TextFormField(
-                      controller: _searchController,
-                      cursorColor: Colors.black,
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: '',
-                        labelText: 'Search Here',
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            print('Search Pressed');
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                name = _searchController.text.toUpperCase();
-                              });
-                            }
-                          },
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Cannot leave this empty!';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Form(
+          //   key: _formKey,
+          //   child: SingleChildScrollView(
+          //     child: Column(
+          //       children: <Widget>[
+          //         // Padding(
+          //         //   padding: const EdgeInsets.symmetric(
+          //         //       vertical: 8.0, horizontal: 16),
+          //         //   child: TextFormField(
+          //         //     controller: _searchController,
+          //         //     cursorColor: Colors.black,
+          //         //     decoration: kTextFieldDecoration.copyWith(
+          //         //       hintText: '',
+          //         //       labelText: 'Search Here',
+          //         //       suffixIcon: GestureDetector(
+          //         //         onTap: () {
+          //         //           print('Search Pressed');
+          //         //           if (_formKey.currentState.validate()) {
+          //         //             setState(() {
+          //         //               name = _searchController.text.toUpperCase();
+          //         //             });
+          //         //           }
+          //         //         },
+          //         //         child: Icon(
+          //         //           Icons.search,
+          //         //           color: Colors.black,
+          //         //         ),
+          //         //       ),
+          //         //     ),
+          //         //     // The validator receives the text that the user has entered.
+          //         //     validator: (value) {
+          //         //       if (value.isEmpty) {
+          //         //         return 'Cannot leave this empty!';
+          //         //       }
+          //         //       return null;
+          //         //     },
+          //         //   ),
+          //         // ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: Container(
               child: StreamBuilder(
@@ -101,72 +102,25 @@ class _ManageRequestState extends State<ManageRequest> {
                     );
                   }
                   final requestDocs = reqSnapshot.data.documents;
+
+                  x = requestDocs;
                   print('length ${requestDocs.length}');
                   return ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: requestDocs.length,
                     itemBuilder: (ctx, index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8),
-                            child: SearchWidget<DocumentSnapshot>(
-                              dataList: requestDocs,
-                              hideSearchBoxWhenItemSelected: false,
-                              listContainerHeight:
-                                  MediaQuery.of(context).size.height / 4,
-                              queryBuilder:
-                                  (String query, List<DocumentSnapshot> list) {
-                                return list
-                                    .where((DocumentSnapshot item) => item
-                                        .data()['name']
-                                        .toLowerCase()
-                                        .contains(query.toLowerCase()))
-                                    .toList();
-                              },
-                              popupListItemBuilder: (DocumentSnapshot item) {
-                                return OrderRequest(
-                                  request: item,
-                                );
-                              },
-                              selectedItemBuilder:
-                                  (DocumentSnapshot selectedItem,
-                                      VoidCallback deleteSelectedItem) {
-                                return OrderRequest(
-                                  request: selectedItem,
-                                );
-                              },
-                              // widget customization
-                              noItemsFoundWidget: Container(),
-                              textFieldBuilder:
-                                  (TextEditingController controller,
-                                      FocusNode focusNode) {
-                                controller.text = "Search";
-                                return TextField(
-                                  controller: controller,
-                                  focusNode: focusNode,
-                                  cursorColor: Colors.black,
-                                  decoration: kTextFieldDecoration.copyWith(
-                                    hintText: '',
-                                    labelText: 'Search Here',
-                                    suffixIcon: Icon(
-                                      Icons.search,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                );
-                              },
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            OrderRequest(
+                              request: requestDocs[index],
+                              // firestoreDB: firestoreDB,
                             ),
-                          ),
-                          OrderRequest(
-                            request: requestDocs[index],
-                            // firestoreDB: firestoreDB,
-                          ),
-                          Divider(
-                            height: 12,
-                          ),
-                        ],
+                            Divider(
+                              height: 12,
+                            ),
+                          ],
+                        ),
                       );
                     },
                   );
@@ -174,6 +128,7 @@ class _ManageRequestState extends State<ManageRequest> {
               ),
             ),
           ),
+          Test(x),
         ],
       ),
     );
@@ -185,6 +140,7 @@ class OrderRequest extends StatefulWidget {
   OrderRequest({this.request});
 
   final dynamic request;
+
   // final dynamic firestoreDB;
 
   @override
@@ -521,6 +477,67 @@ class CardInput extends StatelessWidget {
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class Test extends StatefulWidget {
+  final dynamic studList;
+
+  Test(this.studList);
+
+  @override
+  _TestState createState() => _TestState();
+}
+
+class _TestState extends State<Test> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: SearchWidget<DocumentSnapshot>(
+          dataList: widget.studList,
+          hideSearchBoxWhenItemSelected: false,
+          listContainerHeight: MediaQuery.of(context).size.width,
+          queryBuilder: (String query, List<DocumentSnapshot> list) {
+            return list
+                .where((DocumentSnapshot item) => item
+                    .data()['name']
+                    .toLowerCase()
+                    .contains(query.toLowerCase()))
+                .toList();
+          },
+          popupListItemBuilder: (DocumentSnapshot item) {
+            return OrderRequest(
+              request: item,
+            );
+          },
+          selectedItemBuilder:
+              (DocumentSnapshot selectedItem, VoidCallback deleteSelectedItem) {
+            return OrderRequest(
+              request: selectedItem,
+            );
+          },
+          noItemsFoundWidget: Container(),
+          textFieldBuilder:
+              (TextEditingController controller, FocusNode focusNode) {
+            controller.text = "";
+            return TextFormField(
+              controller: controller,
+              cursorColor: Colors.black,
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: '',
+                labelText: 'Search Here',
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

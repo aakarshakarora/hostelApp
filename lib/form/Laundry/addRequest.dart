@@ -252,7 +252,6 @@ class _AddRequestState extends State<AddRequest> {
       floatingActionButton: widget.cycles == null || widget.cycles == 0
           ? Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 FloatingActionButton(
                   backgroundColor: const Color(0xff03dac6),
@@ -272,6 +271,7 @@ class _AddRequestState extends State<AddRequest> {
               ],
             )
           : Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FloatingActionButton(
                   backgroundColor: const Color(0xff03dac6),
