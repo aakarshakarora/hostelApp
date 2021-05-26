@@ -3,7 +3,7 @@ import 'package:hostel_app/common/bottomBar/navigationBarMess.dart';
 import 'package:hostel_app/function/mess/FoodItemsList.dart';
 import 'package:hostel_app/function/mess/addMenu.dart';
 import 'package:hostel_app/theme/theme.dart';
-
+import 'package:hostel_app/function/mess/addFoodItem.dart';
 //Status: Working fine.
 //Mess update form: The mess menu is updated from here
 //4 tabs- 1)Breakfast, 2)Lunch, 3)Hi Tea and 4)Dinner
@@ -25,6 +25,9 @@ class _MessUpdateState extends State<MessUpdate> {
     String formatted = formatter.format(now);
     return formatted;
   }
+
+  List<String> _days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  String _selectedDay='Monday'; //Automatically Selected at time of opening page
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,40 @@ class _MessUpdateState extends State<MessUpdate> {
                 );
               },
             ),
+            title: Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor:  Color(0xFF5A86A3),
+              ),
+              child: DropdownButton(
+                  value: _selectedDay,
+                  onChanged: (newchoice){
+                    setState(() {
+                      _selectedDay=newchoice;
+                    });
+                  },
+                  items: _days.map((day) {
+                    return DropdownMenuItem(
+                      child:
+                      Text(day, style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 22  ,color: Colors.white,fontFamily: 'Poppins'
+                      ),),
+                      value: day,
+                    );
+                  }).toList(),
+            ),
+            ),
+            //centerTitle: true,
+            // CHANGE IF NEEDED
+
+
+            // Text(
+            //   'Mess Menu for ' + dateFormatted(),
+            //   style: lightSmallText.copyWith(
+            //       fontWeight: FontWeight.bold, fontSize: 20),
+            // ),
+            // centerTitle: true,
+
+
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
@@ -65,12 +102,7 @@ class _MessUpdateState extends State<MessUpdate> {
                 Tab(text: 'Dinner'),
               ],
             ),
-            title: Text(
-              'Mess Menu for ' + dateFormatted(),
-              style: lightSmallText.copyWith(
-                  fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            centerTitle: true,
+
           ),
           body: TabBarView(
             children: [
@@ -91,7 +123,7 @@ class Breakfast extends StatelessWidget {
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
-
+//what is the use of this ^^
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,10 +136,11 @@ class Breakfast extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                          height: 410, // To increase the height of the bottom sheet    
+                          height: 410, // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddMenuItem(
+
+                          child: AddMenuItem(
                         mealOfDay: 'breakfast',
                       ),
                     )));

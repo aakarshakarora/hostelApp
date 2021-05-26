@@ -48,19 +48,21 @@ class _AddMenuItemState extends State<AddMenuItem> {
               },
             ),
             SizedBox(height: 10.0,),
+
             // -----------------------------------
-            
+
             // ----- Something New ---------------
-            FoodItemList('Item One', 'Item Two','Item Three'),
-            SizedBox(height: 20.0,),
-            FoodItemList('Item Four', 'Item Five', 'Item Six'),
+            FoodItemList(foodItems: ['Item One', 'Item Two','Item Three'],),
+            // SizedBox(height: 20.0,),
+            // FoodItemList('Item Four', 'Item Five', 'Item Six'),
             // -----------------------------------
-            SizedBox(height: 10,),                            
+            SizedBox(height: 10,),
             Container(
-              decoration: kloginScreenButtonStyle.copyWith(
-                  color: peach
-              ),
-              child: FlatButton(
+              decoration: kloginScreenButtonStyle.copyWith(),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0.06*MediaQuery.of(context).size.width),
+                    alignment: Alignment.center),
                 child: Text("Add",
                   style: kbuttonTextStyle,),
                 onPressed: () async {
@@ -73,10 +75,9 @@ class _AddMenuItemState extends State<AddMenuItem> {
 
                   Navigator.pop(context);
                 },
-
               ),
+            ),
 
-            )
           ],
         ),
       ),

@@ -20,6 +20,7 @@ class MessMenu extends StatelessWidget {
     return formatted;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,6 +43,7 @@ class MessMenu extends StatelessWidget {
                 );
               },
             ),
+            title: Text('<DAY PLACEHOLDER>'),
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
@@ -59,11 +61,7 @@ class MessMenu extends StatelessWidget {
                 Tab(text: 'Dinner'),
               ],
             ),
-            title: Text(
-              'Mess Menu for ' + dateFormatted(),
-              style: lightSmallText.copyWith(
-                  fontWeight: FontWeight.bold, fontSize: 20),
-            ),
+
             centerTitle: true,
           ),
           body: TabBarView(
