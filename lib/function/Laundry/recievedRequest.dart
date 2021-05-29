@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarLaundry.dart';
 import 'package:hostel_app/theme/theme.dart';
-import 'package:search_widget/search_widget.dart';
-
-import 'package:url_launcher/url_launcher.dart';
 
 class ManageRequest extends StatefulWidget {
   ManageRequest({Key key, this.title}) : super(key: key);
@@ -18,9 +15,9 @@ class ManageRequest extends StatefulWidget {
 
 class _ManageRequestState extends State<ManageRequest> {
   List<DocumentSnapshot> x = [];
+  List<DocumentSnapshot> searchResult = [];
   String name = '';
   static String currentStatus = 'Pending';
-  final _formKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
 
   Widget build(BuildContext context) {
@@ -62,29 +59,71 @@ class _ManageRequestState extends State<ManageRequest> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Test(x),
+                  padding: const EdgeInsets.all(16),
+                  child: TextField(
+                    controller: _searchController,
+                    cursorColor: Colors.black,
+                    onChanged: searchOperation,
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
+                    decoration: kTextFieldDecoration.copyWith(
+                      hintText: '',
+                      labelText: 'Search Here',
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {});
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: requestDocs.length,
-                    itemBuilder: (ctx, index) {
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            OrderRequest(
-                              request: x[index],
-                              canClick: true,
-                            ),
-                            Divider(
-                              height: 12,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                  child: searchResult.length != 0
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: searchResult.length,
+                          itemBuilder: (ctx, index) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  OrderRequest(
+                                    request: searchResult[index],
+                                    canClick: true,
+                                  ),
+                                  Divider(
+                                    height: 12,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      : _searchController.text == ''
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: requestDocs.length,
+                              itemBuilder: (ctx, index) {
+                                return SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      OrderRequest(
+                                        request: x[index],
+                                        canClick: true,
+                                      ),
+                                      Divider(
+                                        height: 12,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : NoItemsFound(),
                 ),
               ],
             );
@@ -92,6 +131,16 @@ class _ManageRequestState extends State<ManageRequest> {
         ),
       ),
     );
+  }
+
+  void searchOperation(String searchText) {
+    searchResult.clear();
+    for (int i = 0; i < x.length; i++) {
+      String data = x[i]['name'];
+      if (data.toLowerCase().contains(searchText.toLowerCase())) {
+        searchResult.add(x[i]);
+      }
+    }
   }
 }
 
@@ -107,15 +156,6 @@ class OrderRequest extends StatefulWidget {
 
 class _OrderRequestState extends State<OrderRequest> {
   TextEditingController customController = TextEditingController();
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // void updateDocument() {
-  //   FirebaseFirestore.instance
-  //       .collection('LaundryRequest')
-  //       .doc(widget.request.documentID)
-  //       .update({});
-  // }
 
   Future<String> createAlertDialog(
       {BuildContext context,
@@ -144,160 +184,160 @@ class _OrderRequestState extends State<OrderRequest> {
     print(approveStatus);
 
     return showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            insetPadding: EdgeInsets.all(5),
-            backgroundColor: Colors.transparent,
-            child: SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: SingleChildScrollView(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Text(
-                          userName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(5),
+          backgroundColor: Colors.transparent,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: SingleChildScrollView(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Text(
+                        userName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Divider(
+                          height: 3,
+                          color: Colors.black54,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Divider(
-                            height: 3,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        Text(
-                          "Cloth Count: " + clothCount.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Block: " + block + "\t\t\tRoom Number: " + roomNo,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Email ID:\t\t " + email,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Contact Number: \t\t" + contactNumber,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Request ID:\t\t " + requestID,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Request Date: " + requestDate,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Cycles Count left: " + cycles.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        Text(
-                          "Plan Status: " + plan,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "*Click on Received if You have Received Laundry Bag",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              fontSize: 17,
-                              color: Colors.red),
-                        ),
-                        StatefulBuilder(
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            return CardInput(
-                              approvedButtonState: () {
-                                setState(() {
-                                  approveStatus = 'Received';
-                                  cycles--;
+                      ),
+                      Text(
+                        "Cloth Count: " + clothCount.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Block: " + block + "\t\t\tRoom Number: " + roomNo,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Email ID:\t\t " + email,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Contact Number: \t\t" + contactNumber,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Request ID:\t\t " + requestID,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Request Date: " + requestDate,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Cycles Count left: " + cycles.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Plan Status: " + plan,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "*Click on Received if You have Received Laundry Bag",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            fontSize: 17,
+                            color: Colors.red),
+                      ),
+                      StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return CardInput(
+                            approvedButtonState: () {
+                              setState(() {
+                                approveStatus = 'Received';
+                                cycles--;
 
-                                  FirebaseFirestore.instance
-                                      .collection('LaundryRequestPending')
-                                      .doc(widget.request.documentID)
-                                      .update({
-                                    "status": approveStatus,
-                                  });
-
-                                  FirebaseFirestore.instance
-                                      .collection('student')
-                                      .doc(studentID)
-                                      .update({
-                                    "Cycles": cycles,
-                                  });
-
-                                  Navigator.of(context)
-                                      .pop(customController.text.toString());
+                                FirebaseFirestore.instance
+                                    .collection('LaundryRequestPending')
+                                    .doc(widget.request.documentID)
+                                    .update({
+                                  "status": approveStatus,
                                 });
-                              },
-                              rejectedButtonState: () {
-                                setState(() {
-                                  approveStatus = 'Rejected';
 
-                                  FirebaseFirestore.instance
-                                      .collection('LaundryRequest')
-                                      .doc(widget.request.documentID)
-                                      .update({
-                                    "status": approveStatus,
-                                  }).then((value) => Navigator.pop(context));
-
-                                  approveStatus == 'Received'
-                                      ? print('Received!')
-                                      : print('Rejected');
-                                  Navigator.of(context)
-                                      .pop(customController.text.toString());
+                                FirebaseFirestore.instance
+                                    .collection('student')
+                                    .doc(studentID)
+                                    .update({
+                                  "Cycles": cycles,
                                 });
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+
+                                Navigator.of(context)
+                                    .pop(customController.text.toString());
+                              });
+                            },
+                            rejectedButtonState: () {
+                              setState(() {
+                                approveStatus = 'Rejected';
+
+                                FirebaseFirestore.instance
+                                    .collection('LaundryRequest')
+                                    .doc(widget.request.documentID)
+                                    .update({
+                                  "status": approveStatus,
+                                }).then((value) => Navigator.pop(context));
+
+                                approveStatus == 'Received'
+                                    ? print('Received!')
+                                    : print('Rejected');
+                                Navigator.of(context)
+                                    .pop(customController.text.toString());
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -392,7 +432,6 @@ class _OrderRequestState extends State<OrderRequest> {
   }
 }
 
-//
 class CardInput extends StatelessWidget {
   final bool checkBoxState;
   final String remarks;
@@ -457,93 +496,6 @@ class CardInput extends StatelessWidget {
             ],
           )
         ],
-      ),
-    );
-  }
-}
-
-class Test extends StatefulWidget {
-  final List<DocumentSnapshot> studList;
-
-  Test(this.studList);
-
-  @override
-  _TestState createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  DocumentSnapshot _selectedItem;
-
-  @override
-  Widget build(BuildContext context) {
-    print('length ${widget.studList.length}');
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-        child: SearchWidget<DocumentSnapshot>(
-          dataList: widget.studList,
-          hideSearchBoxWhenItemSelected: true,
-          listContainerHeight: MediaQuery.of(context).size.width,
-          queryBuilder: (String query, List<DocumentSnapshot> list) {
-            return list
-                .where((DocumentSnapshot item) => item
-                    .data()['name']
-                    .toLowerCase()
-                    .contains(query.toLowerCase()))
-                .toList();
-          },
-          popupListItemBuilder: (DocumentSnapshot item) {
-            return OrderRequest(
-              request: item,
-              canClick: false,
-            );
-          },
-          selectedItemBuilder:
-              (DocumentSnapshot selectedItem, VoidCallback deleteSelectedItem) {
-            return Column(
-              children: [
-                OrderRequest(
-                  request: selectedItem,
-                  canClick: true,
-                ),
-                GestureDetector(
-                  onTap: deleteSelectedItem,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.delete),
-                  ),
-                ),
-              ],
-            );
-          },
-          noItemsFoundWidget: NoItemsFound(),
-          onItemSelected: (item) {
-            setState(() {
-              _selectedItem = item;
-            });
-          },
-          textFieldBuilder:
-              (TextEditingController controller, FocusNode focusNode) {
-            return TextFormField(
-              controller: controller,
-              focusNode: focusNode,
-              cursorColor: Colors.black,
-              decoration: kTextFieldDecoration.copyWith(
-                hintText: '',
-                labelText: 'Search Here',
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }
