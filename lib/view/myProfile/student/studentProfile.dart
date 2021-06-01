@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/view/myProfile/profilesettings.dart';
 import 'profileTab.dart';
+import 'package:hostel_app/form/Edit Profile/edit_profile.dart';
 
 //Status: Working Fine
 
@@ -146,6 +147,7 @@ class _ProfileStudentState extends State<ProfileStudent>
                                 ],
                               ),
                               InkWell(
+
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -154,6 +156,14 @@ class _ProfileStudentState extends State<ProfileStudent>
                                             ProfileSettings()),
                                   );
                                 },
+
+//                                 onTap: () => Navigator.push(
+//                                   context,
+//                                   MaterialPageRoute(
+//                                       builder: (context) =>
+//                                           EditProfile(role: data['role'],accType: 'student')),
+//                                 ),
+
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(color: peach),

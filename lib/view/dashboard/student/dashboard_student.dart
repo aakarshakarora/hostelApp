@@ -29,6 +29,7 @@ class DashboardStudent extends StatefulWidget {
 class _DashboardStudentState extends State<DashboardStudent>
     with AutomaticKeepAliveClientMixin {
   int cycles;
+  String name;
 
   @override
   bool get wantKeepAlive => true;
@@ -336,6 +337,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                                   ],
                                 ),
                               ),
+
                               SizedBox(
                                 width: 10,
                               ),
@@ -375,6 +377,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                               ), */
                               InkWell(
                                 onTap: () => Navigator.push(
+
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => RoomTypes()),
@@ -427,6 +430,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
+
                                       builder: (context) => OutpassStatus()),
                                 ),
                                 child: Column(
@@ -457,6 +461,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                                     ),
                                   ],
                                 ),
+
                               ),
                               SizedBox(
                                 width: 10,
@@ -551,7 +556,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        LaundryCycles(cycles)),
+                                       LaundryCycles(cycles, name)),
                               );
                             },
                             child: Column(

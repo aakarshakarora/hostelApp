@@ -38,6 +38,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           _emailSent = true;
           _emailExists = true;
         });
+        final snackBar = SnackBar(
+          content: Container(
+            height: 80,
+            child: Text(
+                'Password recovery mail has been sent to your email id.',
+                style: lightSmallText.copyWith(fontWeight: FontWeight.bold)),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
     } catch (error) {
       print(error);
@@ -47,6 +56,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         _isLoading = false;
         _emailSent = false;
       });
+      final snackBar = SnackBar(
+        content: Container(
+          height: 80,
+          child: Text('Sorry. This email id is not registered with us.',
+              style: lightSmallText.copyWith(fontWeight: FontWeight.bold)),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -81,7 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             child: Column(
               children: [
                 Text(
-                  'Please enter your registered email id.',
+                  'Enter your registered email id :',
                   style: darkSmallTextBold,
                 ),
                 SizedBox(
@@ -118,17 +135,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(
                   height: 20,
                 ),
-                if (!_emailExists)
-                  Text(
-                    'This email id is not registered with us.',
-                    style: darkSmallTextBold,
-                  ),
+                // if (!_emailExists)
+                //   Text(
+                //     'This email id is not registered with us.',
+                //     style: darkSmallTextBold,
+                //   ),
                 if (_isLoading) CircularProgressIndicator(),
-                if (_emailSent)
-                  Text(
-                    'An email has been sent to your registered email id.',
-                    style: darkSmallTextBold,
-                  ),
+                // if (_emailSent)
+                //   Text(
+                //     'An email has been sent to your registered email id.',
+                //     style: darkSmallTextBold,
+                //   ),
               ],
             ),
           ),
