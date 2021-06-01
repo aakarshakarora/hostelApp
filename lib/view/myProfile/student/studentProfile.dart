@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
+import 'package:hostel_app/view/myProfile/profilesettings.dart';
 import 'profileTab.dart';
 import 'package:hostel_app/form/Edit Profile/edit_profile.dart';
 
@@ -146,12 +147,23 @@ class _ProfileStudentState extends State<ProfileStudent>
                                 ],
                               ),
                               InkWell(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProfile(role: data['role'],accType: 'student')),
-                                ),
+
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProfileSettings()),
+                                  );
+                                },
+
+//                                 onTap: () => Navigator.push(
+//                                   context,
+//                                   MaterialPageRoute(
+//                                       builder: (context) =>
+//                                           EditProfile(role: data['role'],accType: 'student')),
+//                                 ),
+
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(color: peach),
