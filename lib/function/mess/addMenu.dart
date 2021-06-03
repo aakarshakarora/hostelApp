@@ -197,7 +197,13 @@ class _AddMenuItemState extends State<AddMenuItem> {
                     widget.mealOfDay:
                         FieldValue.arrayUnion([messController.text])
                   });
-
+                  print(widget.mealOfDay == 'breakfast'
+                      ? _brekfastSelected
+                      : widget.mealOfDay == 'lunch'
+                      ? _lunchSelected
+                      : widget.mealOfDay == 'hiTea'
+                      ? _hiTeaSelected
+                      : _dinnerSelected);
                   Navigator.pop(context);
                 },
               ),

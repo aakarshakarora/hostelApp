@@ -11,7 +11,6 @@ class FoodItemList extends StatefulWidget {
 }
 
 class _FoodItemListState extends State<FoodItemList> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +26,7 @@ class _FoodItemListState extends State<FoodItemList> {
         thickness: 5,
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3),
+              crossAxisCount: 2),
           physics: AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.foodItems.length,
