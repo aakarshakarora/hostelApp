@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,92 +15,54 @@ class AddMenuItem extends StatefulWidget {
 }
 
 class _AddMenuItemState extends State<AddMenuItem> {
+  final _firestore = FirebaseFirestore.instance;
   final messController = TextEditingController();
   List<String> _brekfastSelected;
   List<String> _lunchSelected;
   List<String> _hiTeaSelected;
   List<String> _dinnerSelected;
-  List<String> breakfastSuggestion = [
-    "Tea",
-    "Coffee",
-    "Hot Milk",
-    "Pav Bhaji",
-    "Dosa",
-    "Idli",
-    "Vada",
-    "Utpam",
-    "Upma",
-    "Sambhar",
-    "Poha",
-    "Pasta",
-    "Noodles",
-    "Allo Prantha",
-    "Curd",
-    "Tomato Chutney",
-    "Chole Bhature",
-    "Poori Bhaji",
-    "Bread",
-    "Jam",
-    "Butter",
-    "Fruits",
-    "Egg"
-  ];
-  List<String> lunchSuggestion = [
-    "Rice",
-    "Chapati",
-    "Kofta",
-    "Papad",
-    "Fryums",
-    "Lassi",
-    "Pickle",
-    "Green Salad",
-    "Aloo Ki Sabzi",
-    "Bhindi do Pyaaz",
-    "Rajma",
-    "Kadi Pakoda",
-    "Pindi Chole",
-    "Black Chana",
-    "Chawli Masala",
-    "Dal Fry",
-    "Toor Dal",
-    "Dal Mysore",
-    "Soya Chap",
-    "Mix Veg"
-  ];
-  List<String> hiTeaSuggestion = [
-    "Tea",
-    "Coffee",
-    "Samosa",
-    "Allo Onion Kachori",
-    "Paani-Puri",
-    "Pizza",
-    "Pasta",
-    "Noodles",
-    "Veg Puff",
-    "Bhel",
-    "Dhokha",
-    "Aloo Bhonda",
-    "Vada Pav",
-    "Fried Idli",
-    "Daal Kachori",
-    "Doughnut",
-    "Allo Tikki",
-    "Maggi",
-    "Potato Veg",
-    "Veg Sandwich",
-    "Mix Veg Pakoda"
-  ];
-  List<String> dinnerSuggestion = [
-    "Kadai paneer",
-    "Paneer",
-    "Malai Kofta",
-    "Rajma",
-    "Chapati",
-    "Custard",
-    "Gulab Jamun",
-    "Shahi Bread",
-    "Fried Rice"
-  ];
+
+  Future<Suggestion> getSuggestions() async {
+    List<String> breakfastSuggestion = [];
+    List<String> lunchSuggestion = [];
+    List<String> hiTeaSuggestion = [];
+    List<String> dinnerSuggestion = [];
+
+    Suggestion suggestion = Suggestion();
+    await _firestore
+        .collection('messMenu')
+        .doc('EzkkLnYtQPbSDLxMToZm')
+        .collection('MessMenu')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((doc) {
+        print(doc.id);
+        if (doc.id == 'BreakfastSuggestion') {
+          breakfastSuggestion = (doc['BreakfastMenu'] as List)
+              ?.map((item) => item as String)
+              ?.toList();
+          suggestion.breakfastSuggestion = breakfastSuggestion;
+        } else if (doc.id == 'LunchSuggestion') {
+          lunchSuggestion = (doc['LunchMenu'] as List)
+              ?.map((item) => item as String)
+              ?.toList();
+          suggestion.lunchSuggestion = lunchSuggestion;
+        } else if (doc.id == 'Hi-TeaSuggestion') {
+          hiTeaSuggestion = (doc['Hi-TeaMenu'] as List)
+              ?.map((item) => item as String)
+              ?.toList();
+          suggestion.hiTeaSuggestion = hiTeaSuggestion;
+        } else if (doc.id == 'DinnerSuggestion') {
+          dinnerSuggestion = (doc['DinnerMenu'] as List)
+              ?.map((item) => item as String)
+              ?.toList();
+          suggestion.dinnerSuggestion = dinnerSuggestion;
+        }
+      });
+    });
+
+    return suggestion;
+  }
 
   // List<DocumentSnapshot> getBreakfastData(){
   //   FirebaseFirestore.instance.collection('messMenu').get().then((querySnapshot) {
@@ -162,21 +122,37 @@ class _AddMenuItemState extends State<AddMenuItem> {
             // -----------------------------------
 
             // ----- Something New ---------------
-            FoodItemList(
-                foodItems: widget.mealOfDay == 'breakfast'
-                    ? breakfastSuggestion
-                    : widget.mealOfDay == 'lunch'
-                        ? lunchSuggestion
-                        : widget.mealOfDay == 'hiTea'
-                            ? hiTeaSuggestion
-                            : dinnerSuggestion,
-            foodItemsSelected:widget.mealOfDay == 'breakfast'
-                ? _brekfastSelected
-                : widget.mealOfDay == 'lunch'
-                ? _lunchSelected
-                : widget.mealOfDay == 'hiTea'
-                ? _hiTeaSelected
-                : _dinnerSelected, ),
+            FutureBuilder<Suggestion>(
+              future: getSuggestions(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<Suggestion> snapshot) {
+                if (!snapshot.hasData) {
+                  // while data is loading:
+                  return CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
+                  );
+                } else {
+                  Suggestion suggestion = snapshot.data;
+                  print(suggestion);
+                  return FoodItemList(
+                    foodItems: widget.mealOfDay == 'breakfast'
+                        ? suggestion.breakfastSuggestion
+                        : widget.mealOfDay == 'lunch'
+                            ? suggestion.lunchSuggestion
+                            : widget.mealOfDay == 'hiTea'
+                                ? suggestion.hiTeaSuggestion
+                                : suggestion.dinnerSuggestion,
+                    foodItemsSelected: widget.mealOfDay == 'breakfast'
+                        ? _brekfastSelected
+                        : widget.mealOfDay == 'lunch'
+                            ? _lunchSelected
+                            : widget.mealOfDay == 'hiTea'
+                                ? _hiTeaSelected
+                                : _dinnerSelected,
+                  );
+                }
+              },
+            ),
             SizedBox(
               height: 10,
             ),
@@ -200,10 +176,10 @@ class _AddMenuItemState extends State<AddMenuItem> {
                   print(widget.mealOfDay == 'breakfast'
                       ? _brekfastSelected
                       : widget.mealOfDay == 'lunch'
-                      ? _lunchSelected
-                      : widget.mealOfDay == 'hiTea'
-                      ? _hiTeaSelected
-                      : _dinnerSelected);
+                          ? _lunchSelected
+                          : widget.mealOfDay == 'hiTea'
+                              ? _hiTeaSelected
+                              : _dinnerSelected);
                   Navigator.pop(context);
                 },
               ),
@@ -213,4 +189,12 @@ class _AddMenuItemState extends State<AddMenuItem> {
       ),
     );
   }
+}
+
+class Suggestion {
+  List<String> breakfastSuggestion;
+  List<String> lunchSuggestion;
+  List<String> hiTeaSuggestion;
+  List<String> dinnerSuggestion;
+  Suggestion();
 }
