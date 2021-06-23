@@ -290,8 +290,9 @@ class _OrderRequestState extends State<OrderRequest> {
                                 approveStatus = 'Received';
                                 cycles--;
 
+                                print("Approved");
                                 FirebaseFirestore.instance
-                                    .collection('LaundryRequestPending')
+                                    .collection('LaundryRequest')
                                     .doc(widget.request.documentID)
                                     .update({
                                   "status": approveStatus,
