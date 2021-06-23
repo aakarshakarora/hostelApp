@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarLaundry.dart';
 import 'package:hostel_app/theme/theme.dart';
 
-
 class ProcessRequest extends StatefulWidget {
   ProcessRequest({Key key, this.title}) : super(key: key);
 
@@ -30,8 +29,7 @@ class _ProcessRequestState extends State<ProcessRequest> {
             style: TextStyle(
                 fontSize: 20,
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold
-            ),
+                fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           leading: IconButton(
@@ -105,18 +103,35 @@ class _OrderRequestState extends State<OrderRequest> {
         .update({});
   }
 
-  TextEditingController shirt = new TextEditingController();
-  TextEditingController trouser = new TextEditingController();
-  TextEditingController handkerchief = new TextEditingController();
-  TextEditingController socks = new TextEditingController();
-  TextEditingController bedSheet = new TextEditingController();
-  TextEditingController pillowCover = new TextEditingController();
-  TextEditingController upperInnerWear = new TextEditingController();
-  TextEditingController lowerInnerWear = new TextEditingController();
-  TextEditingController towel = new TextEditingController();
-  TextEditingController handTowel = new TextEditingController();
-  TextEditingController remarks = new TextEditingController();
-  TextEditingController miscellaneous = new TextEditingController();
+  TextEditingController shirt = new TextEditingController()..text = "";
+  TextEditingController trouser = new TextEditingController()..text = "";
+  TextEditingController handkerchief = new TextEditingController()..text = "";
+  TextEditingController socks = new TextEditingController()..text = "";
+  TextEditingController bedSheet = new TextEditingController()..text = "";
+  TextEditingController pillowCover = new TextEditingController()..text = "";
+  TextEditingController upperInnerWear = new TextEditingController()..text = "";
+  TextEditingController lowerInnerWear = new TextEditingController()..text = "";
+  TextEditingController towel = new TextEditingController()..text = "";
+  TextEditingController handTowel = new TextEditingController()..text = "";
+  TextEditingController remarks = new TextEditingController()..text = "";
+  TextEditingController miscellaneous = new TextEditingController()..text = "";
+
+  @override
+  void initState() {
+    shirt = new TextEditingController()..text = "";
+    trouser = new TextEditingController()..text = "";
+    handkerchief = new TextEditingController()..text = "";
+    socks = new TextEditingController()..text = "";
+    bedSheet = new TextEditingController()..text = "";
+    pillowCover = new TextEditingController()..text = "";
+    upperInnerWear = new TextEditingController()..text = "";
+    lowerInnerWear = new TextEditingController()..text = "";
+    towel = new TextEditingController()..text = "";
+    handTowel = new TextEditingController()..text = "";
+    remarks = new TextEditingController()..text = "";
+    miscellaneous = new TextEditingController()..text = "";
+    super.initState();
+  }
 
   Future<String> createAlertDialog({
     BuildContext context,
@@ -140,7 +155,7 @@ class _OrderRequestState extends State<OrderRequest> {
             backgroundColor: Colors.transparent,
             child: SingleChildScrollView(
               child: Container(
-                width: MediaQuery.of(context).size.width*0.9,
+                width: MediaQuery.of(context).size.width * 0.9,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -151,12 +166,13 @@ class _OrderRequestState extends State<OrderRequest> {
                   child: Container(
                     child: Column(
                       children: [
-                        Text("Enter Cloth Count",
+                        Text(
+                          "Enter Cloth Count",
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 20,
-                              fontWeight: FontWeight.bold
-                          ),),
+                              fontWeight: FontWeight.bold),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(
@@ -170,8 +186,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: shirt,
@@ -182,8 +197,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: trouser,
@@ -194,8 +208,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: handkerchief,
@@ -206,8 +219,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: socks,
@@ -218,8 +230,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: towel,
@@ -230,8 +241,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: handTowel,
@@ -242,8 +252,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: bedSheet,
@@ -254,8 +263,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: pillowCover,
@@ -266,8 +274,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: upperInnerWear,
@@ -278,8 +285,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: lowerInnerWear,
@@ -290,8 +296,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.phone,
                           controller: miscellaneous,
@@ -302,8 +307,7 @@ class _OrderRequestState extends State<OrderRequest> {
                               labelStyle: TextStyle(
                                 fontSize: 17,
                                 fontFamily: 'Poppins',
-                              )
-                          ),
+                              )),
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.text,
                           controller: remarks,
@@ -321,16 +325,43 @@ class _OrderRequestState extends State<OrderRequest> {
                                       .doc(widget.request.documentID)
                                       .update({
                                     "status": approveStatus,
-                                    "shirt":shirt.text,
-                                    "trouser":trouser.text,
-                                    "handkerchief":handkerchief.text,
-                                    "socks":socks.text,
-                                    "bedSheet":bedSheet.text,
-                                    "pillowCover":pillowCover.text,
-                                    "upperIW":upperInnerWear.text,
-                                    "lowerIW":lowerInnerWear.text,
-                                    "miscellaneous":miscellaneous.text,
-                                    "remarks":remarks.text,
+                                    "shirt": shirt.text,
+                                    "trouser": trouser.text,
+                                    "handkerchief": handkerchief.text,
+                                    "socks": socks.text,
+                                    "bedSheet": bedSheet.text,
+                                    "pillowCover": pillowCover.text,
+                                    "upperIW": upperInnerWear.text,
+                                    "lowerIW": lowerInnerWear.text,
+                                    "miscellaneous": miscellaneous.text,
+                                    "remarks": remarks.text,
+                                  });
+
+                                  setState(() {
+                                    shirt = new TextEditingController()
+                                      ..text = "";
+                                    trouser = new TextEditingController()
+                                      ..text = "";
+                                    handkerchief = new TextEditingController()
+                                      ..text = "";
+                                    socks = new TextEditingController()
+                                      ..text = "";
+                                    bedSheet = new TextEditingController()
+                                      ..text = "";
+                                    pillowCover = new TextEditingController()
+                                      ..text = "";
+                                    upperInnerWear = new TextEditingController()
+                                      ..text = "";
+                                    lowerInnerWear = new TextEditingController()
+                                      ..text = "";
+                                    towel = new TextEditingController()
+                                      ..text = "";
+                                    handTowel = new TextEditingController()
+                                      ..text = "";
+                                    remarks = new TextEditingController()
+                                      ..text = "";
+                                    miscellaneous = new TextEditingController()
+                                      ..text = "";
                                   });
 
                                   Navigator.of(context)
@@ -396,26 +427,20 @@ class _OrderRequestState extends State<OrderRequest> {
                   style: TextStyle(
                       fontSize: 20,
                       fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   (widget.request.get('requestDate') as Timestamp)
                       .toDate()
                       .toString(),
                   style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontFamily: 'Poppins'
-                  ),
+                      fontWeight: FontWeight.w300, fontFamily: 'Poppins'),
                 ),
               ],
             ),
             subtitle: Text(
               "Request ID: ${widget.request.documentID}",
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16
-              ),
+              style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
             ),
 //            trailing: CircleAvatar(
 //                radius: 5.0,
@@ -437,12 +462,12 @@ class CardInput extends StatelessWidget {
 
   CardInput(
       {this.checkBoxState,
-        this.toggleCheckBoxState,
-        this.controller,
-        this.approved,
-        this.approvedButtonState,
-        this.rejectedButtonState,
-        this.remarks});
+      this.toggleCheckBoxState,
+      this.controller,
+      this.approved,
+      this.approvedButtonState,
+      this.rejectedButtonState,
+      this.remarks});
 
   @override
   Widget build(BuildContext context) {
@@ -453,7 +478,6 @@ class CardInput extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-
               Container(
                 margin: EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
@@ -467,8 +491,7 @@ class CardInput extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Poppins',
-                          color: Colors.white
-                      ),
+                          color: Colors.white),
                     ),
                     onPressed: approvedButtonState),
               )
