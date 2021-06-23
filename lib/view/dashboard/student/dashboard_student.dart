@@ -10,7 +10,7 @@ import 'package:hostel_app/view/dashboard/student/outpass_status.dart';
 import 'package:hostel_app/view/dashboard/student/roomStatus.dart';
 import 'package:hostel_app/view/dashboard/student/roomTypes.dart';
 import 'package:hostel_app/view/dashboard/student/daypass_status.dart';
-import 'package:intl/intl.dart';
+
 import 'dart:ui' as ui;
 
 import 'package:url_launcher/url_launcher.dart';
@@ -28,9 +28,6 @@ class DashboardStudent extends StatefulWidget {
 
 class _DashboardStudentState extends State<DashboardStudent>
     with AutomaticKeepAliveClientMixin {
-  int cycles;
-  String name;
-
   @override
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -250,7 +247,7 @@ class _DashboardStudentState extends State<DashboardStudent>
                           child: Text(
                             'Welcome ${data['studentName']}',
                             style: lightHeading,
-                          ), 
+                          ),
                         ),
                         Divider(
                           thickness: 0.7,
@@ -337,7 +334,6 @@ class _DashboardStudentState extends State<DashboardStudent>
                                   ],
                                 ),
                               ),
-
                               SizedBox(
                                 width: 10,
                               ),
@@ -371,13 +367,12 @@ class _DashboardStudentState extends State<DashboardStudent>
                                     ),
                                   ],
                                 ),
-                              ), 
+                              ),
                               SizedBox(
                                 width: 10,
                               ), */
                               InkWell(
                                 onTap: () => Navigator.push(
-
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => RoomTypes()),
@@ -430,7 +425,6 @@ class _DashboardStudentState extends State<DashboardStudent>
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-
                                       builder: (context) => OutpassStatus()),
                                 ),
                                 child: Column(
@@ -461,7 +455,6 @@ class _DashboardStudentState extends State<DashboardStudent>
                                     ),
                                   ],
                                 ),
-
                               ),
                               SizedBox(
                                 width: 10,
@@ -555,8 +548,8 @@ class _DashboardStudentState extends State<DashboardStudent>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                       LaundryCycles(cycles, name)),
+                                    builder: (context) => LaundryCycles(
+                                        data['Cycles'], data['studentName'])),
                               );
                             },
                             child: Column(

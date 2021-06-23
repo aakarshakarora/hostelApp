@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController confirmPwdInputController = new TextEditingController();
 
   TextEditingController studentContactNumberInputController =
-      new TextEditingController();
+  new TextEditingController();
 
   bool passwordCollapsed = true;
   bool contactnumCollapsed = true;
@@ -106,7 +106,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     print(widget.accType);
     DocumentReference docRef =
-        FirebaseFirestore.instance.collection('student').doc(studentID);
+    FirebaseFirestore.instance.collection('student').doc(studentID);
     setState(() {
       print(docRef.toString());
     });
@@ -268,7 +268,7 @@ class _EditProfileState extends State<EditProfile> {
                                   onPressed: () {
                                     setState(() {
                                       contactnumCollapsed =
-                                          !contactnumCollapsed;
+                                      !contactnumCollapsed;
                                     });
                                   },
                                   icon: contactnumCollapsed == true
@@ -341,9 +341,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Contact number has been updated successfully.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -358,9 +358,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Something went wrong. Try again.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -389,9 +389,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Contact number has been updated successfully.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -405,9 +405,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Something went wrong. Try again.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -419,12 +419,12 @@ class _EditProfileState extends State<EditProfile> {
                                         newPassword1 != '' &&
                                         newPassword2 != '') {
                                       AuthCredential credential =
-                                          EmailAuthProvider.credential(
-                                              email: studentEmail,
-                                              password: oldPassword);
+                                      EmailAuthProvider.credential(
+                                          email: studentEmail,
+                                          password: oldPassword);
                                       userCred
                                           .reauthenticateWithCredential(
-                                              credential)
+                                          credential)
                                           .then((value) {
                                         setState(() {
                                           authFail = false;
@@ -447,9 +447,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Password has been changed successfully.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -467,9 +467,9 @@ class _EditProfileState extends State<EditProfile> {
                                               child: Text(
                                                   'Password update failed. Try again.',
                                                   style:
-                                                      lightSmallText.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  lightSmallText.copyWith(
+                                                      fontWeight:
+                                                      FontWeight.bold)),
                                             ),
                                           );
                                           ScaffoldMessenger.of(context)
@@ -489,7 +489,7 @@ class _EditProfileState extends State<EditProfile> {
                                                 'Old password does not match. Try again.',
                                                 style: lightSmallText.copyWith(
                                                     fontWeight:
-                                                        FontWeight.bold)),
+                                                    FontWeight.bold)),
                                           ),
                                         );
                                         ScaffoldMessenger.of(context)
@@ -502,10 +502,10 @@ class _EditProfileState extends State<EditProfile> {
                           Divider(thickness: 0.7),
                           widget.role == 'Student'
                               ? Text(
-                                  'To update Parents details, please contact the administrator.',
-                                  style: darkSmallTextBold)
+                              'To update Parents details, please contact the administrator.',
+                              style: darkSmallTextBold)
                               : Text(
-                                  'To Update other details, contact the administrator')
+                              'To Update other details, contact the administrator')
                         ],
                       ),
                     ),

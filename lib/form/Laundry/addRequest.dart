@@ -205,10 +205,8 @@ class _AddRequestState extends State<AddRequest> {
                     return searchList;
                   }
 
-                  FirebaseFirestore.instance
-                      .collection('LaundryRequestPending')
-                      .add({
-                    "nameSearch": setSearchParam(widget.name),
+                  FirebaseFirestore.instance.collection('LaundryRequest').add({
+                    "name": widget.name,
                     "clothCount": int.parse(customController.text),
                     "studentID": docRef,
                     "status": status,
@@ -246,46 +244,46 @@ class _AddRequestState extends State<AddRequest> {
   @override
   Widget build(BuildContext context) {
     DocumentReference docRef =
-        FirebaseFirestore.instance.collection('student').doc(studentID);
+    FirebaseFirestore.instance.collection('student').doc(studentID);
     setState(() {
       print(docRef.toString());
     });
     return Scaffold(
       floatingActionButton: widget.cycles == null || widget.cycles == 0
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  backgroundColor: const Color(0xff03dac6),
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  child: Icon(
-                    Icons.clear,
-                    color: Colors.red,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text("No Cycles Available!!"),
-              ],
-            )
-          : Column(
-              children: [
-                FloatingActionButton(
-                  backgroundColor: const Color(0xff03dac6),
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    createAlertDialog(context, docRef);
-                    // Respond to button press
-                  },
-                  child: Icon(Icons.add),
-                ),
-              ],
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: const Color(0xff03dac6),
+            foregroundColor: Colors.black,
+            onPressed: () {
+              // Respond to button press
+            },
+            child: Icon(
+              Icons.clear,
+              color: Colors.red,
             ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text("No Cycles Available!!"),
+        ],
+      )
+          : Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: const Color(0xff03dac6),
+            foregroundColor: Colors.black,
+            onPressed: () {
+              createAlertDialog(context, docRef);
+              // Respond to button press
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
+      ),
       body: Container(
         child: StreamBuilder(
           stream: firestoreDB,
@@ -328,7 +326,7 @@ class _RequestCardState extends State<RequestCard> {
     final clothCount = widget.reqDoc.get("clothCount");
     final status = widget.reqDoc.get("status");
     final requestDate =
-        (widget.reqDoc.get('requestDate') as Timestamp).toDate().toString();
+    (widget.reqDoc.get('requestDate') as Timestamp).toDate().toString();
     final requestId = widget.reqDoc.id;
     return Padding(
       padding: EdgeInsets.all(10),
@@ -422,7 +420,7 @@ class _PastRequestState extends State<PastRequest> {
   @override
   Widget build(BuildContext context) {
     DocumentReference docRef =
-        FirebaseFirestore.instance.collection('student').doc(studentID);
+    FirebaseFirestore.instance.collection('student').doc(studentID);
     setState(() {
       print(docRef.toString());
     });
