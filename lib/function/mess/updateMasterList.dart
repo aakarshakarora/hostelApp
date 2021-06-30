@@ -4,20 +4,20 @@ import 'package:hostel_app/function/mess/FoodItemsList.dart';
 import 'package:hostel_app/function/mess/addMenu.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/function/mess/addFoodItem.dart';
-//Status: Working fine.
-//Mess update form: The mess menu is updated from here
-//7 dropdown options(days of week) x 4 tabs- 1)Breakfast, 2)Lunch, 3)Hi Tea and 4)Dinner
+//WIP
+//Page for mess manager to update master food list for each mealofday
+
+//TODO: Currently linked to foodlist for students. Must be linked to overall list off food items mealwise provided in firebase
 import 'package:intl/intl.dart';
 
-class MessUpdate extends StatefulWidget {
+class updateMasterList extends StatefulWidget {
   @override
-  _MessUpdateState createState() => _MessUpdateState();
+  _updateMasterListState createState() => _updateMasterListState();
 }
 
-class _MessUpdateState extends State<MessUpdate> {
+class _updateMasterListState extends State<updateMasterList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  //Displays the current date for the mess, is displayed in the Appbar
   String dateFormatted() {
     var now = DateTime.now();
 
@@ -25,10 +25,7 @@ class _MessUpdateState extends State<MessUpdate> {
     String formatted = formatter.format(now);
     return formatted;
   }
-
-  List<String> _days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  String _selectedDay='Monday'; //Automatically Selected at time of opening page
-
+//can be used for new widget to show when was menu last updated
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,29 +48,11 @@ class _MessUpdateState extends State<MessUpdate> {
                 );
               },
             ),
-            title: Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor:  Color(0xFF5A86A3),
-              ),
-              child: DropdownButton(
-                  value: _selectedDay,
-                  onChanged: (newchoice){
-                    setState(() {
-                      _selectedDay=newchoice;
-                    });
-                  },
-                  items: _days.map((day) {
-                    return DropdownMenuItem(
-                      child:
-                      Text(day, style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 22  ,color: Colors.white,fontFamily: 'Poppins'
-                      ),),
-                      value: day,
-                    );
-                  }).toList(),
+            title: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text('Update Master List of Food Items'),
             ),
-            ),
-            //centerTitle: true,
+            // centerTitle: true,
             // CHANGE IF NEEDED
 
 
@@ -109,7 +88,7 @@ class _MessUpdateState extends State<MessUpdate> {
               Breakfast(),
               Lunch(),
               HiTea(),
-              Dinner(),
+              Dinner()
             ],
           ),
         ),
@@ -123,25 +102,26 @@ class Breakfast extends StatelessWidget {
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            //showModalBottomSheet(context: context,
+
             showModalBottomSheet(
-                context: context,                
+                context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          height: 410, // To increase the height of the bottom sheet
+                    child: Container(
+                      height: 410, // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-
-                          child: AddMenuItem(
-                        mealOfDay: 'breakfast',
-                      ),
+//new add button must be made to add to overall list
+                      // child: AddMenuItem(
+                      //   mealOfDay: 'breakfast',
+                      // ),
                     )));
           },
         ),
@@ -168,13 +148,13 @@ class Lunch extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          height: 410,
+                    child: Container(
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddMenuItem(
-                        mealOfDay: 'lunch',
-                      ),
+                      // child: AddMenuItem(
+                      //   mealOfDay: 'lunch',
+                      // ),
                     )));
           },
         ),
@@ -201,13 +181,13 @@ class HiTea extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          height: 410,
+                    child: Container(
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddMenuItem(
-                        mealOfDay: 'hiTea',
-                      ),
+                      // child: AddMenuItem(
+                      //   mealOfDay: 'hiTea',
+                      // ),
                     )));
           },
         ),
@@ -234,13 +214,13 @@ class Dinner extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          height: 410, 
+                    child: Container(
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddMenuItem(
-                        mealOfDay: 'dinner',
-                      ),
+                      // child: AddMenuItem(
+                      //   mealOfDay: 'dinner',
+                      // ),
                     )));
           },
         ),

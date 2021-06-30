@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/form/mess/messUpdateForm.dart';
+import 'package:hostel_app/function/mess/updateMasterList.dart';
 import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
 
@@ -23,10 +24,11 @@ class _DashboardMessOperatorState extends State<DashboardMessOperator> with Auto
   @override
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['Update Mess Menu', 'Student Food Rating'];
+  final titles = ['Update Mess Menu', 'Student Food Rating','Update Food Master List'];
   final titleIcon = [
     Icon(Icons.local_dining),
     Icon(Icons.rate_review),
+    Icon(Icons.list_rounded)
   ];
 
   String currentUser;
@@ -100,14 +102,15 @@ class _DashboardMessOperatorState extends State<DashboardMessOperator> with Auto
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 10,
+                    )
+                    ,
                     Flexible(
                       child: Text(
                         "Welcome " + data['userNameHostel'],
                         style: lightHeading,
                       ),
-                    ),
-                    SizedBox(
-                      width: 40,
                     ),
                     SizedBox(
                       height: 10,
@@ -116,16 +119,13 @@ class _DashboardMessOperatorState extends State<DashboardMessOperator> with Auto
                       thickness: 0.7,
                       color: Colors.white70,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Flexible(
-                      child: ListView.builder(
+                    ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: titles.length,
                         itemBuilder: (ctx, index) {
                           return InkWell(
+                            borderRadius: BorderRadius.all(Radius.circular(28)),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
@@ -156,11 +156,17 @@ class _DashboardMessOperatorState extends State<DashboardMessOperator> with Auto
                                     MaterialPageRoute(
                                         builder: (context) => MessUpdate()));
                               }
+                              else if (index == 2)
+                              {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => updateMasterList()));
+                              }
                             },
                           );
                         },
                       ),
-                    ),
                   ],
                 ),
               ),
