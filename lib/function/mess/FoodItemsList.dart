@@ -40,33 +40,28 @@ class FoodItemsList extends StatelessWidget {
                                         trailing: IconButton(
                                           icon: Icon(Icons.delete),
                                           onPressed: () async {
-                                            // DocumentReference docRef =
-                                            //     FirebaseFirestore.instance
-                                            //         .collection('messMenu')
-                                            //         .doc(
-                                            //             'EzkkLnYtQPbSDLxMToZm');
-                                            // DocumentSnapshot doc =
-                                            //     await docRef.get();
-                                            // List tags =
-                                            //     doc.data()[mealOfDay]['Monday'];
-                                            // if (tags.contains(foodName) ==
-                                            //     true) {
-                                            //   docRef.update({
-                                            //     mealOfDay: {
-                                            //       'Monday':
-                                            //           FieldValue.arrayRemove(
-                                            //               [foodName])
-                                            //     }
-                                            //   });
-                                            // } else {
-                                            //   docRef.update({
-                                            //     mealOfDay: {
-                                            //       'Monday':
-                                            //           FieldValue.arrayUnion(
-                                            //               [foodName])
-                                            //     }
-                                            //   });
-                                            // }
+                                            DocumentReference docRef =
+                                                FirebaseFirestore.instance
+                                                    .collection('messMenu')
+                                                    .doc(
+                                                        'EzkkLnYtQPbSDLxMToZm');
+                                            DocumentSnapshot doc =
+                                                await docRef.get();
+                                            Map<String, dynamic> docData =
+                                                doc.data()[mealOfDay];
+                                            print(docData.toString());
+                                            List<dynamic> tags =
+                                                docData[selectedDay];
+                                            if (tags.contains(foodName) ==
+                                                true) {
+                                              List<dynamic> newList =
+                                                  docData[selectedDay];
+                                              newList.remove(foodName);
+                                              docData[selectedDay] = newList;
+                                              print(docData.toString());
+                                              docRef
+                                                  .update({mealOfDay: docData});
+                                            }
                                           },
                                         ),
                                         title: Container(
