@@ -7,8 +7,9 @@ import 'package:hostel_app/theme/theme.dart';
 //Status: Working fine
 class AddMenuItem extends StatefulWidget {
   String mealOfDay;
+  String selectedDay;
 
-  AddMenuItem({this.mealOfDay});
+  AddMenuItem({this.mealOfDay, this.selectedDay});
 
   @override
   _AddMenuItemState createState() => _AddMenuItemState();
@@ -17,7 +18,7 @@ class AddMenuItem extends StatefulWidget {
 class _AddMenuItemState extends State<AddMenuItem> {
   final _firestore = FirebaseFirestore.instance;
   final messController = TextEditingController();
-  List<String> _brekfastSelected;
+  List<String> _breakfastSelected;
   List<String> _lunchSelected;
   List<String> _hiTeaSelected;
   List<String> _dinnerSelected;
@@ -74,7 +75,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
   @override
   void initState() {
     // TODO: implement initState
-    _brekfastSelected = <String>[];
+    _breakfastSelected = <String>[];
     _lunchSelected = <String>[];
     _hiTeaSelected = <String>[];
     _dinnerSelected = <String>[];
@@ -135,18 +136,18 @@ class _AddMenuItemState extends State<AddMenuItem> {
                   Suggestion suggestion = snapshot.data;
                   print(suggestion);
                   return FoodItemList(
-                    foodItems: widget.mealOfDay == 'breakfast'
+                    foodItems: widget.mealOfDay == 'Breakfast'
                         ? suggestion.breakfastSuggestion
-                        : widget.mealOfDay == 'lunch'
+                        : widget.mealOfDay == 'Lunch'
                             ? suggestion.lunchSuggestion
-                            : widget.mealOfDay == 'hiTea'
+                            : widget.mealOfDay == 'Hi-Tea'
                                 ? suggestion.hiTeaSuggestion
                                 : suggestion.dinnerSuggestion,
-                    foodItemsSelected: widget.mealOfDay == 'breakfast'
-                        ? _brekfastSelected
-                        : widget.mealOfDay == 'lunch'
+                    foodItemsSelected: widget.mealOfDay == 'Breakfast'
+                        ? _breakfastSelected
+                        : widget.mealOfDay == 'Lunch'
                             ? _lunchSelected
-                            : widget.mealOfDay == 'hiTea'
+                            : widget.mealOfDay == 'Hi-Tea'
                                 ? _hiTeaSelected
                                 : _dinnerSelected,
                   );
@@ -168,18 +169,43 @@ class _AddMenuItemState extends State<AddMenuItem> {
                   DocumentReference docRef = FirebaseFirestore.instance
                       .collection('messMenu')
                       .doc('EzkkLnYtQPbSDLxMToZm');
+
                   DocumentSnapshot doc = await docRef.get();
-                  docRef.update({
-                    widget.mealOfDay:
-                        FieldValue.arrayUnion([messController.text])
-                  });
-                  print(widget.mealOfDay == 'breakfast'
-                      ? _brekfastSelected
-                      : widget.mealOfDay == 'lunch'
+
+                  Map<String, dynamic> docData = doc[widget.mealOfDay];
+
+                  List<dynamic> updatedList =
+                      doc[widget.mealOfDay][widget.selectedDay] != null
+                          ? doc[widget.mealOfDay][widget.selectedDay]
+                          : [];
+
+                  List<String> selectedList = widget.mealOfDay == 'Breakfast'
+                      ? _breakfastSelected
+                      : widget.mealOfDay == 'Lunch'
                           ? _lunchSelected
-                          : widget.mealOfDay == 'hiTea'
+                          : widget.mealOfDay == 'Hi-Tea'
                               ? _hiTeaSelected
-                              : _dinnerSelected);
+                              : _dinnerSelected;
+
+                  for (String item in selectedList) {
+                    if (!updatedList.contains(item)) {
+                      updatedList.add(item);
+                    }
+                  }
+                  print(updatedList.toString());
+
+                  // docData = {
+                  //   'Thursday': ['Tea'],
+                  //   'Monday': ['Tea', 'Hot Milk'],
+                  //   'Friday': ['Tea'],
+                  //   'Sunday': ['Coffee', 'Pav Bhaji'],
+                  //   'Wednesday': ['Tea'],
+                  //   'Tuesday': ['Coffee', 'Hot Milk'],
+                  //   'Saturday': ['Coffee']
+                  // };
+                  docData[widget.selectedDay] = updatedList;
+                  print(docData.toString());
+                  docRef.update({widget.mealOfDay: docData});
                   Navigator.pop(context);
                 },
               ),

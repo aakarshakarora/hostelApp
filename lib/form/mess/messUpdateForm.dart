@@ -26,8 +26,17 @@ class _MessUpdateState extends State<MessUpdate> {
     return formatted;
   }
 
-  List<String> _days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  String _selectedDay='Monday'; //Automatically Selected at time of opening page
+  List<String> _days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
+  String _selectedDay =
+      'Monday'; //Automatically Selected at time of opening page
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +62,32 @@ class _MessUpdateState extends State<MessUpdate> {
             ),
             title: Theme(
               data: Theme.of(context).copyWith(
-                canvasColor:  Color(0xFF5A86A3),
+                canvasColor: Color(0xFF5A86A3),
               ),
               child: DropdownButton(
-                  value: _selectedDay,
-                  onChanged: (newchoice){
-                    setState(() {
-                      _selectedDay=newchoice;
-                    });
-                  },
-                  items: _days.map((day) {
-                    return DropdownMenuItem(
-                      child:
-                      Text(day, style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 22  ,color: Colors.white,fontFamily: 'Poppins'
-                      ),),
-                      value: day,
-                    );
-                  }).toList(),
-            ),
+                value: _selectedDay,
+                onChanged: (newchoice) {
+                  setState(() {
+                    _selectedDay = newchoice;
+                  });
+                },
+                items: _days.map((day) {
+                  return DropdownMenuItem(
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontFamily: 'Poppins'),
+                    ),
+                    value: day,
+                  );
+                }).toList(),
+              ),
             ),
             //centerTitle: true,
             // CHANGE IF NEEDED
-
 
             // Text(
             //   'Mess Menu for ' + dateFormatted(),
@@ -83,7 +95,6 @@ class _MessUpdateState extends State<MessUpdate> {
             //       fontWeight: FontWeight.bold, fontSize: 20),
             // ),
             // centerTitle: true,
-
 
             bottom: TabBar(
               indicatorColor: peach,
@@ -102,14 +113,21 @@ class _MessUpdateState extends State<MessUpdate> {
                 Tab(text: 'Dinner'),
               ],
             ),
-
           ),
           body: TabBarView(
             children: [
-              Breakfast(),
-              Lunch(),
-              HiTea(),
-              Dinner(),
+              Breakfast(
+                selectedDay: _selectedDay,
+              ),
+              Lunch(
+                selectedDay: _selectedDay,
+              ),
+              HiTea(
+                selectedDay: _selectedDay,
+              ),
+              Dinner(
+                selectedDay: _selectedDay,
+              ),
             ],
           ),
         ),
@@ -120,9 +138,12 @@ class _MessUpdateState extends State<MessUpdate> {
 
 //BreakFast Tab
 class Breakfast extends StatelessWidget {
+  final String selectedDay;
+  Breakfast({this.selectedDay});
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
+
 //what is the use of this ^^
   @override
   Widget build(BuildContext context) {
@@ -132,28 +153,32 @@ class Breakfast extends StatelessWidget {
           onPressed: () {
             //showModalBottomSheet(context: context,
             showModalBottomSheet(
-                context: context,                
+                context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                          height: 410, // To increase the height of the bottom sheet
+                      height: 410, // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
 
-                          child: AddMenuItem(
-                        mealOfDay: 'breakfast',
+                      child: AddMenuItem(
+                        mealOfDay: 'Breakfast',
+                        selectedDay: selectedDay,
                       ),
                     )));
           },
         ),
         body: FoodItemsList(
-          mealOfDay: 'breakfast',
+          mealOfDay: 'Breakfast',
+          selectedDay: selectedDay,
         ));
   }
 }
 
 //Lunch Tab
 class Lunch extends StatelessWidget {
+  final String selectedDay;
+  Lunch({this.selectedDay});
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
@@ -170,23 +195,27 @@ class Lunch extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                          height: 410,
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
-                        mealOfDay: 'lunch',
+                        mealOfDay: 'Lunch',
+                        selectedDay: selectedDay,
                       ),
                     )));
           },
         ),
         body: FoodItemsList(
-          mealOfDay: 'lunch',
+          mealOfDay: 'Lunch',
+          selectedDay: selectedDay,
         ));
   }
 }
 
 //Hi Tea tab
 class HiTea extends StatelessWidget {
+  final String selectedDay;
+  HiTea({this.selectedDay});
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
@@ -203,23 +232,27 @@ class HiTea extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                          height: 410,
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
-                        mealOfDay: 'hiTea',
+                        mealOfDay: 'Hi-Tea',
+                        selectedDay: selectedDay,
                       ),
                     )));
           },
         ),
         body: FoodItemsList(
-          mealOfDay: 'hiTea',
+          mealOfDay: 'Hi-Tea',
+          selectedDay: selectedDay,
         ));
   }
 }
 
 //Dinner Tab
 class Dinner extends StatelessWidget {
+  final String selectedDay;
+  Dinner({this.selectedDay});
   Widget buildBottomSheet(BuildContext context) {
     return AddMenuItem();
   }
@@ -236,17 +269,19 @@ class Dinner extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                          height: 410, 
+                      height: 410,
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddMenuItem(
-                        mealOfDay: 'dinner',
+                        mealOfDay: 'Dinner',
+                        selectedDay: selectedDay,
                       ),
                     )));
           },
         ),
         body: FoodItemsList(
-          mealOfDay: 'dinner',
+          mealOfDay: 'Dinner',
+          selectedDay: selectedDay,
         ));
   }
 }

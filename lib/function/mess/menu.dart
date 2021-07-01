@@ -20,7 +20,6 @@ class MessMenu extends StatelessWidget {
     return formatted;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,7 +60,6 @@ class MessMenu extends StatelessWidget {
                 Tab(text: 'Dinner'),
               ],
             ),
-
             centerTitle: true,
           ),
           body: TabBarView(
@@ -105,8 +103,9 @@ class Breakfast extends StatelessWidget {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.docs[index]
-                                      .get('breakfast'))
+                                  for (var i in snapshot
+                                      .data.docs[index]['Breakfast']
+                                      .get('Monday'))
                                     Container(
                                         width:
                                             MediaQuery.of(context).size.width,
