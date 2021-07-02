@@ -107,7 +107,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
             TextFormField(
               controller: messController,
               decoration:
-                  kTextFieldDecoration.copyWith(labelText: 'Enter Food Item'),
+                  kTextFieldDecoration.copyWith(labelText: 'Search Food Item'),
               // ignore: missing_return
               validator: (String value) {
                 if (value.isEmpty) {

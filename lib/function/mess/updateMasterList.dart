@@ -1,31 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/common/bottomBar/navigationBarMess.dart';
-import 'package:hostel_app/function/mess/FoodItemsList.dart';
-import 'package:hostel_app/function/mess/addMenu.dart';
+import 'package:hostel_app/common/bottomBar/navigationBarStudent.dart';
 import 'package:hostel_app/theme/theme.dart';
-import 'package:hostel_app/function/mess/addFoodItem.dart';
-//WIP
-//Page for mess manager to update master food list for each mealofday
+import '../../theme/theme.dart';
+import 'MasterFoodItemList.dart';
+import 'addMasterMenuItem.dart';
 
-//TODO: Currently linked to foodlist for students. Must be linked to overall list off food items mealwise provided in firebase
-import 'package:intl/intl.dart';
-
-class updateMasterList extends StatefulWidget {
-  @override
-  _updateMasterListState createState() => _updateMasterListState();
-}
-
-class _updateMasterListState extends State<updateMasterList> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  String dateFormatted() {
-    var now = DateTime.now();
-
-    var formatter = new DateFormat("EEE, MMM d, yy");
-    String formatted = formatter.format(now);
-    return formatted;
-  }
-//can be used for new widget to show when was menu last updated
+//For the Student who will be viewing the menu
+/* Status: Working fine.
+*/
+class UpdateMasterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,22 +34,6 @@ class _updateMasterListState extends State<updateMasterList> {
                 );
               },
             ),
-            title: FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Text('Update Master List of Food Items'),
-            ),
-            // centerTitle: true,
-            // CHANGE IF NEEDED
-
-
-            // Text(
-            //   'Mess Menu for ' + dateFormatted(),
-            //   style: lightSmallText.copyWith(
-            //       fontWeight: FontWeight.bold, fontSize: 20),
-            // ),
-            // centerTitle: true,
-
-
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
@@ -81,14 +51,19 @@ class _updateMasterListState extends State<updateMasterList> {
                 Tab(text: 'Dinner'),
               ],
             ),
-
+            title: Text(
+              'Food Master List',
+              style: lightSmallText.copyWith(
+                  fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            centerTitle: true,
           ),
           body: TabBarView(
             children: [
               Breakfast(),
               Lunch(),
               HiTea(),
-              Dinner()
+              Dinner(),
             ],
           ),
         ),
@@ -97,44 +72,50 @@ class _updateMasterListState extends State<updateMasterList> {
   }
 }
 
-//BreakFast Tab
+//Breakfast tab
 class Breakfast extends StatelessWidget {
+
   Widget buildBottomSheet(BuildContext context) {
-    return AddMenuItem();
+    return AddMasterMenuItem();
   }
 
+//what is the use of this ^^
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-
+            //showModalBottomSheet(context: context,
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                    child: Container(
-                      height: 410, // To increase the height of the bottom sheet
+                        child: Container(
+                      height: 410,
+                      // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-//new add button must be made to add to overall list
-                      // child: AddMenuItem(
-                      //   mealOfDay: 'breakfast',
-                      // ),
+
+                      child: AddMasterMenuItem(
+                        mealOfDay: 'BreakfastMenu',
+                        documentName: 'BreakfastSuggestion',
+                      ),
                     )));
           },
         ),
-        body: FoodItemsList(
-          mealOfDay: 'breakfast',
+        body: MasterFoodItemsList(
+          mealOfDay: 'BreakfastMenu',
+          documentName: 'BreakfastSuggestion',
         ));
   }
 }
 
 //Lunch Tab
 class Lunch extends StatelessWidget {
+
   Widget buildBottomSheet(BuildContext context) {
-    return AddMenuItem();
+    return AddMasterMenuItem();
   }
 
   @override
@@ -150,24 +131,29 @@ class Lunch extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                     child: Container(
                       height: 410,
+                      // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      // child: AddMenuItem(
-                      //   mealOfDay: 'lunch',
-                      // ),
+
+                      child: AddMasterMenuItem(
+                        mealOfDay: 'LunchMenu',
+                        documentName: 'LunchSuggestion',
+                      ),
                     )));
           },
         ),
-        body: FoodItemsList(
-          mealOfDay: 'lunch',
+        body: MasterFoodItemsList(
+          mealOfDay: 'LunchMenu',
+          documentName: 'LunchSuggestion',
         ));
   }
 }
 
-//Hi Tea tab
+//Hi Tea Tab
 class HiTea extends StatelessWidget {
+
   Widget buildBottomSheet(BuildContext context) {
-    return AddMenuItem();
+    return AddMasterMenuItem();
   }
 
   @override
@@ -181,26 +167,31 @@ class HiTea extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                    child: Container(
+                        child: Container(
                       height: 410,
+                      // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      // child: AddMenuItem(
-                      //   mealOfDay: 'hiTea',
-                      // ),
+
+                      child: AddMasterMenuItem(
+                        mealOfDay: 'Hi-TeaMenu',
+                        documentName: 'Hi-TeaSuggestion',
+                      ),
                     )));
           },
         ),
-        body: FoodItemsList(
-          mealOfDay: 'hiTea',
+        body: MasterFoodItemsList(
+          mealOfDay: 'Hi-TeaMenu',
+          documentName: 'Hi-TeaSuggestion',
         ));
   }
 }
 
-//Dinner Tab
+//Dinner tab
 class Dinner extends StatelessWidget {
+
   Widget buildBottomSheet(BuildContext context) {
-    return AddMenuItem();
+    return AddMasterMenuItem();
   }
 
   @override
@@ -214,18 +205,22 @@ class Dinner extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                    child: Container(
+                        child: Container(
                       height: 410,
+                      // To increase the height of the bottom sheet
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      // child: AddMenuItem(
-                      //   mealOfDay: 'dinner',
-                      // ),
+
+                      child: AddMasterMenuItem(
+                        mealOfDay: 'DinnerMenu',
+                        documentName: 'DinnerSuggestion',
+                      ),
                     )));
           },
         ),
-        body: FoodItemsList(
-          mealOfDay: 'dinner',
+        body: MasterFoodItemsList(
+          mealOfDay: 'DinnerMenu',
+          documentName: 'DinnerSuggestion',
         ));
   }
 }

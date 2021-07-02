@@ -5,8 +5,8 @@ import 'package:hostel_app/theme/theme.dart';
 //Status : Working fine
 //This is the food items list which is fetched from firebase and is displayed in the messupdate section for the mess manager
 class FoodItemsList extends StatelessWidget {
-  String mealOfDay;
-  String selectedDay;
+  final String mealOfDay;
+  final String selectedDay;
   FoodItemsList({this.mealOfDay, this.selectedDay});
 
   var firestoreDB =
