@@ -74,10 +74,9 @@ class UpdateMasterList extends StatelessWidget {
 
 //Breakfast tab
 class Breakfast extends StatelessWidget {
-
-  Widget buildBottomSheet(BuildContext context) {
-    return AddMasterMenuItem();
-  }
+  // Widget buildBottomSheet(BuildContext context) {
+  //   return AddMasterMenuItem();
+  // }
 
 //what is the use of this ^^
   @override
@@ -90,18 +89,15 @@ class Breakfast extends StatelessWidget {
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                builder: (context) => SingleChildScrollView(
-                        child: Container(
-                      height: 410,
+                builder: (context) => Container(
+                      height: 200 ,
                       // To increase the height of the bottom sheet
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
 
                       child: AddMasterMenuItem(
-                        mealOfDay: 'BreakfastMenu',
-                        documentName: 'BreakfastSuggestion',
+                mealOfDay: 'BreakfastMenu',
+                documentName: 'BreakfastSuggestion',
                       ),
-                    )));
+                    ));
           },
         ),
         body: MasterFoodItemsList(
@@ -113,7 +109,6 @@ class Breakfast extends StatelessWidget {
 
 //Lunch Tab
 class Lunch extends StatelessWidget {
-
   Widget buildBottomSheet(BuildContext context) {
     return AddMasterMenuItem();
   }
@@ -129,12 +124,9 @@ class Lunch extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                    child: Container(
-                      height: 410,
+                        child: Container(
+                      height: 200,
                       // To increase the height of the bottom sheet
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-
                       child: AddMasterMenuItem(
                         mealOfDay: 'LunchMenu',
                         documentName: 'LunchSuggestion',
@@ -151,7 +143,6 @@ class Lunch extends StatelessWidget {
 
 //Hi Tea Tab
 class HiTea extends StatelessWidget {
-
   Widget buildBottomSheet(BuildContext context) {
     return AddMasterMenuItem();
   }
@@ -168,10 +159,9 @@ class HiTea extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                      height: 410,
+                      height: 200,
                       // To increase the height of the bottom sheet
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
+
 
                       child: AddMasterMenuItem(
                         mealOfDay: 'Hi-TeaMenu',
@@ -189,7 +179,6 @@ class HiTea extends StatelessWidget {
 
 //Dinner tab
 class Dinner extends StatelessWidget {
-
   Widget buildBottomSheet(BuildContext context) {
     return AddMasterMenuItem();
   }
@@ -206,11 +195,9 @@ class Dinner extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
                         child: Container(
-                      height: 410,
+                      height: 200,
                       // To increase the height of the bottom sheet
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-
+                    
                       child: AddMasterMenuItem(
                         mealOfDay: 'DinnerMenu',
                         documentName: 'DinnerSuggestion',

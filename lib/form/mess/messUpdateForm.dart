@@ -3,7 +3,6 @@ import 'package:hostel_app/common/bottomBar/navigationBarMess.dart';
 import 'package:hostel_app/function/mess/FoodItemsList.dart';
 import 'package:hostel_app/function/mess/addMenu.dart';
 import 'package:hostel_app/theme/theme.dart';
-import 'package:hostel_app/function/mess/addFoodItem.dart';
 //Status: Working fine.
 //Mess update form: The mess menu is updated from here
 //4 tabs- 1)Breakfast, 2)Lunch, 3)Hi Tea and 4)Dinner
@@ -158,8 +157,7 @@ class Breakfast extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                         child: Container(
                       height: 410, // To increase the height of the bottom sheet
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
+
 
                       child: AddMenuItem(
                         mealOfDay: 'Breakfast',
@@ -196,8 +194,7 @@ class Lunch extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                         child: Container(
                       height: 410,
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
+
                       child: AddMenuItem(
                         mealOfDay: 'Lunch',
                         selectedDay: selectedDay,
@@ -233,8 +230,7 @@ class HiTea extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                         child: Container(
                       height: 410,
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
+
                       child: AddMenuItem(
                         mealOfDay: 'Hi-Tea',
                         selectedDay: selectedDay,
@@ -270,8 +266,7 @@ class Dinner extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                         child: Container(
                       height: 410,
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      
                       child: AddMenuItem(
                         mealOfDay: 'Dinner',
                         selectedDay: selectedDay,
