@@ -74,36 +74,72 @@ class UpdateMasterList extends StatelessWidget {
 
 //Breakfast tab
 class Breakfast extends StatelessWidget {
-  // Widget buildBottomSheet(BuildContext context) {
-  //   return AddMasterMenuItem();
-  // }
+  Widget buildBottomSheet(BuildContext context) {
+    return AddMasterMenuItem();
+  }
 
 //what is the use of this ^^
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            //showModalBottomSheet(context: context,
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => Container(
-                      height: 200 ,
-                      // To increase the height of the bottom sheet
-
-                      child: AddMasterMenuItem(
-                mealOfDay: 'BreakfastMenu',
-                documentName: 'BreakfastSuggestion',
-                      ),
-                    ));
-          },
-        ),
         body: MasterFoodItemsList(
           mealOfDay: 'BreakfastMenu',
           documentName: 'BreakfastSuggestion',
-        ));
+        ),
+      bottomNavigationBar: BottomAppBar(
+        //----use if second style button----
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        clipBehavior: Clip.antiAlias,
+        //----------------------------------
+        child: Container(
+            height:50,
+          color: darkerBlue,
+          //---------------buttonstart(style1)-------------
+          // child: TextButton(
+          //   // child: Text("ADD",style: TextStyle(color: Colors.white,fontSize: 20),),
+          //   child: Icon(Icons.add,color: Colors.white,size: 35,),
+          //   onPressed: () {
+          //   //showModalBottomSheet(context: context,
+          //   showModalBottomSheet(
+          //       context: context,
+          //       isScrollControlled: true,
+          //       builder: (context) => Container(
+          //         height: 200 ,
+          //         // To increase the height of the bottom sheet
+          //
+          //         child: AddMasterMenuItem(
+          //           mealOfDay: 'BreakfastMenu',
+          //           documentName: 'BreakfastSuggestion',
+          //         ),
+          //       ));
+          // },
+          // ),
+          //-------------------buttonend----------------
+        ),
+      ),
+      //------2nd style button(comment buttonstart to buttonend before using this)-------
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          //showModalBottomSheet(context: context,
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Container(
+                height: 200 ,
+                // To increase the height of the bottom sheet
+
+                child: AddMasterMenuItem(
+                  mealOfDay: 'BreakfastMenu',
+                  documentName: 'BreakfastSuggestion',
+                ),
+              ));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //-------------------------buttonend(style2)-----------------------------------------
+    );
   }
 }
 
@@ -116,28 +152,38 @@ class Lunch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            //showModalBottomSheet(context: context,
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => SingleChildScrollView(
-                        child: Container(
-                      height: 200,
-                      // To increase the height of the bottom sheet
-                      child: AddMasterMenuItem(
-                        mealOfDay: 'LunchMenu',
-                        documentName: 'LunchSuggestion',
-                      ),
-                    )));
-          },
-        ),
         body: MasterFoodItemsList(
           mealOfDay: 'LunchMenu',
           documentName: 'LunchSuggestion',
-        ));
+        ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height:50,
+          color: darkerBlue,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          //showModalBottomSheet(context: context,
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Container(
+                height: 200 ,
+                // To increase the height of the bottom sheet
+                child: AddMasterMenuItem(
+                  mealOfDay: 'LunchMenu',
+                  documentName: 'LunchSuggestion',
+                ),
+              ));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }
 
@@ -150,30 +196,38 @@ class HiTea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            //showModalBottomSheet(context: context,
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => SingleChildScrollView(
-                        child: Container(
-                      height: 200,
-                      // To increase the height of the bottom sheet
-
-
-                      child: AddMasterMenuItem(
-                        mealOfDay: 'Hi-TeaMenu',
-                        documentName: 'Hi-TeaSuggestion',
-                      ),
-                    )));
-          },
-        ),
         body: MasterFoodItemsList(
           mealOfDay: 'Hi-TeaMenu',
           documentName: 'Hi-TeaSuggestion',
-        ));
+        ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height:50,
+          color: darkerBlue,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          //showModalBottomSheet(context: context,
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Container(
+                height: 200 ,
+                // To increase the height of the bottom sheet
+                child: AddMasterMenuItem(
+                  mealOfDay: 'Hi-TeaMenu',
+                  documentName: 'Hi-TeaSuggestion',
+                ),
+              ));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }
 
@@ -186,28 +240,37 @@ class Dinner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            //showModalBottomSheet(context: context,
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => SingleChildScrollView(
-                        child: Container(
-                      height: 200,
-                      // To increase the height of the bottom sheet
-                    
-                      child: AddMasterMenuItem(
-                        mealOfDay: 'DinnerMenu',
-                        documentName: 'DinnerSuggestion',
-                      ),
-                    )));
-          },
-        ),
         body: MasterFoodItemsList(
           mealOfDay: 'DinnerMenu',
           documentName: 'DinnerSuggestion',
-        ));
+        ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height:50,
+          color: darkerBlue,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          //showModalBottomSheet(context: context,
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Container(
+                height: 200 ,
+                // To increase the height of the bottom sheet
+                child: AddMasterMenuItem(
+                  mealOfDay: 'DinnerMenu',
+                  documentName: 'DinnerSuggestion',
+                ),
+              ));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }
