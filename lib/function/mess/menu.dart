@@ -42,6 +42,7 @@ class MessMenu extends StatelessWidget {
                 );
               },
             ),
+            title: Text('<DAY PLACEHOLDER>'),
             bottom: TabBar(
               indicatorColor: peach,
               indicatorWeight: 4,
@@ -58,11 +59,6 @@ class MessMenu extends StatelessWidget {
                 ),
                 Tab(text: 'Dinner'),
               ],
-            ),
-            title: Text(
-              'Mess Menu for ' + dateFormatted(),
-              style: lightSmallText.copyWith(
-                  fontWeight: FontWeight.bold, fontSize: 20),
             ),
             centerTitle: true,
           ),
@@ -107,8 +103,9 @@ class Breakfast extends StatelessWidget {
                             return ListTile(
                               title: Column(
                                 children: [
-                                  for (var i in snapshot.data.docs[index]
-                                      .get('breakfast'))
+                                  for (var i in snapshot
+                                      .data.docs[index]['Breakfast']
+                                      .get('Monday'))
                                     Container(
                                         width:
                                             MediaQuery.of(context).size.width,

@@ -14,8 +14,8 @@ class UserDetail extends StatefulWidget {
   _UserDetailState createState() => _UserDetailState();
 }
 
-class _UserDetailState extends State<UserDetail> with AutomaticKeepAliveClientMixin {
-
+class _UserDetailState extends State<UserDetail>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   @override
@@ -65,35 +65,11 @@ class _UserDetailState extends State<UserDetail> with AutomaticKeepAliveClientMi
                       Row(
                         children: [
                           Text(
-                            "Course Name: ",
-                            style: darkSmallTextBold,
-                          ),
-                          Text(
-                            data['courseName'],
-                            style: darkSmallText,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Registration Number: ",
-                            style: darkSmallTextBold,
-                          ),
-                          Text(
-                            data['registrationNumber'].toString(),
-                            style: darkSmallText,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
                             "Contact Number: ",
                             style: darkSmallTextBold,
                           ),
                           Text(
-                            data['studentContactNumber'].toString(),
+                            data['studentContactNumber'],
                             style: darkSmallText,
                           ),
                         ],
@@ -101,7 +77,7 @@ class _UserDetailState extends State<UserDetail> with AutomaticKeepAliveClientMi
                       Row(
                         children: [
                           Text(
-                            "Student Email ID: ",
+                            "Student Email Id: ",
                             style: darkSmallTextBold,
                           ),
                           Text(
@@ -110,6 +86,60 @@ class _UserDetailState extends State<UserDetail> with AutomaticKeepAliveClientMi
                           ),
                         ],
                       ),
+                      Divider(
+                        thickness: 0.7,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Laundry Services Taken: ",
+                            style: darkSmallTextBold,
+                          ),
+                          Text(
+                            data['laundryCheck'] == true ? 'Yes' : 'No',
+                            style: darkSmallText,
+                          ),
+                        ],
+                      ),
+                      if (data['laundryCheck'])
+                        Row(
+                          children: [
+                            Text(
+                              "Number of cycles: ",
+                              style: darkSmallTextBold,
+                            ),
+                            Text(
+                              data['Cycles'].toString(),
+                              style: darkSmallText,
+                            ),
+                          ],
+                        ),
+                      if (data['laundryCheck'])
+                        Row(
+                          children: [
+                            Text(
+                              "Laundry Bag Number: ",
+                              style: darkSmallTextBold,
+                            ),
+                            Text(
+                              data['bagID'].toString(),
+                              style: darkSmallText,
+                            ),
+                          ],
+                        ),
+                      if (data['laundryCheck'])
+                        Row(
+                          children: [
+                            Text(
+                              "Laundry Status: ",
+                              style: darkSmallTextBold,
+                            ),
+                            Text(
+                              data['laundryStatus'],
+                              style: darkSmallText,
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 );
@@ -131,8 +161,8 @@ class ParentDetail extends StatefulWidget {
   _ParentDetailState createState() => _ParentDetailState();
 }
 
-class _ParentDetailState extends State<ParentDetail> with AutomaticKeepAliveClientMixin {
-
+class _ParentDetailState extends State<ParentDetail>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -234,8 +264,8 @@ class MentorDetail extends StatefulWidget {
   _MentorDetailState createState() => _MentorDetailState();
 }
 
-class _MentorDetailState extends State<MentorDetail> with AutomaticKeepAliveClientMixin {
-
+class _MentorDetailState extends State<MentorDetail>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   @override

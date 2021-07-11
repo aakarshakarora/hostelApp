@@ -11,6 +11,10 @@ import 'package:hostel_app/view/dashboard/student/roomStatus.dart';
 import 'package:hostel_app/view/dashboard/student/roomTypes.dart';
 import 'package:hostel_app/view/dashboard/student/daypass_status.dart';
 
+import 'dart:ui' as ui;
+
+import 'package:url_launcher/url_launcher.dart';
+
 //Status: Working Fine
 
 /*
@@ -24,8 +28,6 @@ class DashboardStudent extends StatefulWidget {
 
 class _DashboardStudentState extends State<DashboardStudent>
     with AutomaticKeepAliveClientMixin {
-  int cycles;
-
   @override
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -55,6 +57,14 @@ class _DashboardStudentState extends State<DashboardStudent>
     return uid.toString();
   }
 
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +74,7 @@ class _DashboardStudentState extends State<DashboardStudent>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: darkerBlue,
+      backgroundColor: Colors.white,
       body: FutureBuilder<DocumentSnapshot>(
           future: FirebaseFirestore.instance
               .collection('student')
@@ -76,183 +86,495 @@ class _DashboardStudentState extends State<DashboardStudent>
               return Center(child: CircularProgressIndicator());
             }
             Map<String, dynamic> data = snapshot.data.data();
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(child: Container()),
-                          FlatButton.icon(
-                            onPressed: () {
-                              signOut();
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            icon: Icon(
-                              Icons.exit_to_app,
-                              color: white,
-                            ),
-                            label: Text(
-                              'Logout',
-                              style: lightSmallText,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: white,
-                                    width: 1,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                        ],
-                      ),
-                      Flexible(
-                        child: Text(
-                          'Welcome ${data['studentName']}',
-                          style: lightHeading,
-                        ),
-                      ),
-                      Divider(
-                        thickness: 0.7,
-                        color: Colors.white70,
-                      ),
-                      GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: titles.length,
-                        itemBuilder: (ctx, index) {
-                          return InkWell(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
+            return SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ListView(
+                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(60.0),
                               ),
-                              color: white, //change
-                              child: Center(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                              )),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Hello!',
+                                    style: darkLargeHeading,
+                                  ),
+                                  Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      signOut();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pushReplacement(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    },
+                                    icon: Icon(
+                                      Icons.exit_to_app,
+                                      color: Colors.black38,
+                                    ),
+                                    /* label: Text(
+                                      'Logout',
+                                      style: lightSmallText,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: white,
+                                            width: 1,
+                                            style: BorderStyle.solid),
+                                        borderRadius:
+                                            BorderRadius.circular(50)), */
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    '${data['studentName']}',
+                                    textAlign: TextAlign.start,
+                                    textDirection: ui.TextDirection.ltr,
+                                    style: darkHeading,
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 1,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      data['block'] +
+                                          "-" +
+                                          data['roomNumber'].toString(),
+                                      style: greyHeading),
+                                  Spacer(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 1,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      data['occupancyType'] +
+                                          '\t' +
+                                          'Occupancy',
+                                      style: greyHeading),
+                                  Spacer(),
+                                  MaterialButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      color: darkpurple,
+                                      onPressed: () {
+                                        if (data['block'][0] == "G") {
+                                          _makePhoneCall("tel:+917727006783");
+                                        } else if (data['block'][0] == "B") {
+                                          _makePhoneCall("tel:+917727006782");
+                                        }
+                                      },
+                                      child: Text(
+                                        'Call CareTaker',
+                                        style: TextStyle(color: Colors.white),
+                                      ))
+                                ],
+                              )
+                              /*Row(
+                                children: [
+                                  Expanded(child: Container()),
+                                  FlatButton.icon(
+                                    onPressed: () {
+                                      signOut();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pushReplacement(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    },
+                                    icon: Icon(
+                                      Icons.exit_to_app,
+                                      color: white,
+                                    ),
+                                    label: Text(
+                                      'Logout',
+                                      style: lightSmallText,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: white,
+                                            width: 1,
+                                            style: BorderStyle.solid),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                  ),
+                                ],
+                              ), */
+                            ],
+                          ),
+                        ),
+                        /*  Flexible(
+                          child: Text(
+                            'Welcome ${data['studentName']}',
+                            style: lightHeading,
+                          ),
+                        ),
+                        Divider(
+                          thickness: 0.7,
+                          color: Colors.white70,
+                        ), */
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                color: darkpurple,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MessMenu()),
+                                  );
+                                },
+                                child: Text(
+                                  'Mess Menu',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                color: darkpurple,
+                                onPressed: () {},
+                                child: Text(
+                                  'Food Outlet',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Apply For:',
+                          style: darkLargeHeading,
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OutPassForm()),
+                                ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    titleIcon[index],
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/outpass.png")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      titles[index],
+                                      'OutPass',
                                       style: darkHeading,
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                            onTap: () {
-                              cycles = data['Cycles'];
-                              if (index == 0) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OutPassForm()),
-                                );
-                              } else if (index == 1) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MessMenu()),
-                                );
-                              } else if (index == 2) {
-                                Navigator.push(
+                              SizedBox(
+                                width: 10,
+                              ),
+                              /*  InkWell(
+                                onTap: () => {},
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/roomservice.jpg")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Room Service',
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ), */
+                              InkWell(
+                                onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => RoomTypes()),
-                                );
-                              } else if (index == 3) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LaundryCycles(cycles)),
-                                );
-                              }
-                            },
-                          );
-                        },
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: RaisedButton(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(
-                                'OutPass Status',
-                                style: darkSmallTextBold.copyWith(fontSize: 12),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/guestroom.jpg")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Guest Room',
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              color: peach,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Request Status:',
+                          style: darkLargeHeading,
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => OutpassStatus()),
-                                );
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: RaisedButton(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(
-                                'Guest Room Status',
-                                style: darkSmallTextBold.copyWith(fontSize: 12),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/outpass.png")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'OutPass',
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              color: peach,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+                              SizedBox(
+                                width: 10,
                               ),
-                              onPressed: () {
-                                Navigator.push(
+                              InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DaypassStatus()),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/daypass.jpg")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Day Pass',
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => GuestRoomStatus()),
-                                );
-                              },
-                            ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/guestroom.jpg")),
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(60.0),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Guest Room',
+                                      style: darkHeading,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: RaisedButton(
-                          padding: const EdgeInsets.all(15),
-                          child: Text(
-                            'Day Pass Status',
-                            style: darkSmallTextBold.copyWith(fontSize: 12),
-                          ),
-                          color: peach,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DaypassStatus()),
-                            );
-                          },
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 20,
+                        ),
+                        MaterialButton(
+                            minWidth: 50,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: darkpurple,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LaundryCycles(
+                                        data['Cycles'], data['studentName'])),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Laundry',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 1,
+                                ),
+                                Text(
+                                  data['Cycles'].toString() +
+                                      '\t' +
+                                      'Cycles Left',
+                                  style: lightTinyText,
+                                )
+                              ],
+                            )),
+                        SizedBox(
+                          height: 100,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

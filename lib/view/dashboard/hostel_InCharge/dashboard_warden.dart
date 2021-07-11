@@ -6,6 +6,7 @@ import 'package:hostel_app/form/OutPass/outPassRequest/outpass_approval.dart';
 import 'package:hostel_app/login/login_SignUp%20page.dart';
 import 'package:hostel_app/theme/theme.dart';
 import 'package:hostel_app/form/OutPass/outPassRequest/daypass_approval.dart';
+import 'package:hostel_app/function/adminHandle/hostelAdmin/adminHostel.dart';
 
 //Status: Working Fine
 
@@ -125,62 +126,87 @@ class _DashboardHostelInChargeState extends State<DashboardHostelInCharge>
                       SizedBox(
                         height: 10,
                       ),
-                      Flexible(
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: titles.length,
-                          itemBuilder: (ctx, index) {
-                            return InkWell(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: titles.length,
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
                                 ),
-                                color: white,
-                                child: Container(
-                                  height: 100,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        titleIcon[index],
-                                        Text(
-                                          titles[index],
-                                          style: darkHeading,
-                                        ),
-                                      ],
-                                    ),
+                              ),
+                              color: white,
+                              child: Container(
+                                height: 100,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      titleIcon[index],
+                                      Text(
+                                        titles[index],
+                                        style: darkHeading,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Approvals()),
-                                  );
-                                } else if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DayPassApprovals()),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RoomApproval()),
-                                  );
-                                }
-                              },
+                            ),
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Approvals()),
+                                );
+                              } else if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DayPassApprovals()),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RoomApproval()),
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10,),
+                      data['admin'] == true
+                          ? Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            'Update Info',
+                            style:
+                            darkSmallTextBold.copyWith(fontSize: 12),
+                          ),
+                          color: peach,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdateInfo()),
                             );
                           },
                         ),
+                      )
+                          : Container(
+                        height: 0,
                       ),
                     ],
                   ),
