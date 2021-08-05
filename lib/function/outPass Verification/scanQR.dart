@@ -40,19 +40,20 @@ class _QRViewExampleState extends State<QRViewExample> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-
                     Column(
                       children: [
                         Text(
                             'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}'),
-                        FlatButton(onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Upcoming(result.code,describeEnum(result.format))),
-                          );
-
-                        }, child: Text("Proceed"))
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Upcoming(result.code,
+                                        describeEnum(result.format))),
+                              );
+                            },
+                            child: Text("Proceed"))
                       ],
                     )
                   else
@@ -154,6 +155,7 @@ class _QRViewExampleState extends State<QRViewExample> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
+      print("SO THE QR DATA IS ${(scanData.code)}");
       setState(() {
         result = scanData;
       });
@@ -162,7 +164,7 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   void dispose() {
-    controller?.dispose();
     super.dispose();
+    controller?.dispose();
   }
 }
