@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel_app/theme/theme.dart';
@@ -33,228 +35,238 @@ class _UpcomingState extends State<Upcoming> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: darkerBlue,
-          title: Text(
-            "Gate Pass Check",
-            style: lightSmallText.copyWith(
-                fontWeight: FontWeight.bold, fontSize: 20),
+    return WillPopScope(
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: darkerBlue,
+            title: Text(
+              "Gate Pass Check",
+              style: lightSmallText.copyWith(
+                  fontWeight: FontWeight.bold, fontSize: 20),
+            ),
           ),
-        ),
-        body: FutureBuilder<DocumentSnapshot>(
-            //2 fecth outpass doc from firestore: today list//has all the outpasses
-            future: FirebaseFirestore.instance
-                .collection(
-                    'outPass-today')
-            //ALERT: needs to be CHANGED TO outpass-today after the cloud function is in use
-                .doc(widget.outPassID)
-                .get()
-                .onError((error, stackTrace) => null),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
-              Map<String, dynamic> data = snapshot.data.data();
-              if (data != null) {
-                DocumentReference studentRef = data['studentID'];
-                bool check = applyOutpassChecks(data);
-                bool studentIn = data['studentStatus'] == 'in' ? true : false;
-                return Container(
-                    padding: EdgeInsets.all(50),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: FutureBuilder(
-                              future: _getStudentDetail(studentRef),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List> snapshot) {
-                                if (snapshot.hasData)
-                                  return Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "OutPass ID: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            widget.outPassID,
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Gate Pass Type: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            widget.scanType,
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 45,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Student Name: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            snapshot.data[0],
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Registration Number: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            snapshot.data[1].toString(),
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Course Name: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            snapshot.data[2].toString(),
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Block - Room Number: ",
-                                            style: darkSmallTextBold,
-                                          ),
-                                          Text(
-                                            snapshot.data[3].toString(),
-                                            style: darkSmallText,
-                                          ),
-                                          Text(
-                                            "-" + snapshot.data[4].toString(),
-                                            style: darkSmallText,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                else
-                                  return CircularProgressIndicator();
-                              }),
-                        ),
-                        SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                "OutPass Details ",
-                                style: darkSmallTextBold,
-                                textAlign: TextAlign.center,
+          body: FutureBuilder<DocumentSnapshot>(
+              //2 fecth outpass doc from firestore: today list//has all the outpasses
+              future: FirebaseFirestore.instance
+                  .collection('outPass-today')
+                  //ALERT: needs to be CHANGED TO outpass-today after the cloud function is in use
+                  .doc(widget.outPassID)
+                  .get()
+                  .onError((error, stackTrace) => null),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                Map<String, dynamic> data = snapshot.data.data();
+                if (data != null) {
+                  DocumentReference studentRef = data['studentID'];
+                  bool check = applyOutpassChecks(data);
+                  bool studentIn = data['studentStatus'] == 'in' ? true : false;
+                  return Container(
+                      padding: EdgeInsets.all(50),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: FutureBuilder(
+                                future: _getStudentDetail(studentRef),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<List> snapshot) {
+                                  if (snapshot.hasData)
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "OutPass ID: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              widget.outPassID,
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Gate Pass Type: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              widget.scanType,
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 45,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Student Name: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              snapshot.data[0],
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Registration Number: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              snapshot.data[1].toString(),
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Course Name: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              snapshot.data[2].toString(),
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Block - Room Number: ",
+                                              style: darkSmallTextBold,
+                                            ),
+                                            Text(
+                                              snapshot.data[3].toString(),
+                                              style: darkSmallText,
+                                            ),
+                                            Text(
+                                              "-" + snapshot.data[4].toString(),
+                                              style: darkSmallText,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  else
+                                    return CircularProgressIndicator();
+                                }),
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  "OutPass Details ",
+                                  style: darkSmallTextBold,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Status: ",
-                              style: darkSmallTextBold,
-                            ),
-                            Text(
-                              data['approvalStatus'],
-                              style: darkSmallText,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Start Date: ",
-                              style: darkSmallTextBold,
-                            ),
-                            Text(
-                              (data['startDate'] as Timestamp)
-                                  .toDate()
-                                  .toString(),
-                              style: darkSmallText,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "End Date: ",
-                              style: darkSmallTextBold,
-                            ),
-                            Text(
-                              (data['endDate'] as Timestamp)
-                                  .toDate()
-                                  .toString(),
-                              style: darkSmallText,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          alignment: Alignment.center,
-                          color: check ? Colors.greenAccent : Colors.redAccent,
-                          child: Text(check
-                              ? "Allowed to check ${studentIn ? "out" : "in"}"
-                              : "Not allowed to check ${studentIn ? "out" : "in"}"),
-                        ),
-                        ElevatedButton(
-                            onPressed:
-                                check ? () => doDbWork(data, context,studentIn) : null,
-                            child: Text("Check ${studentIn?"out":"in"}")),
-                      ],
-                    ));
-              } else
-                return (Text("INVALID QR: couldn't fetch student details"));
-            }));
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Status: ",
+                                style: darkSmallTextBold,
+                              ),
+                              Text(
+                                data['approvalStatus'],
+                                style: darkSmallText,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Start Date: ",
+                                style: darkSmallTextBold,
+                              ),
+                              Text(
+                                (data['startDate'] as Timestamp)
+                                    .toDate()
+                                    .toString(),
+                                style: darkSmallText,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "End Date: ",
+                                style: darkSmallTextBold,
+                              ),
+                              Text(
+                                (data['endDate'] as Timestamp)
+                                    .toDate()
+                                    .toString(),
+                                style: darkSmallText,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            alignment: Alignment.center,
+                            color:
+                                check ? Colors.greenAccent : Colors.redAccent,
+                            child: Text(check
+                                ? "Allowed to check ${studentIn ? "out" : "in"}"
+                                : "Not allowed to check ${studentIn ? "out" : "in"}"),
+                          ),
+                          ElevatedButton(
+                              onPressed: check
+                                  ? () => doDbWork(data, context, studentIn)
+                                  : null,
+                              child: Text("Check ${studentIn ? "out" : "in"}")),
+                        ],
+                      ));
+                } else
+                  return (Text("INVALID QR: couldn't fetch student details"));
+              })),
+      onWillPop: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        return Future.value(true);
+      },
+    );
   }
 
-  void doDbWork(Map<String, dynamic> data, BuildContext context, bool studentIn) {
-    if(studentIn) {
+  void doDbWork(
+      Map<String, dynamic> data, BuildContext context, bool studentIn) {
+    if (studentIn) {
       //  ALLOWED => change studentStatus to out && add to checked out collection
       FirebaseFirestore.instance
           .collection('outPass-today')
-          .doc(widget.outPassID).update({'studentStatus':'out'});
+          .doc(widget.outPassID)
+          .update({'studentStatus': 'out'});
 
       data.update('studentStatus', (value) => 'out');
       print(data);
@@ -266,15 +278,13 @@ class _UpcomingState extends State<Upcoming> {
           .then((value) {
         print("STUDENT CHECKED OUT");
       });
-      final snackBar = SnackBar(content: Text('Student Checked Out : HAVE A SAFE JOURNEY!'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pop(context);
-    }
-    else {
+      message('Student Checked Out : HAVE A SAFE JOURNEY!',context);
+    } else {
       // ALLOWED => change studentStatus to returned in today list && move to outpass-returned
       FirebaseFirestore.instance
           .collection('outPass-today')
-          .doc(widget.outPassID).update({'studentStatus':'returned}'});
+          .doc(widget.outPassID)
+          .update({'studentStatus': 'returned'});
 
       data.update('studentStatus', (value) => 'returned');
       print(data);
@@ -286,10 +296,25 @@ class _UpcomingState extends State<Upcoming> {
           .then((value) {
         print("STUDENT CHECKED IN");
       });
-      final snackBar = SnackBar(content: Text('Student Checked IN : WELCOME BACK!'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pop(context);
+      message('Student Checked IN : WELCOME BACK!', context);
     }
+  }
+
+  void message(String message, BuildContext context) {
+    //make changes to the current page according to the message and timeout to home in a few seconds
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      padding: EdgeInsets.only(top: 20, bottom: 20),
+      backgroundColor: Colors.green,
+      content: Row(
+        children: [Icon(Icons.check,size: 20,color: Colors.white,), Text(message)],
+      ),
+      duration: Duration(seconds: 3),
+    ));
+    Timer(Duration(seconds: 4), () {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    });
+    return;
   }
 
   bool applyOutpassChecks(Map<String, dynamic> data) {
@@ -320,5 +345,4 @@ class _UpcomingState extends State<Upcoming> {
 //when we're comparing end date with today in dart MAKE SURE : the END time and Start Time is 12 am
 //so everyone is allowed to check in without considering time as dart compares timestamp accurate to time /not date
 
-//Todo : clear the previous qr details on coming back to camera page
 // todo : delete the checked out list document after check in
