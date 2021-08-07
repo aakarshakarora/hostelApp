@@ -21,6 +21,8 @@ class Upcoming extends StatefulWidget {
 }
 
 class _UpcomingState extends State<Upcoming> {
+  String _outpass_problem;
+
   Future<List> _getStudentDetail(DocumentReference documentReference) async {
     var ref = await documentReference.get();
     List details = [
@@ -31,6 +33,12 @@ class _UpcomingState extends State<Upcoming> {
       ref.data()['roomNumber']
     ];
     return details;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _outpass_problem = "";
   }
 
   @override
@@ -241,6 +249,7 @@ class _UpcomingState extends State<Upcoming> {
                                 ? "Allowed to check ${studentIn ? "out" : "in"}"
                                 : "Not allowed to check ${studentIn ? "out" : "in"}"),
                           ),
+                          check?Container():Container(child:Text(_outpass_problem),decoration: BoxDecoration(border: Border.all()),),
                           ElevatedButton(
                               onPressed: check
                                   ? () => doDbWork(data, context, studentIn)
@@ -278,7 +287,7 @@ class _UpcomingState extends State<Upcoming> {
           .then((value) {
         print("STUDENT CHECKED OUT");
       });
-      message('Student Checked Out : HAVE A SAFE JOURNEY!',context);
+      message('Student Checked Out : HAVE A SAFE JOURNEY!', context);
     } else {
       // ALLOWED => change studentStatus to returned in today list && move to outpass-returned
       FirebaseFirestore.instance
@@ -306,7 +315,14 @@ class _UpcomingState extends State<Upcoming> {
       padding: EdgeInsets.only(top: 20, bottom: 20),
       backgroundColor: Colors.green,
       content: Row(
-        children: [Icon(Icons.check,size: 20,color: Colors.white,), Text(message)],
+        children: [
+          Icon(
+            Icons.check,
+            size: 20,
+            color: Colors.white,
+          ),
+          Text(message)
+        ],
       ),
       duration: Duration(seconds: 3),
     ));
@@ -320,15 +336,27 @@ class _UpcomingState extends State<Upcoming> {
   bool applyOutpassChecks(Map<String, dynamic> data) {
     // 3 check if outgoing or incoming (in or out) (using studentStatus tag)
     if (data['studentStatus'] == 'in')
-      //4 if outgoing: check if approved :ALLOWED else :NOT ALLOWED
-      return (data['approvalStatus'] == 'Approved') ? true : false;
+    //4 if outgoing: check if approved :ALLOWED else :NOT ALLOWED
+    if (data['approvalStatus'] == 'Approved')
+      return true;
+    else {
+      _outpass_problem =
+          "Your Outpass is not Approved.\nStatus : ${data['approvalStatus']}";
+      return false;
+    }
     else if (data['studentStatus'] == 'out')
-      // 4 if incoming :check if before the end date :ALLOWED else: NOT ALLOWED
-      return ((data['endDate'] as Timestamp).toDate().isAfter(DateTime.now()))
-          ? true
-          : false;
-    else
-      return false; //if empty or returned :don't allow
+    // 4 if incoming :check if before the end date :ALLOWED else: NOT ALLOWED
+    if ((data['endDate'] as Timestamp).toDate().isAfter(DateTime.now()))
+      return true;
+    else {
+      _outpass_problem = "You're returning after your outpass end date.\nReturn Date : ${(data['endDate'] as Timestamp).toDate().toString()}";
+      return false;
+    }
+    else {
+      _outpass_problem =
+          "This outpass has already been used or some data is missing.";
+      return false;
+    } //if empty or returned :don't allow
   }
 }
 /*
@@ -342,7 +370,9 @@ class _UpcomingState extends State<Upcoming> {
 *  else: NOT ALLOWED
 */
 
-//when we're comparing end date with today in dart MAKE SURE : the END time and Start Time is 12 am
+//TODO: when we're comparing end date with today in dart MAKE SURE : the END time and Start Time is 12 am
 //so everyone is allowed to check in without considering time as dart compares timestamp accurate to time /not date
+// TODO: ? to create a list locally or through firestore of all scans today on homepage
+
 
 // todo : delete the checked out list document after check in

@@ -25,7 +25,7 @@ class _DashboardSecGuardState extends State<DashboardSecGuard>with AutomaticKeep
   bool get wantKeepAlive => true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final titles = ['प्रस्थान - QR '
+  final titles = ['स्कैन - QR '
     // ,'आगमन  - Bar'
   ];
   final titleIcon = [
